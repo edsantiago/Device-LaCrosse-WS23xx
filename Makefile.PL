@@ -2,10 +2,10 @@
 use ExtUtils::MakeMaker;
 
 WriteMakefile(
-	      LIBS         => '-lnsl',
+	      LIBS         => '',
 	      INC          => '',
-	      DISTNAME     => 'Net-NIS',
-	      NAME         => 'Net::NIS',
-	      PMLIBDIRS    => [ 'NIS' ],
-	      VERSION_FROM => 'NIS.pm',
+	      DISTNAME     => 'Open2300',
+	      NAME         => 'Open2300',
+	      PMLIBDIRS    => [ '' ],
+	      VERSION_FROM => 'Open2300.pm',
 );
