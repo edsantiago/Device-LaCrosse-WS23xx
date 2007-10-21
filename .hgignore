@@ -1,0 +1,7 @@
+^Makefile$
+.*~
+.*\.bs
+.*\.o
+^Open2300.c
+^blib/
+^pm_to_blib$
