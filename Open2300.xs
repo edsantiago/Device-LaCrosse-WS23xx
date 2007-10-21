@@ -26,19 +26,164 @@
 
 
 
+void address_encoder(int address_in, unsigned char *address_out)
+{
+	int i = 0;
+	int adrbytes = 4;
+	unsigned char nibble;
+
+	for (i = 0; i < adrbytes; i++)
+	{
+		nibble = (address_in >> (4 * (3 - i))) & 0x0F;
+		address_out[i] = (unsigned char) (0x82 + (nibble * 4));
+	}
+
+	return;
+}
+
+
+/********************************************************************
+ * data_encoder converts up to 15 data bytes to the form needed
+ * by the WS-2300 when sending write commands.
+ *
+ * Input:   number - number of databytes (integer)
+ *          encode_constant - unsigned char
+ *                            0x12=set bit, 0x32=unset bit, 0x42=write nibble
+ *          data_in - char array with up to 15 hex values
+ *
+ * Output:  address_out - Pointer to an unsigned character array.
+ *
+ * Returns: Nothing.
+ *
+ ********************************************************************/
+void data_encoder(int number, unsigned char encode_constant,
+                  unsigned char *data_in, unsigned char *data_out)
+{
+	int i = 0;
+
+	for (i = 0; i < number; i++)
+	{
+		data_out[i] = (unsigned char) (encode_constant + (data_in[i] * 4));
+	}
+
+	return;
+}
+
+
+/********************************************************************
+ * numberof_encoder converts the number of bytes we want to read
+ * to the form needed by the WS-2300 when sending commands.
+ *
+ * Input:   number interger, max value 15
+ *
+ * Returns: unsigned char which is the coded number of bytes
+ *
+ ********************************************************************/
+unsigned char numberof_encoder(int number)
+{
+	int coded_number;
+
+	coded_number = (unsigned char) (0xC2 + number * 4);
+	if (coded_number > 0xfe)
+		coded_number = 0xfe;
+
+	return coded_number;
+}
+
+
+/********************************************************************
+ * command_check0123 calculates the checksum for the first 4
+ * commands sent to WS2300.
+ *
+ * Input:   pointer to char to check
+ *          sequence of command - i.e. 0, 1, 2 or 3.
+ *
+ * Returns: calculated checksum as unsigned char
+ *
+ ********************************************************************/
+unsigned char command_check0123(unsigned char *command, int sequence)
+{
+	int response;
+
+	response = sequence * 16 + ((*command) - 0x82) / 4;
+
+	return (unsigned char) response;
+}
+
+
+/********************************************************************
+ * command_check4 calculates the checksum for the last command
+ * which is sent just before data is received from WS2300
+ *
+ * Input: number of bytes requested
+ *
+ * Returns: expected response from requesting number of bytes
+ *
+ ********************************************************************/
+unsigned char command_check4(int number)
+{
+	int response;
+
+	response = 0x30 + number;
+
+	return response;
+}
+
+
+/********************************************************************
+ * data_checksum calculates the checksum for the data bytes received
+ * from the WS2300
+ *
+ * Input:   pointer to array of data to check
+ *          number of bytes in array
+ *
+ * Returns: calculated checksum as unsigned char
+ *
+ ********************************************************************/
+unsigned char data_checksum(unsigned char *data, int number)
+{
+	int checksum = 0;
+	int i;
+
+	for (i = 0; i < number; i++)
+	{
+		checksum += data[i];
+	}
+
+	checksum &= 0xFF;
+
+	return (unsigned char) checksum;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 int read_device(int fh, unsigned char *buffer, int size)
 {
 	int ret;
-	fd_set readfd;
-	struct timeval timeout = { 3, 0 };
+//	fd_set readfd;
+//	struct timeval timeout = { 3, 0 };
 
-	FD_ZERO(&readfd);
-	FD_SET(fh, &readfd);
+//	FD_ZERO(&readfd);
+//	FD_SET(fh, &readfd);
 
 	for (;;) {
 	  int foo;
-	  foo=select(fh+1, &readfd, 0, 0, &timeout);
+//	  foo=select(fh+1, &readfd, 0, 0, &timeout);
 
 		ret = read(fh, buffer, size);
 #if DEBUG
@@ -102,21 +247,17 @@ int write_readback(int fh, unsigned char byte, unsigned char expect)
 
 void reset_06(int fh)
 {
-    unsigned char command = 0x06;
+    unsigned char reset = 0x06;
     unsigned char answer;
     int i;
     fd_set readfd;
     struct timeval timeout = { 0, 0 };
 
-    /* Anything pending from device?  Flush it. */
-    FD_ZERO(&readfd);
-    FD_SET(fh, &readfd);
-
-    for (i = 0; i < 100; i++) {
+    for (i = 0; i < 10; i++) {
 	// Discard any garbage in the input buffer
 	tcflush(fh, TCIOFLUSH);
 
-	write_device(fh, &command, 1);
+	write_device(fh, &reset, 1);
 	// Occasionally 0, then 2 is returned.  If zero comes back, continue
 	// reading as this is more efficient than sending an out-of sync
 	// reset and letting the data reads restore synchronization.
@@ -125,17 +266,14 @@ void reset_06(int fh)
 	// consider it a success
 	while (1 == read_device(fh, &answer, 1)) {
 	    if (answer == 2) {
-		if (select(fh+1, &readfd, 0, 0, &timeout)) {
-		    fprintf(stderr,"Got here: more to read!\n");
-		}
 		return;
 	    }
 	}
 
 	//	usleep(50000 * i);   //we sleep longer and longer for each retry
-	}
-	fprintf(stderr, "\nCould not reset\n");
-	exit(EXIT_FAILURE);
+    }
+    fprintf(stderr, "\nCould not reset\n");
+    exit(EXIT_FAILURE);
 }
 
 
@@ -224,7 +362,7 @@ open_2300(path)
 	    return;
 	}
 
-	if ( flock(serial_device, LOCK_EX) < 0 ) {
+	if ( flock(serial_device, LOCK_EX|LOCK_NB) < 0 ) {
 	    fprintf(stderr,"\nSerial device is locked by other program\n");
 	    return;
 	}
@@ -295,16 +433,16 @@ read_2300(fh, addr, count)
     PREINIT:
 	unsigned char buf[40];
     PPCODE:
-	printf("got here: %04X - %d\n", addr, count);
+	printf("got here: %d %04X - %d\n", fh, addr, count);
 	if (read_safe(fh, addr, count, buf)) {
 	    int i;
 
 	    for (i=0; i < count; i += 2) {
-		XPUSHs(sv_2mortal(newSVnv(buf[i] & 0x0F)));
+		XPUSHs(sv_2mortal(newSVnv(buf[i/2] & 0x0F)));
 		if (i < count-1)
-		    XPUSHs(sv_2mortal(newSVnv(buf[i] >> 4)));
+		    XPUSHs(sv_2mortal(newSVnv(buf[i/2] >> 4)));
 	    }
 	}
 	else {
-	    croak("foo");
+	    croak("read_safe failed");
 	}

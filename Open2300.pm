@@ -43,7 +43,8 @@ sub new {
       or croak "Usage: ".__PACKAGE__."->new( \"/dev/LACROSS-DEV-NAME\" )";
 
     # FIXME: call xs code
-    my $fh = open_2300($device);
+    my $fh = open_2300($device)
+	or die "cannot open\n";
 
     return bless {
 		  path => $device,
