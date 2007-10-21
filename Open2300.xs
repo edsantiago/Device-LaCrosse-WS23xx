@@ -257,6 +257,11 @@ void reset_06(int fh)
 	// Discard any garbage in the input buffer
 	tcflush(fh, TCIOFLUSH);
 
+	FD_ZERO(&readfd);
+	FD_SET(fh, &readfd);
+	if (select(fh+1, &readfd, 0, 0, &timeout))
+	  printf("got here: select says there's something to read\n");
+
 	write_device(fh, &reset, 1);
 	// Occasionally 0, then 2 is returned.  If zero comes back, continue
 	// reading as this is more efficient than sending an out-of sync
@@ -352,19 +357,17 @@ open_2300(path)
 	int serial_device;
 	struct termios adtio;
 	int portstatus;
-    CODE:
-	RETVAL = 0;
-
+    PPCODE:
 	//Setup serial port
 	if ((serial_device = open(path, O_RDWR | O_NOCTTY)) < 0)
 	{
 	    fprintf(stderr,"\nUnable to open serial device %s\n", path);
-	    return;
+	    XSRETURN_UNDEF;
 	}
 
 	if ( flock(serial_device, LOCK_EX|LOCK_NB) < 0 ) {
 	    fprintf(stderr,"\nSerial device is locked by other program\n");
-	    return;
+	    XSRETURN_UNDEF;
 	}
 
 
@@ -409,7 +412,7 @@ open_2300(path)
 	if (tcsetattr(serial_device, TCSANOW, &adtio) < 0)
 	{
 	    fprintf(stderr,"Unable to initialize serial device");
-	    exit(EXIT_FAILURE);
+	    XSRETURN_UNDEF;
 	}
 
 	tcflush(serial_device, TCIOFLUSH);
@@ -420,9 +423,7 @@ open_2300(path)
 	portstatus |= TIOCM_RTS;
 	ioctl(serial_device, TIOCMSET, &portstatus);	// set current port status
 
-	RETVAL = serial_device;
-    OUTPUT:
-	RETVAL
+	XPUSHs(sv_2mortal(newSVnv(serial_device)));
 
 
 void
