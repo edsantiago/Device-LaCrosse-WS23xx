@@ -17,39 +17,44 @@ use Time::Local;
 # BEGIN user-customizable section
 
 our $Values = <<'END_VALUES';
-Temp_Indoor	     degreesC	[0x346:4] / 100.0 - 30.0
-Temp_Indoor_Min	     degreesC	[0x34B:4] / 100.0 - 30.0
-Temp_Indoor_Max	     degreesC	[0x350:4] / 100.0 - 30.0
+Temp_Indoor	      degreesC	[0x346:4] / 100.0 - 30.0
+Temp_Indoor_Min	      degreesC	[0x34B:4] / 100.0 - 30.0
+Temp_Indoor_Max	      degreesC	[0x350:4] / 100.0 - 30.0
+Temp_Indoor_Min_t     datetime	[0x354:10]
+Temp_Indoor_Max_t     datetime	[0x35E:10]
+Temp_Indoor_Alarm_Lo  degreesC	[0x369:4] / 100.0 - 30.0
+Temp_Indoor_Alarm_Hi  degreesC	[0x36E:4] / 100.0 - 30.0
 
-Temp_Indoor_Min_t    datetime	[0x354:10]
-Temp_Indoor_Max_t    datetime	[0x35E:10]
+Temp_Outdoor	      degreesC	[0x373:4] / 100.0 - 30.0
+Temp_Outdoor_Min      degreesC	[0x378:4] / 100.0 - 30.0
+Temp_Outdoor_Max      degreesC	[0x37D:4] / 100.0 - 30.0
+Temp_Outdoor_Min_t    datetime	[0x381:10]
+Temp_Outdoor_Max_t    datetime	[0x38B:10]
+Temp_Outdoor_Alarm_Lo degreesC	[0x396:4] / 100.0 - 30.0
+Temp_Outdoor_Alarm_Hi degreesC	[0x39B:4] / 100.0 - 30.0
 
-Temp_Outdoor	     degreesC	[0x373:4] / 100.0 - 30.0
-Temp_Outdoor_Min     degreesC	[0x378:4] / 100.0 - 30.0
-Temp_Outdoor_Max     degreesC	[0x37D:4] / 100.0 - 30.0
+Humidity_Indoor       percent	[0x03FB:2]
+Humidity_Indoor_Min   percent	[0x03FD:2]
+Humidity_Indoor_Max   percent	[0x03FF:2]
 
-Humidity_Indoor      percent	[0x03FB:2]
-Humidity_Indoor_Min  percent	[0x03FD:2]
-Humidity_Indoor_Max  percent	[0x03FF:2]
+Humidity_Outdoor      percent	[0x0419:2]
+Humidity_Outdoor_Min  percent	[0x041B:2]
+Humidity_Outdoor_Max  percent	[0x041D:2]
 
-Humidity_Outdoor     percent	[0x0419:2]
-Humidity_Outdoor_Min percent	[0x041B:2]
-Humidity_Outdoor_Max percent	[0x041D:2]
+Wind_Speed	      m/s	[0x0529:3]
+Wind_Direction        degrees	[0x052C:1] * 22.5
 
-Wind_Speed	     m/s	[0x0529:3]
-Wind_Direction       degrees	[0x052C:1] * 22.5
+Connection_Type	      string	[0x054D:1]
 
-Connection_Type	     string	[0x054D:1]
+Countdown	      seconds	[0x054F:2] / 2.0
 
-Countdown	     seconds	[0x054F:2] / 2.0
+Pressure_Abs	      hPa	[0x05D8:5] / 10.0
+Pressure_Rel	      hPa	[0x05E2:5] / 10.0
+Pressure_Corr         hPa	[0x05EC:5] / 10.0
 
-Pressure_Abs	     hPa	[0x05D8:5] / 10.0
-Pressure_Rel	     hPa	[0x05E2:5] / 10.0
-Pressure_Corr        hPa	[0x05EC:5] / 10.0
-
-Rain_24h	     mm		[0x0497:6] / 100.0
-Rain_1h		     mm		[0x04B4:6] / 100.0
-Rain_Total           mm		[0x04D2:6] / 100.0
+Rain_24h	      mm	[0x0497:6] / 100.0
+Rain_1h		      mm	[0x04B4:6] / 100.0
+Rain_Total            mm	[0x04D2:6] / 100.0
 END_VALUES
 
 # END   user-customizable section
