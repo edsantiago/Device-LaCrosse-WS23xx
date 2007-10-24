@@ -625,7 +625,7 @@ DATE UNIT SET
 0263 0
 0264 3
 0265 5
-0266 4    LCD contrast value -1. Changing it has no impact on LCD. Read only
+0266 4    | LCD contrast: $BCD+1 (Read Only: changing it has no impact on LCD.)
 0267 1
 0268 0
 0269 0
@@ -1544,96 +1544,96 @@ HF Reception, 550/54F start value: 0F=cable, 3F=lost, FF=Wireless
 05D7 4
 
 AIR PRESSURE
-05D8 2    Absolute air pressure: BCD 0.1s [hPa]
-05D9 6    Absolute air pressure: BCD 1s [hPa]
-05DA 1    Absolute air pressure: BCD 10s [hPa]
-05DB 0    Absolute air pressure: BCD 100s [hPa]
-05DC 1    Absolute air pressure: BCD 1000s [hPa]
+05D8 2     | Absolute air pressure: <PRESSURE>
+05D9 6     |
+05DA 1     |    1016.2
+05DB 0     |
+05DC 1    _/
 05DD 0
 05DE 0
 05DF 0
 05E0 3
 05E1 0
-05E2 4    Relative air pressure: BCD 0.1s [hPa]
-05E3 8    Relative air pressure: BCD 1s [hPa]
-05E4 1    Relative air pressure: BCD 10s [hPa]
-05E5 0    Relative air pressure: BCD 100s [hPa]
-05E6 1    Relative air pressure: BCD 1000s [hPa]
+05E2 4     | Relative air pressure: <PRESSURE>
+05E3 8     |
+05E4 1     |    1018.4
+05E5 0     |
+05E6 1    _/
 05E7 7
 05E8 0
 05E9 0
 05EA 3
 05EB 0
-05EC 2    Air pressure correction: BCD 0.1s [hPa] offset 1000
-05ED 2    Air pressure correction: BCD 1s [hPa] offset 1000
-05EE 0    Air pressure correction: BCD 10s [hPa] offset 1000
-05EF 0    Air pressure correction: BCD 100s [hPa] offset 1000
-05F0 1    Air pressure correction: BCD 1000s [hPa] offset 1000
+05EC 2     | Air pressure correction: <PRESSURE> - 1000
+05ED 2     |
+05EE 0     |    2.2
+05EF 0     |
+05F0 1    _/
 05F1 7
 05F2 0
 05F3 0
 05F4 0
 05F5 1
-05F6 0    Absolute air pressure minimum: BCD 0.1s [hPa]
-05F7 3    Absolute air pressure minimum: BCD 1s [hPa]
-05F8 1    Absolute air pressure minimum: BCD 10s [hPa]
-05F9 0    Absolute air pressure minimum: BCD 100s [hPa]
-05FA 1    Absolute air pressure minimum: BCD 1000s [hPa]
+05F6 0     | Absolute air pressure minimum: <PRESSURE>
+05F7 3     |
+05F8 1     |    1013.0
+05F9 0     |
+05FA 1    _/
 05FB 1
 05FC 9
 05FD 9
 05FE 2
 05FF 0
-0600 2    Relative air pressure minimum: BCD 0.1s [hPa]
-0601 5    Relative air pressure minimum: BCD 1s [hPa]
-0602 1    Relative air pressure minimum: BCD 10s [hPa]
-0603 0    Relative air pressure minimum: BCD 100s [hPa]
-0604 1    Relative air pressure minimum: BCD 1000s [hPa]
+0600 2     | Relative air pressure minimum: <PRESSURE>
+0601 5     |
+0602 1     |    1015.2
+0603 0     |
+0604 1    _/
 0605 7
 0606 9
 0607 9
 0608 2
 0609 0
-060A 6    Absolute air pressure maximum: BCD 0.1s [hPa]
-060B 4    Absolute air pressure maximum: BCD 1s [hPa]
-060C 3    Absolute air pressure maximum: BCD 10s [hPa]
-060D 0    Absolute air pressure maximum: BCD 100s [hPa]
-060E 1    Absolute air pressure maximum: BCD 1000s [hPa]
+060A 6     | Absolute air pressure maximum: <PRESSURE>
+060B 4     |
+060C 3     |
+060D 0     |
+060E 1    _/
 060F 5
 0610 5
 0611 0
 0612 3
 0613 0
-0614 8    Relative air pressure maximum: BCD 0.1s [hPa]
-0615 6    Relative air pressure maximum: BCD 1s [hPa]
-0616 3    Relative air pressure maximum: BCD 10s [hPa]
-0617 0    Relative air pressure maximum: BCD 100s [hPa]
-0618 1    Relative air pressure maximum: BCD 1000s [hPa]
+0614 8     | Relative air pressure maximum: <PRESSURE>
+0615 6     |
+0616 3     |
+0617 0     |
+0618 1    _/
 0619 1
 061A 6
 061B 0
 061C 3
 061D 0
-061E 2    Time min air pressure, minutes BCD 1s
-061F 0    Time min air pressure, minutes BCD 10s
-0620 5    Time min air pressure, hours BCD 1s
-0621 0    Time min air pressure, hours BCD 10s
-0622 3    Date min air pressure, BCD day 1s
-0623 2    Date min air pressure, BCD day 10s
-0624 4    Date min air pressure, BCD month 1s
-0625 0    Date min air pressure, BCD month 10s
-0626 3    Date min air pressure, BCD year 1s
-0627 0    Date min air pressure, BCD year 10s
-0628 6    Time max air pressure, minutes BCD 1s
-0629 4    Time max air pressure, minutes BCD 10s
-062A 2    Time max air pressure, hours BCD 1s
-062B 0    Time max air pressure, hours BCD 10s
-062C 8    Date max air pressure, BCD day 1s
-062D 1    Date max air pressure, BCD day 10s
-062E 4    Date max air pressure, BCD month 1s
-062F 0    Date max air pressure, BCD month 10s
-0630 3    Date max air pressure, BCD year 1s
-0631 0    Date max air pressure, BCD year 10s
+061E 2     | Date/Time min air pressure: <YYMMDDhhmm>
+061F 0     |
+0620 5     |    2003-04-23 05:02
+0621 0     |
+0622 3     |
+0623 2     |
+0624 4     |
+0625 0     |
+0626 3     |
+0627 0    _/
+0628 6     | Date/Time max air pressure: <YYMMDDhhmm>
+0629 4     |
+062A 2     |    2003-04-18 02:46
+062B 0     |
+062C 8     |
+062D 1     |
+062E 4     |
+062F 0     |
+0630 3     |
+0631 0    _/
 0632 4
 0633 1
 0634 6
@@ -1644,11 +1644,11 @@ AIR PRESSURE
 0639 8
 063A 2
 063B 0
-063C 6    Low Alarm air pressure, BCD 0.1 [hPa]
-063D 3    Low Alarm air pressure, BCD 1 [hPa]
-063E 6    Low Alarm air pressure, BCD 10 [hPa]
-063F 9    Low Alarm air pressure, BCD 100 [hPa]
-0640 0    Low Alarm air pressure, BCD 1000 [hPa]
+063C 6     | Low Alarm air pressure: <PRESSURE>
+063D 3     |
+063E 6     |
+063F 9     |
+0640 0    _/
 0641 6
 0642 4
 0643 8
@@ -1664,11 +1664,11 @@ AIR PRESSURE
 064D 0
 064E 3
 064F 0
-0650 0   High Alarm air pressure, BCD 0.1 [hPa]
-0651 1   High Alarm air pressure, BCD 1 [hPa]
-0652 4   High Alarm air pressure, BCD 10 [hPa]
-0653 0   High Alarm air pressure, BCD 100 [hPa]
-0654 1   High Alarm air pressure, BCD 1000 [hPa]
+0650 0     | High Alarm air pressure: <PRESSURE>
+0651 1     |
+0652 4     |
+0653 0     |
+0654 1    _/
 0655 4
 0656 7
 0657 0
