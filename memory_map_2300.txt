@@ -860,16 +860,16 @@ INDOOR TEMPERATURE
 034A 0
 034B 0     | Minimum Indoor Temperature: temp_convert($BCD) [C]
 034C 5     |
-034D 5     |  15.50
+034D 5     |    15.50
 034E 4    _/
 034F 0
 0350 0     | Maximum Indoor Temperature: temp_convert($BCD) [C]
 0351 7     |
-0352 9     |  29.70
+0352 9     |    29.70
 0353 5    _/
 0354 0     | Date/Time min Indoor Temperature: datetime($BCD) [time_t]
 0355 2     |
-0356 2     |
+0356 2     |    2001-01-01 12:20
 0357 1     |
 0358 1     |
 0359 0     |
@@ -879,7 +879,7 @@ INDOOR TEMPERATURE
 035D 0    _/
 035E 5     | Date/Time max Indoor Temperature: datetime($BCD) [time_t]
 035F 5     |
-0360 7     |
+0360 7     |    2003-04-21 17:55
 0361 1     |
 0362 1     |
 0363 2     |
@@ -890,197 +890,197 @@ INDOOR TEMPERATURE
 0368 0
 0369 0     | Low Alarm Indoor Temperature: temp_convert($BCD) [C]
 036A 1     |
-036B 7     |
+036B 7     |    17.10
 036C 4    _/
 036D 0
 036E 0     | High Alarm Indoor Temperature: temp_convert($BCD) [C]
 036F 6     |
-0370 9     |
+0370 9     |    29.60
 0371 5    _/
 0372 0
 
 OUTDOOR TEMPERATURE
-0373 0    Current Outdoor Temperature: BCD offset 30 0.01s [C]
-0374 4    Current Outdoor Temperature: BCD offset 30 0.1s [C]
-0375 7    Current Outdoor Temperature: BCD offset 30 1s [C]
-0376 3    Current Outdoor Temperature: BCD offset 30 10s [C]
+0373 0     | Current Outdoor Temperature: temp_convert($BCD) [C]
+0374 4     |
+0375 7     |    17.40
+0376 3    _/
 0377 0
-0378 0    Minimum Outdoor Temperature: BCD offset 30 0.01s [C]
-0379 5    Minimum Outdoor Temperature: BCD offset 30 0.1s [C]
-037A 2    Minimum Outdoor Temperature: BCD offset 30 1s [C]
-037B 3    Minimum Outdoor Temperature: BCD offset 30 10s [C]
+0378 0     | Minimum Outdoor Temperature: temp_convert($BCD) [C]
+0379 5     |
+037A 2     |    02.50
+037B 3    _/
 037C 0
-037D 0    Maximum Outdoor Temperature: BCD offset 30 0.01s [C]
-037E 8    Maximum Outdoor Temperature: BCD offset 30 0.1s [C]
-037F 5    Maximum Outdoor Temperature: BCD offset 30 1s [C]
-0380 6    Maximum Outdoor Temperature: BCD offset 30 10s [C]
-0381 5    Time min Outdoor Temperature:, minutes BCD 1s
-0382 2    Time min Outdoor Temperature:, minutes BCD 10s
-0383 6    Time min Outdoor Temperature:, hours BCD 1s
-0384 0    Time min Outdoor Temperature:, hours BCD 10s
-0385 7    Date min Outdoor Temperature:, BCD day 1s
-0386 1    Date min Outdoor Temperature:, BCD day 10s
-0387 4    Date min Outdoor Temperature:, BCD month 1s
-0388 0    Date min Outdoor Temperature:, BCD month 10s
-0389 3    Date min Outdoor Temperature:, BCD year 1s
-038A 0    Date min Outdoor Temperature:, BCD year 10s
-038B 1    Time max Outdoor Temperature:, minutes BCD 1s
-038C 0    Time max Outdoor Temperature:, minutes BCD 10s
-038D 7    Time max Outdoor Temperature:, hours BCD 1s
-038E 1    Time max Outdoor Temperature:, hours BCD 10s
-038F 7    Date max Outdoor Temperature:, BCD day 1s
-0390 1    Date max Outdoor Temperature:, BCD day 10s
-0391 4    Date max Outdoor Temperature:, BCD month 1s
-0392 0    Date max Outdoor Temperature:, BCD month 10s
-0393 3    Date max Outdoor Temperature:, BCD year 1s
-0394 0    Date max Outdoor Temperature:, BCD year 10s
+037D 0     | Maximum Outdoor Temperature: temp_convert($BCD) [C]
+037E 8     |
+037F 5     |    28.00
+0380 6    _/
+0381 5     | Date/Time min Outdoor Temperature: datetime($BCD) [time_t]
+0382 2     |
+0383 6     |    2003-04-17 06:25
+0384 0     |
+0385 7     |
+0386 1     |
+0387 4     |
+0388 0     |
+0389 3     |
+038A 0    _/
+038B 1     | Date/Time max Outdoor Temperature: yymmddhhmm($BCD) [time_t]
+038C 0     |
+038D 7     |    2003-04-17 17:01
+038E 1     |
+038F 7     |
+0390 1     |
+0391 4     |
+0392 0     |
+0393 3     |
+0394 0    _/
 0395 0
-0396 0    Low Alarm Outdoor Temperature: BCD offset 30 0.01s [C]
-0397 0    Low Alarm Outdoor Temperature: BCD offset 30 0.1s [C]
-0398 0    Low Alarm Outdoor Temperature: BCD offset 30 1s [C]
-0399 3    Low Alarm Outdoor Temperature: BCD offset 30 10s [C]
+0396 0     | Low Alarm Outdoor Temperature: temp_convert($BCD) [C]
+0397 0     |
+0398 0     |    00.00
+0399 3    _/
 039A 0
-039B 0    High Alarm Outdoor Temperature: BCD offset 30 0.01s [C]
-039C 0    High Alarm Outdoor Temperature: BCD offset 30 0.1s [C]
-039D 0    High Alarm Outdoor Temperature: BCD offset 30 1s [C]
-039E 7    High Alarm Outdoor Temperature: BCD offset 30 10s [C]
+039B 0     | High Alarm Outdoor Temperature: temp_convert($BCD) [C]
+039C 0     |
+039D 0     |    40.00
+039E 7    _/
 039F 0
 
 WINDCHILL
-03A0 0    Current Windchill: BCD offset 30 0.01s [C]
-03A1 4    Current Windchill: BCD offset 30 0.1s [C]
-03A2 7    Current Windchill: BCD offset 30 1s [C]
-03A3 3    Current Windchill: BCD offset 30 10s [C]
+03A0 0     | Current Windchill: temp_convert($BCD) [C]
+03A1 4     |
+03A2 7     |    07.40
+03A3 3    _/
 03A4 8
-03A5 0    Minimum Windchill: BCD offset 30 0.01s [C]
-03A6 2    Minimum Windchill: BCD offset 30 0.1s [C]
-03A7 8    Minimum Windchill: BCD offset 30 1s [C]
-03A8 1    Minimum Windchill: BCD offset 30 10s [C]
+03A5 0     | Minimum Windchill: temp_convert($BCD) [C]
+03A6 2     |
+03A7 8     |   -12.20
+03A8 1    _/
 03A9 0
-03AA 0    Maximum Windchill: BCD offset 30 0.01s [C]
-03AB 8    Maximum Windchill: BCD offset 30 0.1s [C]
-03AC 9    Maximum Windchill: BCD offset 30 1s [C]
-03AD 4    Maximum Windchill: BCD offset 30 10s [C]
-03AE 2    Time min Windchill:, minutes BCD 1s
-03AF 0    Time min Windchill:, minutes BCD 10s
-03B0 6    Time min Windchill:, hours BCD 1s
-03B1 0    Time min Windchill:, hours BCD 10s
-03B2 9    Date min Windchill:, BCD day 1s
-03B3 1    Date min Windchill:, BCD day 10s
-03B4 4    Date min Windchill:, BCD month 1s
-03B5 0    Date min Windchill:, BCD month 10s
-03B6 3    Date min Windchill:, BCD year 1s
-03B7 0    Date min Windchill:, BCD year 10s
-03B8 6    Time max Windchill:, minutes BCD 1s
-03B9 4    Time max Windchill:, minutes BCD 10s
-03BA 8    Time max Windchill:, hours BCD 1s
-03BB 0    Time max Windchill:, hours BCD 10s
-03BC 3    Date max Windchill:, BCD day 1s
-03BD 2    Date max Windchill:, BCD day 10s
-03BE 4    Date max Windchill:, BCD month 1s
-03BF 0    Date max Windchill:, BCD month 10s
-03C0 3    Date max Windchill:, BCD year 1s
-03C1 0    Date max Windchill:, BCD year 10s
+03AA 0     | Maximum Windchill: temp_convert($BCD) [C]
+03AB 8     |
+03AC 9     |   19.80
+03AD 4    _/
+03AE 2     | Date/Time min Windchill: yymmddhhmm($BCD) [time_t]
+03AF 0     |
+03B0 6     |   2003-04-19 06:02
+03B1 0     |
+03B2 9     |
+03B3 1     |
+03B4 4     |
+03B5 0     |
+03B6 3     |
+03B7 0    _/
+03B8 6     | Date/Time max Windchill: yymmddhhmm($BCD) [time_t]
+03B9 4     |
+03BA 8     |
+03BB 0     |
+03BC 3     |
+03BD 2     |
+03BE 4     |
+03BF 0     |
+03C0 3     |
+03C1 0    _/
 03C2 0
-03C3 0    Low Alarm Windchill: BCD offset 30 0.01s [C]
-03C4 0    Low Alarm Windchill: BCD offset 30 0.1s [C]
-03C5 5    Low Alarm Windchill: BCD offset 30 1s [C]
-03C6 3    Low Alarm Windchill: BCD offset 30 10s [C]
+03C3 0     | Low Alarm Windchill: temp_convert($BCD) [C]
+03C4 0     |
+03C5 5     |
+03C6 3    _/
 03C7 0
-03C8 0    High Alarm Windchill: BCD offset 30 0.01s [C]
-03C9 0    High Alarm Windchill: BCD offset 30 0.1s [C]
-03CA 0    High Alarm Windchill: BCD offset 30 1s [C]
-03CB 6    High Alarm Windchill: BCD offset 30 10s [C]
+03C8 0     | High Alarm Windchill: temp_convert($BCD) [C]
+03C9 0     |
+03CA 0     |
+03CB 6    _/
 03CC 0
 03CD 0
 
 DEWPOINT
-03CE 9    Current Dewpoint: BCD offset 30 0.01s [C]
-03CF 4    Current Dewpoint: BCD offset 30 0.1s [C]
-03D0 2    Current Dewpoint: BCD offset 30 1s [C]
-03D1 3    Current Dewpoint: BCD offset 30 10s [C]
+03CE 9     | Current Dewpoint: temp_convert($BCD) [C]
+03CF 4     |
+03D0 2     |    02.49
+03D1 3    _/
 03D2 6
-03D3 1    Minimum Dewpoint: BCD offset 30 0.01s [C]
-03D4 1    Minimum Dewpoint: BCD offset 30 0.1s [C]
-03D5 3    Minimum Dewpoint: BCD offset 30 1s [C]
-03D6 2    Minimum Dewpoint: BCD offset 30 1s [C]
+03D3 1     | Minimum Dewpoint: temp_convert($BCD) [C]
+03D4 1     |
+03D5 3     |    -7.11
+03D6 2    _/
 03D7 0
-03D8 4    Maximum Dewpoint: BCD offset 30 0.01s [C]
-03D9 4    Maximum Dewpoint: BCD offset 30 0.1s [C]
-03DA 8    Maximum Dewpoint: BCD offset 30 1s [C]
-03DB 3    Maximum Dewpoint: BCD offset 30 10s [C]
-03DC 7    Time min Dewpoint:, minutes BCD 1s
-03DD 1    Time min Dewpoint:, minutes BCD 10s
-03DE 7    Time min Dewpoint:, hours BCD 1s
-03DF 1    Time min Dewpoint:, hours BCD 10s
-03E0 0    Date min Dewpoint:, BCD day 1s
-03E1 2    Date min Dewpoint:, BCD day 10s
-03E2 4    Date min Dewpoint:, BCD month 1s
-03E3 0    Date min Dewpoint:, BCD month 10s
-03E4 3    Date min Dewpoint:, BCD year 1s
-03E5 0    Date min Dewpoint:, BCD year 10s
-03E6 2    Time max Dewpoint:, minutes BCD 1s
-03E7 0    Time max Dewpoint:, minutes BCD 10s
-03E8 0    Time max Dewpoint:, hours BCD 1s
-03E9 0    Time max Dewpoint:, hours BCD 10s
-03EA 1    Date max Dewpoint:, BCD day 1s
-03EB 0    Date max Dewpoint:, BCD day 10s
-03EC 1    Date max Dewpoint:, BCD month 1s
-03ED 0    Date max Dewpoint:, BCD month 10s
-03EE 1    Date max Dewpoint:, BCD year 1s
-03EF 0    Date max Dewpoint:, BCD year 10s
+03D8 4     | Maximum Dewpoint: <TEMP>
+03D9 4     |
+03DA 8     |    08.44
+03DB 3    _/
+03DC 7     | Date/Time min Dewpoint: <YYMMDDHHMM>
+03DD 1     |
+03DE 7     |
+03DF 1     |
+03E0 0     |
+03E1 2     |
+03E2 4     |
+03E3 0     |
+03E4 3     |
+03E5 0    _/
+03E6 2     | Date/Time max Dewpoint: <YYMMDDHHMM>
+03E7 0     |
+03E8 0     |
+03E9 0     |
+03EA 1     |
+03EB 0     |
+03EC 1     |
+03ED 0     |
+03EE 1     |
+03EF 0    _/
 03F0 0
-03F1 0    Low Alarm Dewpoint: BCD offset 30 0.01s [C]
-03F2 0    Low Alarm Dewpoint: BCD offset 30 0.1s [C]
-03F3 0    Low Alarm Dewpoint: BCD offset 30 1s [C]
-03F4 3    Low Alarm Dewpoint: BCD offset 30 10s [C]
+03F1 0     | Low Alarm Dewpoint: <TEMP>
+03F2 0     |
+03F3 0     |
+03F4 3    _/
 03F5 0
-03F6 0    High Alarm Dewpoint: BCD offset 30 0.01s [C]
-03F7 0    High Alarm Dewpoint: BCD offset 30 0.1s [C]
-03F8 0    High Alarm Dewpoint: BCD offset 30 1s [C]
-03F9 5    High Alarm Dewpoint: BCD offset 30 10s [C]
+03F6 0     | High Alarm Dewpoint: <TEMP>
+03F7 0     |
+03F8 0     |
+03F9 5    _/
 03FA 2
 
 HUMIDITY INDOORS
-03FB 4    Rel Humidity Indoors: BCD 1s [%]
-03FC 2    Rel Humidity Indoors: BCD 10s [%]
-03FD 9    Minimum Rel Humidity Indoors: BCD 1s [%]
-03FE 1    Minimum Rel Humidity Indoors: BCD 10s [%]
-03FF 7    Maximum Rel Humidity Indoors: BCD 1s [%]
-0400 4    Maximum Rel Humidity Indoors: BCD 10s [%]
-0401 8    Time min Rel Humidity Indoors:, minutes BCD 1s
-0402 1    Time min Rel Humidity Indoors:, minutes BCD 10s
-0403 0    Time min Rel Humidity Indoors:, hours BCD 1s
-0404 0    Time min Rel Humidity Indoors:, hours BCD 10s
-0405 1    Date min Rel Humidity Indoors:, BCD day 1s
-0406 2    Date min Rel Humidity Indoors:, BCD day 10s
-0407 4    Date min Rel Humidity Indoors:, BCD month 1s
-0408 0    Date min Rel Humidity Indoors:, BCD month 10s
-0409 3    Date min Rel Humidity Indoors:, BCD year 1s
-040A 0    Date min Rel Humidity Indoors:, BCD year 10s
-040B 5    Time max Rel Humidity Indoors:, minutes BCD 1s
-040C 4    Time max Rel Humidity Indoors:, minutes BCD 10s
-040D 3    Time max Rel Humidity Indoors:, hours BCD 1s
-040E 2    Time max Rel Humidity Indoors:, hours BCD 10s
-040F 4    Date max Rel Humidity Indoors:, BCD day 1s
-0410 1    Date max Rel Humidity Indoors:, BCD day 10s
-0411 4    Date max Rel Humidity Indoors:, BCD month 1s
-0412 0    Date max Rel Humidity Indoors:, BCD month 10s
-0413 3    Date max Rel Humidity Indoors:, BCD year 1s
-0414 0    Date max Rel Humidity Indoors:, BCD year 10s
-0415 5    Low Alarm Rel Humidity Indoors: BCD 1s [%]
-0416 3    Low Alarm Rel Humidity Indoors: BCD 10s [%]
-0417 5    Hign Alarm Rel Humidity Indoors: BCD 1s [%]
-0418 6    High Alarm Rel Humidity Indoors: BCD 10s [%]
+03FB 4     | Rel Humidity Indoors: $BCD [%]
+03FC 2    _/
+03FD 9     | Minimum Rel Humidity Indoors: $BCD [%]
+03FE 1    _/
+03FF 7     | Maximum Rel Humidity Indoors: $BCD [%]
+0400 4    _/
+0401 8    Date/Time Min Rel Humidity Indoors: <YYMMDDHHMM>
+0402 1     |
+0403 0     |
+0404 0     |
+0405 1     |
+0406 2     |
+0407 4     |
+0408 0     |
+0409 3     |
+040A 0    _/
+040B 5     | Date/Time Max Rel Humidity Indoors: <YYMMDDHHMM>
+040C 4     |
+040D 3     |
+040E 2     |
+040F 4     |
+0410 1     |
+0411 4     |
+0412 0     |
+0413 3     |
+0414 0    _/
+0415 5     | Low Alarm Rel Humidity Indoors: <PERCENT>
+0416 3    _/
+0417 5     | High Alarm Rel Humidity Indoors: <PERCENT>
+0418 6    _/
 
 HUMIDITY OUTDOORS
-0419 1    Rel Humidity Outdoors: BCD [%]
+0419 1    Rel Humidity Outdoors: <PERCENT>
 041A 7    _/
-041B 9    Minimum Rel Humidity Outdoors: BCD [%]
+041B 9    Minimum Rel Humidity Outdoors: <PERCENT>
 041C 1    _/
-041D 8    Maximum Rel Humidity Outdoors: BCD [%]
+041D 8    Maximum Rel Humidity Outdoors: <PERCENT>
 041E 7    _/
-041F 9    \ Date/Time min Rel Humidity Outdoors: BCD [datetime]
+041F 9    \ Date/Time min Rel Humidity Outdoors: <YYMMDDHHMM>
 0420 1     |
 0421 7     |
 0422 1     |
@@ -1090,7 +1090,7 @@ HUMIDITY OUTDOORS
 0426 0     |
 0427 3     |
 0428 0    _/
-0429 6    Time max Rel Humidity Outdoors: BCD [datetime]
+0429 6    Time max Rel Humidity Outdoors: <YYMMDDHHMM>
 042A 2     |
 042B 7     |
 042C 0     |
@@ -1100,9 +1100,9 @@ HUMIDITY OUTDOORS
 0430 0     |
 0431 3     |
 0432 0    _/
-0433 5    Low Alarm Rel Humidity Outdoors: BCD [%]
+0433 5    Low Alarm Rel Humidity Outdoors: <PERCENT>
 0434 4    _/
-0435 0    High Alarm Rel Humidity Outdoors: BCD [%]
+0435 0    High Alarm Rel Humidity Outdoors: <PERCENT>
 0436 7    _/
 0437 6
 0438 0
