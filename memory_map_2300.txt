@@ -632,8 +632,8 @@ DATE UNIT SET
 026A 0
 
 TENDENCY/FORECAST
-026B 0    Forecast: 0=Rainy, 1=Cloudy, 2=Sunny
-026C 2    Tendency: 0=Steady, 1=Rising, 2=Falling
+026B 0    | Forecast: 0=Rainy, 1=Cloudy, 2=Sunny
+026C 2    | Tendency: 0=Steady, 1=Rising, 2=Falling
 026D 0
 026E 0
 026F 0
@@ -1042,13 +1042,13 @@ DEWPOINT
 03FA 2
 
 HUMIDITY INDOORS
-03FB 4     | Rel Humidity Indoors: $BCD [%]
+03FB 4     | Relative Humidity Indoors: $BCD [%]
 03FC 2    _/
-03FD 9     | Minimum Rel Humidity Indoors: $BCD [%]
+03FD 9     | Minimum Relative Humidity Indoors: $BCD [%]
 03FE 1    _/
-03FF 7     | Maximum Rel Humidity Indoors: $BCD [%]
+03FF 7     | Maximum Relative Humidity Indoors: $BCD [%]
 0400 4    _/
-0401 8    Date/Time Min Rel Humidity Indoors: <YYMMDDHHMM>
+0401 8     | Date/Time Min Relative Humidity Indoors: <YYMMDDHHMM>
 0402 1     |
 0403 0     |
 0404 0     |
@@ -1058,7 +1058,7 @@ HUMIDITY INDOORS
 0408 0     |
 0409 3     |
 040A 0    _/
-040B 5     | Date/Time Max Rel Humidity Indoors: <YYMMDDHHMM>
+040B 5     | Date/Time Max Relative Humidity Indoors: <YYMMDDHHMM>
 040C 4     |
 040D 3     |
 040E 2     |
@@ -1068,19 +1068,19 @@ HUMIDITY INDOORS
 0412 0     |
 0413 3     |
 0414 0    _/
-0415 5     | Low Alarm Rel Humidity Indoors: <PERCENT>
+0415 5     | Low Alarm Relative Humidity Indoors: <PERCENT>
 0416 3    _/
-0417 5     | High Alarm Rel Humidity Indoors: <PERCENT>
+0417 5     | High Alarm Relative Humidity Indoors: <PERCENT>
 0418 6    _/
 
 HUMIDITY OUTDOORS
-0419 1    Rel Humidity Outdoors: <PERCENT>
+0419 1     | Relative Humidity Outdoors: <PERCENT>
 041A 7    _/
-041B 9    Minimum Rel Humidity Outdoors: <PERCENT>
+041B 9     | Minimum Relative Humidity Outdoors: <PERCENT>
 041C 1    _/
-041D 8    Maximum Rel Humidity Outdoors: <PERCENT>
+041D 8     | Maximum Relative Humidity Outdoors: <PERCENT>
 041E 7    _/
-041F 9    \ Date/Time min Rel Humidity Outdoors: <YYMMDDHHMM>
+041F 9     | Date/Time min Relative Humidity Outdoors: <YYMMDDHHMM>
 0420 1     |
 0421 7     |
 0422 1     |
@@ -1090,7 +1090,7 @@ HUMIDITY OUTDOORS
 0426 0     |
 0427 3     |
 0428 0    _/
-0429 6    Time max Rel Humidity Outdoors: <YYMMDDHHMM>
+0429 6     | Date/Time max Relative Humidity Outdoors: <YYMMDDHHMM>
 042A 2     |
 042B 7     |
 042C 0     |
@@ -1100,9 +1100,9 @@ HUMIDITY OUTDOORS
 0430 0     |
 0431 3     |
 0432 0    _/
-0433 5    Low Alarm Rel Humidity Outdoors: <PERCENT>
+0433 5     | Low Alarm Relative Humidity Outdoors: <PERCENT>
 0434 4    _/
-0435 0    High Alarm Rel Humidity Outdoors: <PERCENT>
+0435 0     | High Alarm Relative Humidity Outdoors: <PERCENT>
 0436 7    _/
 0437 6
 0438 0
