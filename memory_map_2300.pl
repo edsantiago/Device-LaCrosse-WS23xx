@@ -132,5 +132,11 @@ while (my $line = <IN>) {
 }
 
 for my $entry (@map) {
-    printf "%04X:%-2d %-35s %s\n", @{$entry}{"address","length","name","formula"};
+    my $name = $entry->{name};
+    if (my $units = $entry->{units}) {
+	$name .= " [$units]";
+    }
+
+    printf "%04X:%-2d %-40s %s\n", @{$entry}{"address","length"},
+      $name, $entry->{formula};
 }
