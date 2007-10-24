@@ -1178,7 +1178,7 @@ HUMIDITY OUTDOORS
 0478 0
 0479 0    Rain 1h area
 047A 0    Start your read at 0479. Read 2 sets of 15.
-047B 0    Store as a 30 byte array.                  
+047B 0    Store as a 30 byte array.
 047C 0    What this is, is a rolling queue
 047D 0    Each "impulse" is 0.0204" or 0.51826mm of rain.
 047E 0    This measurement is simply (# impulses * unitOfMeasure)
