@@ -632,8 +632,8 @@ DATE UNIT SET
 026A 0
 
 TENDENCY/FORECAST
-026B 0    Forecast: 0=rainy, 1=cloudy, 2=sunny
-026C 2    Tendency: 0=steady, 1=rising, 2=falling
+026B 0    Forecast: 0=Rainy, 1=Cloudy, 2=Sunny
+026C 2    Tendency: 0=Steady, 1=Rising, 2=Falling
 026D 0
 026E 0
 026F 0
@@ -853,21 +853,21 @@ TENDENCY/FORECAST
 0345 0
 
 INDOOR TEMPERATURE
-0346 0    Current Indoor Temperature: (BCD - 30) / 100.0 [C]
+0346 0     | Current Indoor Temperature: temp_convert($BCD) [C]
 0347 6     |
 0348 8     |  28.60
 0349 5    _/
 034A 0
-034B 0    Minimum Indoor Temperature: (BCD - 30) / 100.0 [C]
+034B 0     | Minimum Indoor Temperature: temp_convert($BCD) [C]
 034C 5     |
 034D 5     |  15.50
 034E 4    _/
 034F 0
-0350 0    Maximum Indoor Temperature: (BCD - 30) / 100.0 [C]
+0350 0     | Maximum Indoor Temperature: temp_convert($BCD) [C]
 0351 7     |
 0352 9     |  29.70
 0353 5    _/
-0354 0    Date/Time min Indoor Temperature: BCD [datetime]
+0354 0     | Date/Time min Indoor Temperature: datetime($BCD) [time_t]
 0355 2     |
 0356 2     |
 0357 1     |
@@ -877,7 +877,7 @@ INDOOR TEMPERATURE
 035B 0     |
 035C 1     |
 035D 0    _/
-035E 5    Date/Time max Indoor Temperature: BCD [datetime]
+035E 5     | Date/Time max Indoor Temperature: datetime($BCD) [time_t]
 035F 5     |
 0360 7     |
 0361 1     |
@@ -888,12 +888,12 @@ INDOOR TEMPERATURE
 0366 3     |
 0367 0    _/
 0368 0
-0369 0    Low Alarm Indoor Temperature: (BCD - 30) / 100.0 [C]
+0369 0     | Low Alarm Indoor Temperature: temp_convert($BCD) [C]
 036A 1     |
 036B 7     |
 036C 4    _/
 036D 0
-036E 0    High Alarm Indoor Temperature: (BCD - 30) / 100.0 [C]
+036E 0     | High Alarm Indoor Temperature: temp_convert($BCD) [C]
 036F 6     |
 0370 9     |
 0371 5    _/
