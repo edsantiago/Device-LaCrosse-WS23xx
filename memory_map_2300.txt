@@ -3,6 +3,7 @@ version 1.6, 2004 Apr 22
 
    macro TEMPERATURE = $BCD / 100.0 - 30 [C]
    macro PRESSURE    = $BCD / 10.0 [hPa]
+   macro PERCENT     = $BCD [%]
    macro YYMMDDhhmm  = time_convert($BCD) [s]
 
 Address Data_Sample Function
@@ -1046,11 +1047,11 @@ DEWPOINT
 03FA 2
 
 HUMIDITY INDOORS
-03FB 4     | Relative Humidity Indoors: $BCD [%]
+03FB 4     | Relative Humidity Indoors: <PERCENT>
 03FC 2    _/
-03FD 9     | Minimum Relative Humidity Indoors: $BCD [%]
+03FD 9     | Minimum Relative Humidity Indoors: <PERCENT>
 03FE 1    _/
-03FF 7     | Maximum Relative Humidity Indoors: $BCD [%]
+03FF 7     | Maximum Relative Humidity Indoors: <PERCENT>
 0400 4    _/
 0401 8     | Date/Time Min Relative Humidity Indoors: <YYMMDDhhmm>
 0402 1     |
@@ -1072,17 +1073,17 @@ HUMIDITY INDOORS
 0412 0     |
 0413 3     |
 0414 0    _/
-0415 5     | Low Alarm Relative Humidity Indoors: $BCD [%]
+0415 5     | Low Alarm Relative Humidity Indoors: <PERCENT>
 0416 3    _/
-0417 5     | High Alarm Relative Humidity Indoors: $BCD [%]
+0417 5     | High Alarm Relative Humidity Indoors: <PERCENT>
 0418 6    _/
 
 HUMIDITY OUTDOORS
-0419 1     | Relative Humidity Outdoors: $BCD [%]
+0419 1     | Relative Humidity Outdoors: <PERCENT>
 041A 7    _/
-041B 9     | Minimum Relative Humidity Outdoors: $BCD [%]
+041B 9     | Minimum Relative Humidity Outdoors: <PERCENT>
 041C 1    _/
-041D 8     | Maximum Relative Humidity Outdoors: $BCD [%]
+041D 8     | Maximum Relative Humidity Outdoors: <PERCENT>
 041E 7    _/
 041F 9     | Date/Time min Relative Humidity Outdoors: <YYMMDDhhmm>
 0420 1     |
@@ -1104,9 +1105,9 @@ HUMIDITY OUTDOORS
 0430 0     |
 0431 3     |
 0432 0    _/
-0433 5     | Low Alarm Relative Humidity Outdoors: $BCD [%]
+0433 5     | Low Alarm Relative Humidity Outdoors: <PERCENT>
 0434 4    _/
-0435 0     | High Alarm Relative Humidity Outdoors: $BCD [%]
+0435 0     | High Alarm Relative Humidity Outdoors: <PERCENT>
 0436 7    _/
 0437 6
 0438 0
