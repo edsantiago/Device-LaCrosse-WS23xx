@@ -83,14 +83,14 @@ sub get {
 	    next if $line =~ m!^\s*$!;		# Skip blank lines
 	    next if $line =~ m!^\s*#!;		# Skip comments
 
-	    $line =~ /^(\S+):(\S+)\s+(\S+)\s+(\S.*\S)/
+	    $line =~ /^(\S+):(\S+)\s+(\S+)(\s+\[(.*?)\])?\s+(\S.*\S)/
 	      or die "Internal error: Cannot grok '$line'";
 	    $fields{lc $3} = {
-#		units => $2,
 		address => hex($1),
 		count   => $2,
 		name  => $3,
-		expr  => $4,
+		units => $5 || '?',
+		expr  => $6,
 	    };
 	}
 
@@ -104,7 +104,6 @@ sub get {
 
     # Interpret
     my $BCD = join('', reverse(@foo));  $BCD =~ s/^0+//;
-    print "BCD = '$BCD' (@foo)\n";
     my $HEX = hex($BCD);
 
     # Special case for datetime: return a unix time_t
@@ -150,7 +149,7 @@ sub unit_convert {
     my $units_in  = shift;
     my $units_out = shift;
 
-    if ($units_in eq 'degreesC') {
+    if ($units_in eq 'C') {
 	if ($units_out =~ /^(deg(rees)?)?F$/) {
 	    return $value * 9.0 / 5.0 + 32.0;
 	}
