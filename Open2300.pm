@@ -180,58 +180,58 @@ __DATA__
 0266:1  LCD_contrast                        $BCD+1 (Read Only: changing it has no impact on LCD.)
 026B:1  Forecast                            0=Rainy, 1=Cloudy, 2=Sunny
 026C:1  Tendency                            0=Steady, 1=Rising, 2=Falling
-0346:3  Indoor_Temperature                  $BCD / 100.0 - 30
-034B:3  Min_Indoor_Temperature              $BCD / 100.0 - 30
-0350:3  Max_Indoor_Temperature              $BCD / 100.0 - 30
-0354:9  Min_Indoor_Temperature_datetime     time_convert($BCD)
-035E:9  Max_Indoor_Temperature_datetime     time_convert($BCD)
-0369:3  Low_Alarm_Indoor_Temperature        $BCD / 100.0 - 30
-036E:3  High_Alarm_Indoor_Temperature       $BCD / 100.0 - 30
-0373:3  Outdoor_Temperature                 $BCD / 100.0 - 30
-0378:3  Min_Outdoor_Temperature             $BCD / 100.0 - 30
-037D:3  Max_Outdoor_Temperature             $BCD / 100.0 - 30
-0381:9  Min_Outdoor_Temperature_datetime    time_convert($BCD)
-038B:9  Max_Outdoor_Temperature_datetime    time_convert($BCD)
-0396:3  Low_Alarm_Outdoor_Temperature       $BCD / 100.0 - 30
-039B:3  High_Alarm_Outdoor_Temperature      $BCD / 100.0 - 30
-03A0:3  Windchill                           $BCD / 100.0 - 30
-03A5:3  Min_Windchill                       $BCD / 100.0 - 30
-03AA:3  Max_Windchill                       $BCD / 100.0 - 30
-03AE:9  Min_Windchill_datetime              yymmddhhmm($BCD)
-03B8:9  Max_Windchill_datetime              yymmddhhmm($BCD)
-03C3:3  Low_Alarm_Windchill                 $BCD / 100.0 - 30
-03C8:3  High_Alarm_Windchill                $BCD / 100.0 - 30
-03CE:3  Dewpoint                            $BCD / 100.0 - 30
-03D3:3  Min_Dewpoint                        $BCD / 100.0 - 30
-03D8:3  Max_Dewpoint                        $BCD / 100.0 - 30
-03DC:9  Min_Dewpoint_datetime               time_convert($BCD)
-03E6:9  Max_Dewpoint_datetime               time_convert($BCD)
-03F1:3  Low_Alarm_Dewpoint                  $BCD / 100.0 - 30
-03F6:3  High_Alarm_Dewpoint                 $BCD / 100.0 - 30
-03FB:1  Indoor_Humidity                     $BCD
-03FD:1  Min_Indoor_Humidity                 $BCD
-03FF:1  Max_Indoor_Humidity                 $BCD
-0401:9  Min_Indoor_Humidity_datetime        time_convert($BCD)
-040B:9  Max_Indoor_Humidity_datetime        time_convert($BCD)
-0415:1  Low_Alarm_Indoor_Humidity           $BCD
-0417:1  High_Alarm_Indoor_Humidity          $BCD
-0419:1  Outdoor_Humidity                    $BCD
-041B:1  Min_Outdoor_Humidity                $BCD
-041D:1  Max_Outdoor_Humidity                $BCD
-041F:9  Min_Outdoor_Humidity_datetime       time_convert($BCD)
-0429:9  Max_Outdoor_Humidity_datetime       time_convert($BCD)
-0433:1  Low_Alarm_Outdoor_Humidity          $BCD
-0435:1  High_Alarm_Outdoor_Humidity         $BCD
+0346:4  Indoor_Temperature                  $BCD / 100.0 - 30
+034B:4  Min_Indoor_Temperature              $BCD / 100.0 - 30
+0350:4  Max_Indoor_Temperature              $BCD / 100.0 - 30
+0354:10 Min_Indoor_Temperature_datetime     time_convert($BCD)
+035E:10 Max_Indoor_Temperature_datetime     time_convert($BCD)
+0369:4  Low_Alarm_Indoor_Temperature        $BCD / 100.0 - 30
+036E:4  High_Alarm_Indoor_Temperature       $BCD / 100.0 - 30
+0373:4  Outdoor_Temperature                 $BCD / 100.0 - 30
+0378:4  Min_Outdoor_Temperature             $BCD / 100.0 - 30
+037D:4  Max_Outdoor_Temperature             $BCD / 100.0 - 30
+0381:10 Min_Outdoor_Temperature_datetime    time_convert($BCD)
+038B:10 Max_Outdoor_Temperature_datetime    time_convert($BCD)
+0396:4  Low_Alarm_Outdoor_Temperature       $BCD / 100.0 - 30
+039B:4  High_Alarm_Outdoor_Temperature      $BCD / 100.0 - 30
+03A0:4  Windchill                           $BCD / 100.0 - 30
+03A5:4  Min_Windchill                       $BCD / 100.0 - 30
+03AA:4  Max_Windchill                       $BCD / 100.0 - 30
+03AE:10 Min_Windchill_datetime              yymmddhhmm($BCD)
+03B8:10 Max_Windchill_datetime              yymmddhhmm($BCD)
+03C3:4  Low_Alarm_Windchill                 $BCD / 100.0 - 30
+03C8:4  High_Alarm_Windchill                $BCD / 100.0 - 30
+03CE:4  Dewpoint                            $BCD / 100.0 - 30
+03D3:4  Min_Dewpoint                        $BCD / 100.0 - 30
+03D8:4  Max_Dewpoint                        $BCD / 100.0 - 30
+03DC:10 Min_Dewpoint_datetime               time_convert($BCD)
+03E6:10 Max_Dewpoint_datetime               time_convert($BCD)
+03F1:4  Low_Alarm_Dewpoint                  $BCD / 100.0 - 30
+03F6:4  High_Alarm_Dewpoint                 $BCD / 100.0 - 30
+03FB:2  Indoor_Humidity                     $BCD
+03FD:2  Min_Indoor_Humidity                 $BCD
+03FF:2  Max_Indoor_Humidity                 $BCD
+0401:10 Min_Indoor_Humidity_datetime        time_convert($BCD)
+040B:10 Max_Indoor_Humidity_datetime        time_convert($BCD)
+0415:2  Low_Alarm_Indoor_Humidity           $BCD
+0417:2  High_Alarm_Indoor_Humidity          $BCD
+0419:2  Outdoor_Humidity                    $BCD
+041B:2  Min_Outdoor_Humidity                $BCD
+041D:2  Max_Outdoor_Humidity                $BCD
+041F:10 Min_Outdoor_Humidity_datetime       time_convert($BCD)
+0429:10 Max_Outdoor_Humidity_datetime       time_convert($BCD)
+0433:2  Low_Alarm_Outdoor_Humidity          $BCD
+0435:2  High_Alarm_Outdoor_Humidity         $BCD
 054D:1  Connection_Type                     0=Cable, 3=lost, F=Wireless
-054F:1  Countdown_time_to_next_datBinary    $HEX / 2.0
-05D8:4  Absolute_Pressure                   $BCD / 10.0
-05E2:4  Relative_Pressure                   $BCD / 10.0
-05EC:4  Pressure_Correction                 $BCD / 10.0- 1000
-05F6:4  Min_Absolute_Pressure               $BCD / 10.0
-0600:4  Min_Relative_Pressure               $BCD / 10.0
-060A:4  Max_Absolute_Pressure               $BCD / 10.0
-0614:4  Max_Relative_Pressure               $BCD / 10.0
-061E:9  Min_Pressure_datetime               time_convert($BCD)
-0628:9  Max_Pressure_datetime               time_convert($BCD)
-063C:4  Low_Alarm_Pressure                  $BCD / 10.0
-0650:4  High_Alarm_Pressure                 $BCD / 10.0
+054F:2  Countdown_time_to_next_datBinary    $HEX / 2.0
+05D8:5  Absolute_Pressure                   $BCD / 10.0
+05E2:5  Relative_Pressure                   $BCD / 10.0
+05EC:5  Pressure_Correction                 $BCD / 10.0- 1000
+05F6:5  Min_Absolute_Pressure               $BCD / 10.0
+0600:5  Min_Relative_Pressure               $BCD / 10.0
+060A:5  Max_Absolute_Pressure               $BCD / 10.0
+0614:5  Max_Relative_Pressure               $BCD / 10.0
+061E:10 Min_Pressure_datetime               time_convert($BCD)
+0628:10 Max_Pressure_datetime               time_convert($BCD)
+063C:5  Low_Alarm_Pressure                  $BCD / 10.0
+0650:5  High_Alarm_Pressure                 $BCD / 10.0
