@@ -47,11 +47,10 @@ sub canonical_name {
 	$canonical_name .= ucfirst(lc($1));
 	$desc =~ s/\bRel(ative)?\b/ /i;
     }
-    elsif ($desc =~ s/\b(LCD Contrast|Forecast|Tendency)\b/ /i) {
-	$canonical_name .= $1;
-    }
     else {
-	die "Cannot figure out what '$desc' is\n";
+	(my $tmp = $desc) =~ s/\s+/_/g;
+	$canonical_name .= $tmp;
+	# FIXME: warn?
     }
 
     # Is this a date/time field?
@@ -60,7 +59,7 @@ sub canonical_name {
     }
 
     if ($desc =~ /\S/) {
-	die "leftover: $desc\n";
+	warn "leftover: $desc\n";
     }
 
     $canonical_name =~ s/_$//;
@@ -117,7 +116,7 @@ while (my $line = <IN>) {
 	    $map[-1]->{formula} = $formula;
 	}
 	elsif ($line =~ m!^_/!) {
-	    my $l = $address - $map[-1]->{address};
+	    my $l = $address - $map[-1]->{address} + 1;
 	    if ($l > 10) {
 		die "$mapfile:$.: preposterous length";
 	    }

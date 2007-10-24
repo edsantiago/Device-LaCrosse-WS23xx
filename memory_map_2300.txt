@@ -23,7 +23,7 @@ Address Data_Sample Function
 000C 0
 000D 1
 000E 6
-000F 0    Wind unit: 0=m/s, 1=knots, 2=beaufort, 3=km/h, 4=mph
+000F 0    | Wind unit: 0=m/s, 1=knots, 2=beaufort, 3=km/h, 4=mph
 0010 2
 0011 0
 0012 0
@@ -1408,10 +1408,10 @@ WIND ALARM SETTING (Changing this causes 50E-511 or 514-517 to be updated)
 
 HF Reception, 550/54F start value: 0F=cable, 3F=lost, FF=Wireless
 054C D
-054D 0    Connection Type: 0=Cable, 3=lost, F=Wireless
+054D 0     | Connection Type: 0=Cable, 3=lost, F=Wireless
 054E 0
-054F C    Countdown time to next datBinary nibble 0, [0.5 sec]
-0550 0    Countdown time to next datBinary nibble 1, [0.5 sec]
+054F C     | Countdown time to next datBinary: $HEX / 2.0 [s]
+0550 0    _/
 0551 0
 0552 0
 0553 0

@@ -17,42 +17,6 @@ use Time::Local;
 # BEGIN user-customizable section
 
 our $Values = <<'END_VALUES';
-# Temperatures
-Temp_Indoor	      degreesC	[0x346:4] / 100.0 - 30.0
-Temp_Outdoor	      degreesC	[0x373:4] / 100.0 - 30.0
-
-# Temperatures : indoor/outdoor min/max
-Temp_Indoor_Min	      degreesC	[0x34B:4] / 100.0 - 30.0
-Temp_Indoor_Max	      degreesC	[0x350:4] / 100.0 - 30.0
-Temp_Outdoor_Min      degreesC	[0x378:4] / 100.0 - 30.0
-Temp_Outdoor_Max      degreesC	[0x37D:4] / 100.0 - 30.0
-
-# ...and the times at which they occurred
-Temp_Indoor_Min_t     datetime	[0x354:10]
-Temp_Indoor_Max_t     datetime	[0x35E:10]
-Temp_Indoor_Alarm_Lo  degreesC	[0x369:4] / 100.0 - 30.0
-Temp_Indoor_Alarm_Hi  degreesC	[0x36E:4] / 100.0 - 30.0
-
-Temp_Outdoor_Min_t    datetime	[0x381:10]
-Temp_Outdoor_Max_t    datetime	[0x38B:10]
-Temp_Outdoor_Alarm_Lo degreesC	[0x396:4] / 100.0 - 30.0
-Temp_Outdoor_Alarm_Hi degreesC	[0x39B:4] / 100.0 - 30.0
-
-# Humidity: indoor, outdoor
-Humidity_Indoor       percent	[0x03FB:2]
-Humidity_Outdoor      percent	[0x0419:2]
-
-# Humidity : indoor/outdoor min/max
-Humidity_Indoor_Min   percent	[0x03FD:2]
-Humidity_Indoor_Max   percent	[0x03FF:2]
-Humidity_Outdoor_Min  percent	[0x041B:2]
-Humidity_Outdoor_Max  percent	[0x041D:2]
-
-# Pressure
-Pressure_Abs	      hPa	[0x05D8:5] / 10.0
-Pressure_Rel	      hPa	[0x05E2:5] / 10.0
-Pressure_Corr         hPa	[0x05EC:5] / 10.0 - 1000
-
 # Rainfall
 Rain_24h	      mm	[0x0497:6] / 100.0
 Rain_1h		      mm	[0x04B4:6] / 100.0
@@ -115,17 +79,18 @@ sub get {
 
     $self->{fields} ||= do {
 	my %fields;
-	for my $line (split "\n", $Values) {
+	for my $line (<DATA>) {
 	    next if $line =~ m!^\s*$!;		# Skip blank lines
 	    next if $line =~ m!^\s*#!;		# Skip comments
 
-	    $line =~ /^(\S+)\s+(\S+)\s+(\S.*\S)/
+	    $line =~ /^(\S+):(\S+)\s+(\S+)\s+(\S.*\S)/
 	      or die "Internal error: Cannot grok '$line'";
-	    $fields{lc $1} = {
-		name  => $1,
-		key   => lc($1),
-		units => $2,
-		expr  => $3,
+	    $fields{lc $3} = {
+#		units => $2,
+		address => hex($1),
+		count   => $2,
+		name  => $3,
+		expr  => $4,
 	    };
 	}
 
@@ -135,29 +100,41 @@ sub get {
     my $get = $self->{fields}->{lc $field}
       or croak "$ME: No such value, '$field'";
 
-    my $expr = $get->{expr};
+    my @foo = read_2300($self->{fh}, $get->{address}, $get->{count});
 
-    $expr =~ s{^\[(0x[0-9a-f]+):(\d+)\]}
-      {
-	  my ($addr, $count) = (hex($1), $2);
-	  my @foo = read_2300($self->{fh}, $addr, $count);
-
-	  my $s = join('',reverse @foo);
-	  $s =~ s/^0+//;
-	  $s || '0';
-      }gei;
+    # Interpret
+    my $BCD = join('', reverse(@foo));  $BCD =~ s/^0+//;
+    print "BCD = '$BCD' (@foo)\n";
+    my $HEX = hex($BCD);
 
     # Special case for datetime: return a unix time_t
-    if ($get->{units} eq 'datetime') {
+    sub time_convert($) {
 	#             YY      MM     DD    HH    MM
-	$expr =~ m!^(\d{1,2})(\d\d)(\d\d)(\d\d)(\d\d)$!
-	  or die "$ME: Internal error: bad datetime '$expr'";
+	$_[0] =~ m!^(\d{1,2})(\d\d)(\d\d)(\d\d)(\d\d)$!
+	  or die "$ME: Internal error: bad datetime '$_[0]'";
 	return timelocal( 0,$5,$4, $3, $2-1, $1+100);
     }
 
-    my $val = eval($expr);
+    my $expr = $get->{expr};
+    if ($expr =~ /\d=.*,.*\d=/) {
+	my @y;
+	for my $pair (split(/\s*,\s*/, $expr)) {
+	    $pair =~ /(\d+)=(.*)/ or die;
+	    $y[$1] = $2;
+	}
+
+	my $val = $y[$BCD || 0];
+	if (defined $val) {
+	    return $val;
+	}
+	else {
+	    return "undefined($BCD)";
+	}
+    }
+
+    my $val = eval($get->{expr});
     if ($@) {
-	croak "$ME: eval( $expr ) died: $@";
+	croak "$ME: eval( $get->{expr} ) died: $@";
     }
 
     # Asked to convert?
@@ -198,4 +175,63 @@ sub TIEARRAY {
 
 1;
 
-__END__
+__DATA__
+000F:1  Wind_unit                           0=m/s, 1=knots, 2=beaufort, 3=km/h, 4=mph
+0266:1  LCD_contrast                        $BCD+1 (Read Only: changing it has no impact on LCD.)
+026B:1  Forecast                            0=Rainy, 1=Cloudy, 2=Sunny
+026C:1  Tendency                            0=Steady, 1=Rising, 2=Falling
+0346:3  Indoor_Temperature                  $BCD / 100.0 - 30
+034B:3  Min_Indoor_Temperature              $BCD / 100.0 - 30
+0350:3  Max_Indoor_Temperature              $BCD / 100.0 - 30
+0354:9  Min_Indoor_Temperature_datetime     time_convert($BCD)
+035E:9  Max_Indoor_Temperature_datetime     time_convert($BCD)
+0369:3  Low_Alarm_Indoor_Temperature        $BCD / 100.0 - 30
+036E:3  High_Alarm_Indoor_Temperature       $BCD / 100.0 - 30
+0373:3  Outdoor_Temperature                 $BCD / 100.0 - 30
+0378:3  Min_Outdoor_Temperature             $BCD / 100.0 - 30
+037D:3  Max_Outdoor_Temperature             $BCD / 100.0 - 30
+0381:9  Min_Outdoor_Temperature_datetime    time_convert($BCD)
+038B:9  Max_Outdoor_Temperature_datetime    time_convert($BCD)
+0396:3  Low_Alarm_Outdoor_Temperature       $BCD / 100.0 - 30
+039B:3  High_Alarm_Outdoor_Temperature      $BCD / 100.0 - 30
+03A0:3  Windchill                           $BCD / 100.0 - 30
+03A5:3  Min_Windchill                       $BCD / 100.0 - 30
+03AA:3  Max_Windchill                       $BCD / 100.0 - 30
+03AE:9  Min_Windchill_datetime              yymmddhhmm($BCD)
+03B8:9  Max_Windchill_datetime              yymmddhhmm($BCD)
+03C3:3  Low_Alarm_Windchill                 $BCD / 100.0 - 30
+03C8:3  High_Alarm_Windchill                $BCD / 100.0 - 30
+03CE:3  Dewpoint                            $BCD / 100.0 - 30
+03D3:3  Min_Dewpoint                        $BCD / 100.0 - 30
+03D8:3  Max_Dewpoint                        $BCD / 100.0 - 30
+03DC:9  Min_Dewpoint_datetime               time_convert($BCD)
+03E6:9  Max_Dewpoint_datetime               time_convert($BCD)
+03F1:3  Low_Alarm_Dewpoint                  $BCD / 100.0 - 30
+03F6:3  High_Alarm_Dewpoint                 $BCD / 100.0 - 30
+03FB:1  Indoor_Humidity                     $BCD
+03FD:1  Min_Indoor_Humidity                 $BCD
+03FF:1  Max_Indoor_Humidity                 $BCD
+0401:9  Min_Indoor_Humidity_datetime        time_convert($BCD)
+040B:9  Max_Indoor_Humidity_datetime        time_convert($BCD)
+0415:1  Low_Alarm_Indoor_Humidity           $BCD
+0417:1  High_Alarm_Indoor_Humidity          $BCD
+0419:1  Outdoor_Humidity                    $BCD
+041B:1  Min_Outdoor_Humidity                $BCD
+041D:1  Max_Outdoor_Humidity                $BCD
+041F:9  Min_Outdoor_Humidity_datetime       time_convert($BCD)
+0429:9  Max_Outdoor_Humidity_datetime       time_convert($BCD)
+0433:1  Low_Alarm_Outdoor_Humidity          $BCD
+0435:1  High_Alarm_Outdoor_Humidity         $BCD
+054D:1  Connection_Type                     0=Cable, 3=lost, F=Wireless
+054F:1  Countdown_time_to_next_datBinary    $HEX / 2.0
+05D8:4  Absolute_Pressure                   $BCD / 10.0
+05E2:4  Relative_Pressure                   $BCD / 10.0
+05EC:4  Pressure_Correction                 $BCD / 10.0- 1000
+05F6:4  Min_Absolute_Pressure               $BCD / 10.0
+0600:4  Min_Relative_Pressure               $BCD / 10.0
+060A:4  Max_Absolute_Pressure               $BCD / 10.0
+0614:4  Max_Relative_Pressure               $BCD / 10.0
+061E:9  Min_Pressure_datetime               time_convert($BCD)
+0628:9  Max_Pressure_datetime               time_convert($BCD)
+063C:4  Low_Alarm_Pressure                  $BCD / 10.0
+0650:4  High_Alarm_Pressure                 $BCD / 10.0
