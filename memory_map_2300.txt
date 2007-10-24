@@ -853,50 +853,50 @@ TENDENCY/FORECAST
 0345 0
 
 INDOOR TEMPERATURE
-0346 0    Current Indoor Temperature: BCD offset 30 0.01s [C]
-0347 6    Current Indoor Temperature: BCD offset 30 0.1s [C]
-0348 8    Current Indoor Temperature: BCD offset 30 1s [C]
-0349 5    Current Indoor Temperature: BCD offset 30 10s [C]
+0346 0    Current Indoor Temperature: (BCD - 30) / 100.0 [C]
+0347 6     |
+0348 8     |  28.60
+0349 5    _/
 034A 0
-034B 0    Minimum Indoor Temperature: BCD offset 30 0.01s [C]
-034C 5    Minimum Indoor Temperature: BCD offset 30 0.1s [C]
-034D 5    Minimum Indoor Temperature: BCD offset 30 1s [C]
-034E 4    Minimum Indoor Temperature: BCD offset 30 10s [C]
+034B 0    Minimum Indoor Temperature: (BCD - 30) / 100.0 [C]
+034C 5     |
+034D 5     |  15.50
+034E 4    _/
 034F 0
-0350 0    Maximum Indoor Temperature: BCD offset 30 0.1s [C]
-0351 7    Maximum Indoor Temperature: BCD offset 30 0.1s [C]
-0352 9    Maximum Indoor Temperature: BCD offset 30 1s [C]
-0353 5    Maximum Indoor Temperature: BCD offset 30 10s [C]
-0354 0    Time min Indoor Temperature:, minutes BCD 1s
-0355 2    Time min Indoor Temperature:, minutes BCD 10s
-0356 2    Time min Indoor Temperature:, hours BCD 1s
-0357 1    Time min Indoor Temperature:, hours BCD 10s
-0358 1    Date min Indoor Temperature:, BCD day 1s
-0359 0    Date min Indoor Temperature:, BCD day 10s
-035A 1    Date min Indoor Temperature:, BCD month 1s
-035B 0    Date min Indoor Temperature:, BCD month 10s
-035C 1    Date min Indoor Temperature:, BCD year 1s
-035D 0    Date min Indoor Temperature:, BCD year 10s
-035E 5    Time max Indoor Temperature:, minutes BCD 1s
-035F 5    Time max Indoor Temperature:, minutes BCD 10s
-0360 7    Time max Indoor Temperature:, hours BCD 1s
-0361 1    Time max Indoor Temperature:, hours BCD 10s
-0362 1    Date max Indoor Temperature:, BCD day 1s
-0363 2    Date max Indoor Temperature:, BCD day 10s
-0364 4    Date max Indoor Temperature:, BCD month 1s
-0365 0    Date max Indoor Temperature:, BCD month 10s
-0366 3    Date max Indoor Temperature:, BCD year 1s
-0367 0    Date max Indoor Temperature:, BCD year 10s
+0350 0    Maximum Indoor Temperature: (BCD - 30) / 100.0 [C]
+0351 7     |
+0352 9     |  29.70
+0353 5    _/
+0354 0    Date/Time min Indoor Temperature: BCD [datetime]
+0355 2     |
+0356 2     |
+0357 1     |
+0358 1     |
+0359 0     |
+035A 1     |
+035B 0     |
+035C 1     |
+035D 0    _/
+035E 5    Date/Time max Indoor Temperature: BCD [datetime]
+035F 5     |
+0360 7     |
+0361 1     |
+0362 1     |
+0363 2     |
+0364 4     |
+0365 0     |
+0366 3     |
+0367 0    _/
 0368 0
-0369 0    Low Alarm Indoor Temperature: BCD offset 30 0.01s [C]
-036A 1    Low Alarm Indoor Temperature: BCD offset 30 0.1s [C]
-036B 7    Low Alarm Indoor Temperature: BCD offset 30 1s [C]
-036C 4    Low Alarm Indoor Temperature: BCD offset 30 10s [C]
+0369 0    Low Alarm Indoor Temperature: (BCD - 30) / 100.0 [C]
+036A 1     |
+036B 7     |
+036C 4    _/
 036D 0
-036E 0    High Alarm Indoor Temperature: BCD offset 30 0.01s [C]
-036F 6    High Alarm Indoor Temperature: BCD offset 30 0.1s [C]
-0370 9    High Alarm Indoor Temperature: BCD offset 30 1s [C]
-0371 5    High Alarm Indoor Temperature: BCD offset 30 10s [C]
+036E 0    High Alarm Indoor Temperature: (BCD - 30) / 100.0 [C]
+036F 6     |
+0370 9     |
+0371 5    _/
 0372 0
 
 OUTDOOR TEMPERATURE
@@ -1074,36 +1074,36 @@ HUMIDITY INDOORS
 0418 6    High Alarm Rel Humidity Indoors: BCD 10s [%]
 
 HUMIDITY OUTDOORS
-0419 1    Rel Humidity Outdoors: BCD 1s [%]
-041A 7    Rel Humidity Outdoors: BCD 10s [%]
-041B 9    Minimum Rel Humidity Outdoors: BCD 1s [%]
-041C 1    Minimum Rel Humidity Outdoors: BCD 10s [%]
-041D 8    Maximum Rel Humidity Outdoors: BCD 1s [%]
-041E 7    Maximum Rel Humidity Outdoors: BCD 10s [%]
-041F 9    Time min Rel Humidity Outdoors:, minutes BCD 1s
-0420 1    Time min Rel Humidity Outdoors:, minutes BCD 10s
-0421 7    Time min Rel Humidity Outdoors:, hours BCD 1s
-0422 1    Time min Rel Humidity Outdoors:, hours BCD 10s
-0423 1    Date min Rel Humidity Outdoors:, BCD day 1s
-0424 2    Date min Rel Humidity Outdoors:, BCD day 10s
-0425 4    Date min Rel Humidity Outdoors:, BCD month 1s
-0426 0    Date min Rel Humidity Outdoors:, BCD month 10s
-0427 3    Date min Rel Humidity Outdoors:, BCD year 1s
-0428 0    Date min Rel Humidity Outdoors:, BCD year 10s
-0429 6    Time max Rel Humidity Outdoors:, minutes BCD 1s
-042A 2    Time max Rel Humidity Outdoors:, minutes BCD 10s
-042B 7    Time max Rel Humidity Outdoors:, hours BCD 1s
-042C 0    Time max Rel Humidity Outdoors:, hours BCD 10s
-042D 9    Date max Rel Humidity Outdoors:, BCD day 1s
-042E 1    Date max Rel Humidity Outdoors:, BCD day 10s
-042F 4    Date max Rel Humidity Outdoors:, BCD month 1s
-0430 0    Date max Rel Humidity Outdoors:, BCD month 10s
-0431 3    Date max Rel Humidity Outdoors:, BCD year 1s
-0432 0    Date max Rel Humidity Outdoors:, BCD year 10s
-0433 5    Low Alarm Rel Humidity Outdoors: BCD 1s [%]
-0434 4    Low Alarm Rel Humidity Outdoors: BCD 10s [%]
-0435 0    Hign Alarm Rel Humidity Outdoors: BCD 1s [%]
-0436 7    High Alarm Rel Humidity Outdoors: BCD 10s [%]
+0419 1    Rel Humidity Outdoors: BCD [%]
+041A 7    _/
+041B 9    Minimum Rel Humidity Outdoors: BCD [%]
+041C 1    _/
+041D 8    Maximum Rel Humidity Outdoors: BCD [%]
+041E 7    _/
+041F 9    \ Date/Time min Rel Humidity Outdoors: BCD [datetime]
+0420 1     |
+0421 7     |
+0422 1     |
+0423 1     |
+0424 2     |
+0425 4     |
+0426 0     |
+0427 3     |
+0428 0    _/
+0429 6    Time max Rel Humidity Outdoors: BCD [datetime]
+042A 2     |
+042B 7     |
+042C 0     |
+042D 9     |
+042E 1     |
+042F 4     |
+0430 0     |
+0431 3     |
+0432 0    _/
+0433 5    Low Alarm Rel Humidity Outdoors: BCD [%]
+0434 4    _/
+0435 0    High Alarm Rel Humidity Outdoors: BCD [%]
+0436 7    _/
 0437 6
 0438 0
 0439 2
