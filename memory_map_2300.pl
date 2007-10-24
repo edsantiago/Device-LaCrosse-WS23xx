@@ -74,6 +74,7 @@ open IN, "<$mapfile"
   or die "Cannot read $mapfile: $!";
 
 my @map;
+my %macro;
 my $previous_address;
 while (my $line = <IN>) {
     chomp $line;
@@ -93,14 +94,27 @@ while (my $line = <IN>) {
 
 	# Is it a definition line?
 	if ($line =~ m!^\|\s+([^ 0-9].*?)\s*:\s*(.*)!) {
+	    my ($desc, $formula) = ($1, $2);
 	    push @map, {
-			desc => $1,
-			name => canonical_name($1),
+			desc => $desc,
+			name => canonical_name($desc),
 			address => $address,
 			length => 1,
 			   };
 
 	    # FIXME: formula
+	    $formula =~ s{<(\S+)>}{
+		my $key = $1;
+		defined $macro{$key}
+		  or die "$mapfile:$.: Undefined macro <$key>";
+		$macro{$key};
+	    }ge;
+
+	    if ($formula =~ s/\s*\[(.*)\]\s*//) {
+		$map[-1]->{units} = $1;
+	    }
+
+	    $map[-1]->{formula} = $formula;
 	}
 	elsif ($line =~ m!^_/!) {
 	    my $l = $address - $map[-1]->{address};
@@ -110,11 +124,14 @@ while (my $line = <IN>) {
 	    $map[-1]->{length} = $l;
 	}
     }
+    elsif ($line =~ /^\s*macro \s+ (\S+) \s+ = \s+ (\S.*\S)/x) {
+	$macro{$1} = $2;
+    }
     else {
 	# FIXME: check for macro definition lines
     }
 }
 
 for my $entry (@map) {
-    printf "%04X:%-2d %s\n", @{$entry}{"address","length","name"};
+    printf "%04X:%-2d %-35s %s\n", @{$entry}{"address","length","name","formula"};
 }

@@ -1,5 +1,9 @@
 MEMORY MAP FOR WS-2300
-verion 1.6, 2004 Apr 22
+version 1.6, 2004 Apr 22
+
+   macro TEMPERATURE = $BCD / 100.0 - 30 [C]
+   macro PRESSURE    = $BCD / 10.0 [hPa]
+   macro YYMMDDhhmm  = time_convert($BCD) [s]
 
 Address Data_Sample Function
 
@@ -853,21 +857,21 @@ TENDENCY/FORECAST
 0345 0
 
 INDOOR TEMPERATURE
-0346 0     | Current Indoor Temperature: temp_convert($BCD) [C]
+0346 0     | Current Indoor Temperature: <TEMPERATURE>
 0347 6     |
 0348 8     |  28.60
 0349 5    _/
 034A 0
-034B 0     | Minimum Indoor Temperature: temp_convert($BCD) [C]
+034B 0     | Minimum Indoor Temperature: <TEMPERATURE>
 034C 5     |
 034D 5     |    15.50
 034E 4    _/
 034F 0
-0350 0     | Maximum Indoor Temperature: temp_convert($BCD) [C]
+0350 0     | Maximum Indoor Temperature: <TEMPERATURE>
 0351 7     |
 0352 9     |    29.70
 0353 5    _/
-0354 0     | Date/Time min Indoor Temperature: datetime($BCD) [time_t]
+0354 0     | Date/Time min Indoor Temperature: <YYMMDDhhmm>
 0355 2     |
 0356 2     |    2001-01-01 12:20
 0357 1     |
@@ -877,7 +881,7 @@ INDOOR TEMPERATURE
 035B 0     |
 035C 1     |
 035D 0    _/
-035E 5     | Date/Time max Indoor Temperature: datetime($BCD) [time_t]
+035E 5     | Date/Time max Indoor Temperature: <YYMMDDhhmm>
 035F 5     |
 0360 7     |    2003-04-21 17:55
 0361 1     |
@@ -888,33 +892,33 @@ INDOOR TEMPERATURE
 0366 3     |
 0367 0    _/
 0368 0
-0369 0     | Low Alarm Indoor Temperature: temp_convert($BCD) [C]
+0369 0     | Low Alarm Indoor Temperature: <TEMPERATURE>
 036A 1     |
 036B 7     |    17.10
 036C 4    _/
 036D 0
-036E 0     | High Alarm Indoor Temperature: temp_convert($BCD) [C]
+036E 0     | High Alarm Indoor Temperature: <TEMPERATURE>
 036F 6     |
 0370 9     |    29.60
 0371 5    _/
 0372 0
 
 OUTDOOR TEMPERATURE
-0373 0     | Current Outdoor Temperature: temp_convert($BCD) [C]
+0373 0     | Current Outdoor Temperature: <TEMPERATURE>
 0374 4     |
 0375 7     |    17.40
 0376 3    _/
 0377 0
-0378 0     | Minimum Outdoor Temperature: temp_convert($BCD) [C]
+0378 0     | Minimum Outdoor Temperature: <TEMPERATURE>
 0379 5     |
 037A 2     |    02.50
 037B 3    _/
 037C 0
-037D 0     | Maximum Outdoor Temperature: temp_convert($BCD) [C]
+037D 0     | Maximum Outdoor Temperature: <TEMPERATURE>
 037E 8     |
 037F 5     |    28.00
 0380 6    _/
-0381 5     | Date/Time min Outdoor Temperature: datetime($BCD) [time_t]
+0381 5     | Date/Time min Outdoor Temperature: <YYMMDDhhmm>
 0382 2     |
 0383 6     |    2003-04-17 06:25
 0384 0     |
@@ -924,7 +928,7 @@ OUTDOOR TEMPERATURE
 0388 0     |
 0389 3     |
 038A 0    _/
-038B 1     | Date/Time max Outdoor Temperature: yymmddhhmm($BCD) [time_t]
+038B 1     | Date/Time max Outdoor Temperature: <YYMMDDhhmm>
 038C 0     |
 038D 7     |    2003-04-17 17:01
 038E 1     |
@@ -935,29 +939,29 @@ OUTDOOR TEMPERATURE
 0393 3     |
 0394 0    _/
 0395 0
-0396 0     | Low Alarm Outdoor Temperature: temp_convert($BCD) [C]
+0396 0     | Low Alarm Outdoor Temperature: <TEMPERATURE>
 0397 0     |
 0398 0     |    00.00
 0399 3    _/
 039A 0
-039B 0     | High Alarm Outdoor Temperature: temp_convert($BCD) [C]
+039B 0     | High Alarm Outdoor Temperature: <TEMPERATURE>
 039C 0     |
 039D 0     |    40.00
 039E 7    _/
 039F 0
 
 WINDCHILL
-03A0 0     | Current Windchill: temp_convert($BCD) [C]
+03A0 0     | Current Windchill: <TEMPERATURE>
 03A1 4     |
 03A2 7     |    07.40
 03A3 3    _/
 03A4 8
-03A5 0     | Minimum Windchill: temp_convert($BCD) [C]
+03A5 0     | Minimum Windchill: <TEMPERATURE>
 03A6 2     |
 03A7 8     |   -12.20
 03A8 1    _/
 03A9 0
-03AA 0     | Maximum Windchill: temp_convert($BCD) [C]
+03AA 0     | Maximum Windchill: <TEMPERATURE>
 03AB 8     |
 03AC 9     |   19.80
 03AD 4    _/
@@ -982,12 +986,12 @@ WINDCHILL
 03C0 3     |
 03C1 0    _/
 03C2 0
-03C3 0     | Low Alarm Windchill: temp_convert($BCD) [C]
+03C3 0     | Low Alarm Windchill: <TEMPERATURE>
 03C4 0     |
 03C5 5     |
 03C6 3    _/
 03C7 0
-03C8 0     | High Alarm Windchill: temp_convert($BCD) [C]
+03C8 0     | High Alarm Windchill: <TEMPERATURE>
 03C9 0     |
 03CA 0     |
 03CB 6    _/
@@ -995,21 +999,21 @@ WINDCHILL
 03CD 0
 
 DEWPOINT
-03CE 9     | Current Dewpoint: temp_convert($BCD) [C]
+03CE 9     | Current Dewpoint: <TEMPERATURE>
 03CF 4     |
 03D0 2     |    02.49
 03D1 3    _/
 03D2 6
-03D3 1     | Minimum Dewpoint: temp_convert($BCD) [C]
+03D3 1     | Minimum Dewpoint: <TEMPERATURE>
 03D4 1     |
 03D5 3     |    -7.11
 03D6 2    _/
 03D7 0
-03D8 4     | Maximum Dewpoint: <TEMP>
+03D8 4     | Maximum Dewpoint: <TEMPERATURE>
 03D9 4     |
 03DA 8     |    08.44
 03DB 3    _/
-03DC 7     | Date/Time min Dewpoint: <YYMMDDHHMM>
+03DC 7     | Date/Time min Dewpoint: <YYMMDDhhmm>
 03DD 1     |
 03DE 7     |
 03DF 1     |
@@ -1019,7 +1023,7 @@ DEWPOINT
 03E3 0     |
 03E4 3     |
 03E5 0    _/
-03E6 2     | Date/Time max Dewpoint: <YYMMDDHHMM>
+03E6 2     | Date/Time max Dewpoint: <YYMMDDhhmm>
 03E7 0     |
 03E8 0     |
 03E9 0     |
@@ -1030,12 +1034,12 @@ DEWPOINT
 03EE 1     |
 03EF 0    _/
 03F0 0
-03F1 0     | Low Alarm Dewpoint: <TEMP>
+03F1 0     | Low Alarm Dewpoint: <TEMPERATURE>
 03F2 0     |
 03F3 0     |
 03F4 3    _/
 03F5 0
-03F6 0     | High Alarm Dewpoint: <TEMP>
+03F6 0     | High Alarm Dewpoint: <TEMPERATURE>
 03F7 0     |
 03F8 0     |
 03F9 5    _/
@@ -1048,7 +1052,7 @@ HUMIDITY INDOORS
 03FE 1    _/
 03FF 7     | Maximum Relative Humidity Indoors: $BCD [%]
 0400 4    _/
-0401 8     | Date/Time Min Relative Humidity Indoors: <YYMMDDHHMM>
+0401 8     | Date/Time Min Relative Humidity Indoors: <YYMMDDhhmm>
 0402 1     |
 0403 0     |
 0404 0     |
@@ -1058,7 +1062,7 @@ HUMIDITY INDOORS
 0408 0     |
 0409 3     |
 040A 0    _/
-040B 5     | Date/Time Max Relative Humidity Indoors: <YYMMDDHHMM>
+040B 5     | Date/Time Max Relative Humidity Indoors: <YYMMDDhhmm>
 040C 4     |
 040D 3     |
 040E 2     |
@@ -1068,19 +1072,19 @@ HUMIDITY INDOORS
 0412 0     |
 0413 3     |
 0414 0    _/
-0415 5     | Low Alarm Relative Humidity Indoors: <PERCENT>
+0415 5     | Low Alarm Relative Humidity Indoors: $BCD [%]
 0416 3    _/
-0417 5     | High Alarm Relative Humidity Indoors: <PERCENT>
+0417 5     | High Alarm Relative Humidity Indoors: $BCD [%]
 0418 6    _/
 
 HUMIDITY OUTDOORS
-0419 1     | Relative Humidity Outdoors: <PERCENT>
+0419 1     | Relative Humidity Outdoors: $BCD [%]
 041A 7    _/
-041B 9     | Minimum Relative Humidity Outdoors: <PERCENT>
+041B 9     | Minimum Relative Humidity Outdoors: $BCD [%]
 041C 1    _/
-041D 8     | Maximum Relative Humidity Outdoors: <PERCENT>
+041D 8     | Maximum Relative Humidity Outdoors: $BCD [%]
 041E 7    _/
-041F 9     | Date/Time min Relative Humidity Outdoors: <YYMMDDHHMM>
+041F 9     | Date/Time min Relative Humidity Outdoors: <YYMMDDhhmm>
 0420 1     |
 0421 7     |
 0422 1     |
@@ -1090,7 +1094,7 @@ HUMIDITY OUTDOORS
 0426 0     |
 0427 3     |
 0428 0    _/
-0429 6     | Date/Time max Relative Humidity Outdoors: <YYMMDDHHMM>
+0429 6     | Date/Time max Relative Humidity Outdoors: <YYMMDDhhmm>
 042A 2     |
 042B 7     |
 042C 0     |
@@ -1100,9 +1104,9 @@ HUMIDITY OUTDOORS
 0430 0     |
 0431 3     |
 0432 0    _/
-0433 5     | Low Alarm Relative Humidity Outdoors: <PERCENT>
+0433 5     | Low Alarm Relative Humidity Outdoors: $BCD [%]
 0434 4    _/
-0435 0     | High Alarm Relative Humidity Outdoors: <PERCENT>
+0435 0     | High Alarm Relative Humidity Outdoors: $BCD [%]
 0436 7    _/
 0437 6
 0438 0
