@@ -1,10 +1,10 @@
 # -*- perl -*-
 #
-# Open2300 - interface to La Crosse WS-23xx weather stations
+# Device::LaCrosse::WS23xx - interface to La Crosse WS-23xx weather stations
 #
 # $Id: NIS.pm,v 1.10 2003/03/19 12:32:07 esm Exp $
 #
-package Open2300;
+package Device::LaCrosse::WS23xx;
 
 use strict;
 use warnings;
@@ -37,7 +37,6 @@ END_VALUES
 
 require Exporter;
 require DynaLoader;
-require AutoLoader;
 
 use vars qw(@ISA %EXPORT_TAGS @EXPORT_OK @EXPORT);
 
@@ -51,7 +50,7 @@ our $VERSION = '0.01';
 
 our $PKG = __PACKAGE__;		# For interpolating into error messages
 
-bootstrap Open2300 $VERSION;
+bootstrap Device::LaCrosse::WS23xx $VERSION;
 
 sub new {
     my $proto = shift;

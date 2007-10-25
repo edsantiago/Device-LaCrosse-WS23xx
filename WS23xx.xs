@@ -347,7 +347,7 @@ int read_safe(int fh, int address, int count, unsigned char *buf)
 
 
 
-MODULE = Open2300	PACKAGE = Open2300
+MODULE = Device::LaCrosse::WS23xx	PACKAGE = Device::LaCrosse::WS23xx
 
 
 int

@@ -2,6 +2,6 @@
 .*~
 .*\.bs
 .*\.o
-^Open2300.c
+^WS23xx.c
 ^blib/
 ^pm_to_blib$
