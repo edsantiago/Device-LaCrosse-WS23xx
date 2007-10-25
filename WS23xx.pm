@@ -62,7 +62,6 @@ sub new {
     # FIXME: call xs code
     my $fh = open_2300($device)
 	or die "cannot open\n";
-    print "got here: fh=$fh\n";
 
     return bless {
 		  path => $device,
