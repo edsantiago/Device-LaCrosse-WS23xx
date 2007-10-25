@@ -117,6 +117,7 @@ sub get {
     if ($expr =~ /\d=.*,.*\d=/) {
 	my @y;
 	for my $pair (split(/\s*,\s*/, $expr)) {
+	    # FIXME: don't die!  This is customer code.
 	    $pair =~ /([0-9a-f])=(.*)/i or die;
 	    $y[hex($1)] = $2;
 	}
