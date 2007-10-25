@@ -117,8 +117,8 @@ sub get {
     if ($expr =~ /\d=.*,.*\d=/) {
 	my @y;
 	for my $pair (split(/\s*,\s*/, $expr)) {
-	    $pair =~ /(\d+)=(.*)/ or die;
-	    $y[$1] = $2;
+	    $pair =~ /([0-9a-f])=(.*)/i or die;
+	    $y[hex($1)] = $2;
 	}
 
 	my $val = $y[$BCD || 0];
