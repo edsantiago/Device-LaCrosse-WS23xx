@@ -59,6 +59,7 @@ sub new {
     my $device = shift                     # in: mandatory arg
       or croak "Usage: ".__PACKAGE__."->new( \"/dev/LACROSS-DEV-NAME\" )";
 
+    # FIXME: if called with local path to mem_map.txt, do fakery
     # FIXME: call xs code
     my $fh = open_2300($device)
 	or die "cannot open\n";
