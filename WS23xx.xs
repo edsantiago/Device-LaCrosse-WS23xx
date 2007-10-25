@@ -333,8 +333,6 @@ int read_data(int fh, int address, int number, unsigned char *readdata)
 
 int read_safe(int fh, int address, int count, unsigned char *buf)
 {
-	reset_06(fh);
-
 	// Read the data. If expected number of bytes read break out of loop.
 	if (read_data(fh, address, count, buf)==count)
 	{
@@ -423,6 +421,9 @@ open_2300(path)
 	portstatus |= TIOCM_RTS;
 	ioctl(serial_device, TIOCMSET, &portstatus);	// set current port status
 
+	// Reset the device, just once
+	reset_06(serial_device);
+
 	XPUSHs(sv_2mortal(newSVnv(serial_device)));
 
 
@@ -434,7 +435,9 @@ read_2300(fh, addr, count)
     PREINIT:
 	unsigned char buf[40];
     PPCODE:
-	printf("got here: %d %04X - %d\n", fh, addr, count);
+#if	DEBUG
+	printf("got here: fh=%d addr=%04X count=%d\n", fh, addr, count);
+#endif
 	if (read_safe(fh, addr, count, buf)) {
 	    int i;
 
