@@ -357,7 +357,7 @@ open_2300(path)
 	int portstatus;
     PPCODE:
 	//Setup serial port
-	if ((serial_device = open(path, O_RDWR | O_NOCTTY)) < 0)
+	if ((serial_device = open(path, O_RDWR | O_NONBLOCK | O_SYNC)) < 0)
 	{
 	    fprintf(stderr,"\nUnable to open serial device %s\n", path);
 	    XSRETURN_UNDEF;
@@ -368,6 +368,12 @@ open_2300(path)
 	    XSRETURN_UNDEF;
 	}
 
+	if ((fdflags = fcntl(ws2300, F_GETFL)) == -1 ||
+	     fcntl(ws2300, F_SETFL, fdflags & ~O_NONBLOCK) < 0)
+	{
+		perror("couldn't reset non-blocking mode");
+		exit(EXIT_FAILURE);
+	}
 
 	tcgetattr(serial_device, &adtio);
 
