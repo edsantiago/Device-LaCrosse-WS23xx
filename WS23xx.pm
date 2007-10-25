@@ -101,6 +101,12 @@ sub get {
 
     my @foo = read_2300($self->{fh}, $get->{address}, $get->{count});
 
+    # Asked for raw data?
+    if (@_ && lc($_[0]) eq 'raw') {
+	return wantarray ? @foo
+	                 : join('', @foo);
+    }
+
     # Interpret
     my $BCD = join('', reverse(@foo));  $BCD =~ s/^0+//;
     my $HEX = hex($BCD);
