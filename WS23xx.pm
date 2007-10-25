@@ -165,9 +165,46 @@ sub unit_convert {
 
 sub TIEARRAY {
     my $class = shift;
-    my $ws    = shift;		# in: weatherstation object
+    my $ws    = shift;		# in: weatherstation object _or_ path
 
+    my $ws_obj;
+    if (ref($ws)) {
+	if (ref($ws) eq $PKG) {
+	    $ws_obj = $ws;
+	}
+	else {
+	    croak "Usage: tie \@X, $PKG, [ WS obj | /dev/path ]";
+	}
+    }
+    else {
+	$ws_obj = $class->new($ws)
+	  or die "Cannot make a WS object out of $ws";
+    }
+
+    my $self = { ws => $ws_obj };
+
+    return bless $self, $class;
 }
+
+sub FETCH {
+    my $self  = shift;
+    my $index = shift;
+
+    # FIXME: assert that 0 <= index <= MAX
+    # FIXME: read and cache more than just 1
+    my @foo = read_2300($self->{ws}->{fh}, $index, 1);
+
+    return $foo[0];
+}
+
+sub FETCHSIZE {
+    return 0x13D0;
+}
+
+sub STORE {
+    croak "Cannot (yet) write to WS23xx";
+}
+
 
 ###############################################################################
 
