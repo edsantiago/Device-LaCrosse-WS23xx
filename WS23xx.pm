@@ -163,6 +163,9 @@ sub unit_convert {
     croak "$ME: Don't know how to convert $units_in to $units_out";
 }
 
+###############################################################################
+# BEGIN tie() code for treating the ws23xx as a perl array
+
 sub TIEARRAY {
     my $class = shift;
     my $ws    = shift;		# in: weatherstation object _or_ path
@@ -205,7 +208,7 @@ sub STORE {
     croak "Cannot (yet) write to WS23xx";
 }
 
-
+# END   tie() code for treating the ws23xx as a perl array
 ###############################################################################
 
 1;
