@@ -4,8 +4,7 @@ use ExtUtils::MakeMaker;
 WriteMakefile(
 	      LIBS         => '',
 	      INC          => '',
-	      DISTNAME     => 'Open2300',
-	      NAME         => 'Open2300',
+	      NAME         => 'Device::LaCrosse::WS23xx',
 	      PMLIBDIRS    => [ '' ],
-	      VERSION_FROM => 'Open2300.pm',
+	      VERSION_FROM => 'WS23xx.pm',
 );
