@@ -133,19 +133,16 @@ command_check4(int number)
  *
  ********************************************************************/
 uchar
-data_checksum(uchar *data, int number)
+data_checksum(uchar *data, uchar count)
 {
-	int checksum = 0;
-	int i;
+    int i;
+    unsigned int checksum = 0;
 
-	for (i = 0; i < number; i++)
-	{
-		checksum += data[i];
-	}
+    for (i = 0; i < count; i++) {
+	checksum += data[i];
+    }
 
-	checksum &= 0xFF;
-
-	return (uchar) checksum;
+    return checksum & 0xFF;
 }
 
 
