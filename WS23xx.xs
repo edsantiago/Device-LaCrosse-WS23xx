@@ -376,6 +376,8 @@ read_safe(int fh, ushort address, ushort count, uchar *buf)
 
 	// FIXME: warn?  Reset?
 //	reset_06(fh);
+	trace("**",0,0,0);
+	tcflush(fh, TCIOFLUSH);
     }
 
     return 0;

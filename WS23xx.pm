@@ -222,7 +222,7 @@ sub STORE {
 
 __DATA__
 000F:1  Wind_unit                                0=m/s, 1=knots, 2=beaufort, 3=km/h, 4=mph
-0266:1  LCD_contrast                             $BCD+1 (Read Only: changing it has no impact on LCD.)
+0266:1  LCD_contrast                             $BCD+1
 026B:1  Forecast                                 0=Rainy, 1=Cloudy, 2=Sunny
 026C:1  Tendency                                 0=Steady, 1=Rising, 2=Falling
 0346:4  Indoor_Temperature [C]                   $BCD / 100.0 - 30
