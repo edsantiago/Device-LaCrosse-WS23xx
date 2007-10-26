@@ -104,7 +104,7 @@ sub get {
     # Asked for raw data?
     if (@_ && lc($_[0]) eq 'raw') {
 	return wantarray ? @foo
-	                 : join('', @foo);
+	                 : join('', map { sprintf "%X",$_ } @foo);
     }
 
     # Interpret
