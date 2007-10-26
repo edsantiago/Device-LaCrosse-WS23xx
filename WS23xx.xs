@@ -273,6 +273,9 @@ void reset_06(int fh)
 	    if (answer == 2) {
 		return;
 	    }
+	    else {
+	      printf("unexpected reply after reset: %X\n", answer);
+	    }
 	}
 
 	//	usleep(50000 * i);   //we sleep longer and longer for each retry
@@ -333,13 +336,18 @@ int read_data(int fh, int address, int number, unsigned char *readdata)
 
 int read_safe(int fh, int address, int count, unsigned char *buf)
 {
-	// Read the data. If expected number of bytes read break out of loop.
-	if (read_data(fh, address, count, buf)==count)
-	{
-	  return 1;
-	}
+    int i;
 
-	return 0;
+    for (i=0; i < 10; i++) {
+	// If we get the expected number of bytes, we're done.
+	if (read_data(fh, address, count, buf) == count)
+	    return 1;
+
+	// FIXME: warn?  Reset?
+	reset_06(fh);
+    }
+
+    return 0;
 }
 
 
