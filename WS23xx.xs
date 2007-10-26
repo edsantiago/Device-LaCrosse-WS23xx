@@ -16,19 +16,23 @@
 
 
 
-void address_encoder(int address_in, unsigned char *address_out)
+void
+address_encoder(unsigned short address_in, unsigned char *address_out)
 {
-	int i = 0;
-	int adrbytes = 4;
-	unsigned char nibble;
+    int i;
 
-	for (i = 0; i < adrbytes; i++)
-	{
-		nibble = (address_in >> (4 * (3 - i))) & 0x0F;
-		address_out[i] = (unsigned char) (0x82 + (nibble * 4));
-	}
+    for (i=0; i < 4; i++) {
+	// For a given short 0x1234, work our way from the
+	// highest-order nybble (1) to the lowest (4).
+	unsigned char nybble = (address_in >> (4 * (3 - i))) & 0x0F;
 
-	return;
+	// The encoded address is that nybble embedded into 0x82, e.g.:
+	//  0x82 =  1000 0010
+	//  0xF  =    11 11
+	address_out[i] = (unsigned char) (0x82 | (nybble << 2));
+    }
+
+    return;
 }
 
 
@@ -188,7 +192,8 @@ int read_device(int fh, unsigned char *buffer, int size)
 
 
 
-int write_device(int fh, unsigned char *buffer, int size)
+int
+write_device(int fh, unsigned char *buffer, int size)
 {
 	int ret = write(fh, buffer, size);
 	if (ret != size)
@@ -199,40 +204,34 @@ int write_device(int fh, unsigned char *buffer, int size)
 }
 
 
-int write_readback(int fh, unsigned char byte, unsigned char expect)
+int
+write_readback(int fh, unsigned char byte, unsigned char expect)
 {
-	unsigned char buf[16];
+    unsigned char buf[16];
 
-	if (write_device(fh, &byte, 1) != 1) {
+    if (write_device(fh, &byte, 1) != 1) {
 #if DEBUG
-		fprintf(stderr,"Error writing byte[%X]\n", byte);
+	fprintf(stderr,"Error writing byte[%X]\n", byte);
 #endif
-		return -1;
-	}
+	return -1;
+    }
 
-	if (read_device(fh, buf, 1) != 1) {
+    if (read_device(fh, buf, 1) != 1) {
 #if DEBUG
-		fprintf(stderr,"Error reading byte after sending %02X\n",byte);
+	fprintf(stderr,"Error reading byte after sending %02X\n",byte);
 #endif
-		return -1;
-	}
+	return -1;
+    }
 
-	if (buf[0] != expect) {
+    if (buf[0] != expect) {
 #if DEBUG
-		fprintf(stderr,"write_readback: sent %02X, expected %02X, got %02X\n", byte, expect, buf[0]);
+      fprintf(stderr,"write_readback: sent %02X, expected %02X, got %02X\n", byte, expect, buf[0]);
 #endif
-		return -1;
-	}
+      return -1;
+    }
 
-	return 1;
+    return 1;
 }
-
-
-
-
-
-
-
 
 
 void reset_06(int fh)
@@ -275,7 +274,8 @@ void reset_06(int fh)
 }
 
 
-int read_data(int fh, int address, int number, unsigned char *readdata)
+int
+read_data(int fh, unsigned short address, int number, unsigned char *readdata)
 {
 
 	unsigned char answer;
@@ -324,7 +324,8 @@ int read_data(int fh, int address, int number, unsigned char *readdata)
 
 
 
-int read_safe(int fh, int address, int count, unsigned char *buf)
+int
+read_safe(int fh, unsigned short address, unsigned short count, unsigned char *buf)
 {
     int i;
 
@@ -434,8 +435,8 @@ open_2300(path)
 void
 read_2300(fh, addr, count)
 	int fh
-	short addr
-	short count
+	unsigned short addr
+	unsigned short count
     PREINIT:
 	unsigned char buf[40];
     PPCODE:
