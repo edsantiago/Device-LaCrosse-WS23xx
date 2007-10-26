@@ -5,3 +5,4 @@
 ^WS23xx.c
 ^blib/
 ^pm_to_blib$
+^\.trace
