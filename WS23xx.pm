@@ -109,7 +109,7 @@ sub get {
 
     # Interpret
     my $BCD = join('', reverse(@foo));  $BCD =~ s/^0+//;
-    my $HEX = hex($BCD);
+    my $HEX = hex($BCD);	# FIXME: need to do sprintf("%X")
 
     # Special case for datetime: return a unix time_t
     sub time_convert($) {
