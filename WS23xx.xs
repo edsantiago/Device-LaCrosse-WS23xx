@@ -14,22 +14,23 @@
 #include "perl.h"
 #include "XSUB.h"
 
-
+typedef unsigned char  uchar;
+typedef unsigned short ushort;
 
 void
-address_encoder(unsigned short address_in, unsigned char *address_out)
+address_encoder(ushort address_in, uchar *address_out)
 {
     int i;
 
     for (i=0; i < 4; i++) {
 	// For a given short 0x1234, work our way from the
 	// highest-order nybble (1) to the lowest (4).
-	unsigned char nybble = (address_in >> (4 * (3 - i))) & 0x0F;
+	uchar nybble = (address_in >> (4 * (3 - i))) & 0x0F;
 
 	// The encoded address is that nybble embedded into 0x82, e.g.:
 	//  0x82 =  1000 0010
 	//  0xF  =    11 11
-	address_out[i] = (unsigned char) (0x82 | (nybble << 2));
+	address_out[i] = (uchar) (0x82 | (nybble << 2));
     }
 
     return;
@@ -50,14 +51,14 @@ address_encoder(unsigned short address_in, unsigned char *address_out)
  * Returns: Nothing.
  *
  ********************************************************************/
-void data_encoder(int number, unsigned char encode_constant,
-                  unsigned char *data_in, unsigned char *data_out)
+void data_encoder(int number, uchar encode_constant,
+                  uchar *data_in, uchar *data_out)
 {
 	int i = 0;
 
 	for (i = 0; i < number; i++)
 	{
-		data_out[i] = (unsigned char) (encode_constant + (data_in[i] * 4));
+		data_out[i] = (uchar) (encode_constant + (data_in[i] * 4));
 	}
 
 	return;
@@ -73,15 +74,10 @@ void data_encoder(int number, unsigned char encode_constant,
  * Returns: unsigned char which is the coded number of bytes
  *
  ********************************************************************/
-unsigned char numberof_encoder(int number)
+unsigned char
+numberof_encoder(uchar number)
 {
-	int coded_number;
-
-	coded_number = (unsigned char) (0xC2 + number * 4);
-	if (coded_number > 0xfe)
-		coded_number = 0xfe;
-
-	return coded_number;
+    return (uchar) (0xC2 | (number<<2));
 }
 
 
@@ -95,13 +91,14 @@ unsigned char numberof_encoder(int number)
  * Returns: calculated checksum as unsigned char
  *
  ********************************************************************/
-unsigned char command_check0123(unsigned char *command, int sequence)
+uchar
+command_check0123(uchar *command, int sequence)
 {
 	int response;
 
 	response = sequence * 16 + ((*command) - 0x82) / 4;
 
-	return (unsigned char) response;
+	return (uchar) response;
 }
 
 
@@ -114,7 +111,8 @@ unsigned char command_check0123(unsigned char *command, int sequence)
  * Returns: expected response from requesting number of bytes
  *
  ********************************************************************/
-unsigned char command_check4(int number)
+uchar
+command_check4(int number)
 {
 	int response;
 
@@ -134,7 +132,8 @@ unsigned char command_check4(int number)
  * Returns: calculated checksum as unsigned char
  *
  ********************************************************************/
-unsigned char data_checksum(unsigned char *data, int number)
+uchar
+data_checksum(uchar *data, int number)
 {
 	int checksum = 0;
 	int i;
@@ -146,7 +145,7 @@ unsigned char data_checksum(unsigned char *data, int number)
 
 	checksum &= 0xFF;
 
-	return (unsigned char) checksum;
+	return (uchar) checksum;
 }
 
 
@@ -166,7 +165,7 @@ unsigned char data_checksum(unsigned char *data, int number)
 
 
 
-int read_device(int fh, unsigned char *buffer, int size)
+int read_device(int fh, uchar *buffer, int size)
 {
 	int ret;
 //	fd_set readfd;
@@ -193,7 +192,7 @@ int read_device(int fh, unsigned char *buffer, int size)
 
 
 int
-write_device(int fh, unsigned char *buffer, int size)
+write_device(int fh, uchar *buffer, int size)
 {
 	int ret = write(fh, buffer, size);
 	if (ret != size)
@@ -205,9 +204,9 @@ write_device(int fh, unsigned char *buffer, int size)
 
 
 int
-write_readback(int fh, unsigned char byte, unsigned char expect)
+write_readback(int fh, uchar byte, uchar expect)
 {
-    unsigned char buf[16];
+    uchar buf[16];
 
     if (write_device(fh, &byte, 1) != 1) {
 #if DEBUG
@@ -236,8 +235,8 @@ write_readback(int fh, unsigned char byte, unsigned char expect)
 
 void reset_06(int fh)
 {
-    unsigned char reset = 0x06;
-    unsigned char answer;
+    uchar reset = 0x06;
+    uchar answer;
     int i;
     fd_set readfd;
     struct timeval timeout = { 0, 0 };
@@ -275,32 +274,32 @@ void reset_06(int fh)
 
 
 int
-read_data(int fh, unsigned short address, int number, unsigned char *readdata)
+read_data(int fh, ushort address, uchar count, uchar *readdata)
 {
 
-	unsigned char answer;
-	unsigned char commanddata[40];
+	uchar answer;
+	uchar commanddata[40];
 	int i;
 
 	// First 4 bytes are populated with converted address range 0000-13B0
 	address_encoder(address, commanddata);
 	// Last populate the 5th byte with the converted number of bytes
-	commanddata[4] = numberof_encoder(number);
+	commanddata[4] = numberof_encoder(count);
 
 	for (i = 0; i < 4; i++)
 	{
-	  unsigned char expect = command_check0123(commanddata + i, i);
+	  uchar expect = command_check0123(commanddata + i, i);
 
 	  if (write_readback(fh, commanddata[i], expect) != 1)
 	    return -1;
 	}
 
 	//Send the final command that asks for 'number' of bytes, check answer
-	if (write_readback(fh,commanddata[4],command_check4(number)) != 1)
+	if (write_readback(fh,commanddata[4],command_check4(count)) != 1)
 		return -1;
 
 	//Read the data bytes
-	for (i = 0; i < number; i++)
+	for (i = 0; i < count; i++)
 	{
 		if (read_device(fh, readdata + i, 1) != 1)
 		  { fprintf(stderr,"read_data:read_device(3)\n");
@@ -313,7 +312,7 @@ read_data(int fh, unsigned short address, int number, unsigned char *readdata)
 		  { fprintf(stderr,"read_data:read_device(4)\n");
 		return -1;
 		  }
-	if (answer != data_checksum(readdata, number))
+	if (answer != data_checksum(readdata, count))
 		  { fprintf(stderr,"read_data:data_checksum(1)\n");
 		return -1;
 		  }
@@ -325,7 +324,7 @@ read_data(int fh, unsigned short address, int number, unsigned char *readdata)
 
 
 int
-read_safe(int fh, unsigned short address, unsigned short count, unsigned char *buf)
+read_safe(int fh, ushort address, ushort count, uchar *buf)
 {
     int i;
 
@@ -436,9 +435,9 @@ void
 read_2300(fh, addr, count)
 	int fh
 	unsigned short addr
-	unsigned short count
+	unsigned char count
     PREINIT:
-	unsigned char buf[40];
+	uchar buf[40];
     PPCODE:
 #if	DEBUG
 	printf("got here: fh=%d addr=%04X count=%d\n", fh, addr, count);
