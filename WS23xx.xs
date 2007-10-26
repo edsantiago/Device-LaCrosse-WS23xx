@@ -14,16 +14,6 @@
 #include "perl.h"
 #include "XSUB.h"
 
-/*
-** The *THX_ macros seem to be 5.6 and above.
-**
-** Nobody should be running 5.005 any more, but still, it's not my place
-** to judge.  If someone wants to, let's try to let them.
-*/
-#ifndef	 pTHX_
-# define pTHX_
-#endif	/* pTHX */
-
 
 
 void address_encoder(int address_in, unsigned char *address_out)
