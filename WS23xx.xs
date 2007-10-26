@@ -17,6 +17,10 @@
 typedef unsigned char  uchar;
 typedef unsigned short ushort;
 
+char trace[10000];
+char tmp_trace1[80];
+char tmp_trace2[80];
+
 void
 address_encoder(ushort address_in, uchar *address_out)
 {
@@ -165,6 +169,9 @@ data_checksum(uchar *data, uchar count)
 int read_device(int fh, uchar *buffer, int size)
 {
     int bytes_read = 0;
+    int i;
+
+    strcat(trace,"<<");
 
     while (bytes_read < size) {
 	int ret = read(fh, buffer+bytes_read, size-bytes_read);
@@ -182,6 +189,8 @@ int read_device(int fh, uchar *buffer, int size)
 	    if (! select(fh+1, &readfd, 0, 0, &timeout)) {
 		// Timed out with nothing to read.  Abort.
 		fprintf(stderr,"Yuk. Read %d of %d bytes.\n",bytes_read,size);
+		strcat(trace, "**FAILED**\n");
+		fprintf(stderr,trace);
 		return bytes_read;
 	    }
 
@@ -192,6 +201,14 @@ int read_device(int fh, uchar *buffer, int size)
     }
 
     // Yay!
+    tmp_trace1[0] = '\0';
+    for (i=0; i < size; i++) {
+      sprintf(tmp_trace2, " %02X", buffer[i]);
+      strcat(tmp_trace1, tmp_trace2);
+    }
+    strcat(trace, tmp_trace1);
+    strcat(trace,"\n");
+
     return bytes_read;
 }
 
@@ -200,10 +217,24 @@ int read_device(int fh, uchar *buffer, int size)
 int
 write_device(int fh, uchar *buffer, int size)
 {
+  int i;
 	int ret = write(fh, buffer, size);
-	if (ret != size)
+
+	sprintf(tmp_trace1,">>");
+	for (i=0; i < size; i++) {
+	  sprintf(tmp_trace2, " %02X", buffer[i]);
+	  strcat(tmp_trace1, tmp_trace2);
+	}
+	strcat(trace, tmp_trace1);
+
+	if (ret != size) {
 	  fprintf(stderr,"write failed: size=%d ret=%d errno=%d\n",
 		  size,ret,errno);
+	  strcat(trace, " *FAILED*");
+	}
+	else {
+	  strcat(trace, "\n");
+	}
 	tcdrain(fh);	// wait for all output written
 	return ret;
 }
@@ -247,6 +278,7 @@ void reset_06(int fh)
     fd_set readfd;
     struct timeval timeout = { 0, 0 };
 
+    trace[0] = '\0';
     for (i = 0; i < 10; i++) {
 	// Discard any garbage in the input buffer
 	tcflush(fh, TCIOFLUSH);
