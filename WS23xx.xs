@@ -164,26 +164,35 @@ data_checksum(uchar *data, uchar count)
 
 int read_device(int fh, uchar *buffer, int size)
 {
-	int ret;
-//	fd_set readfd;
-//	struct timeval timeout = { 3, 0 };
+    int bytes_read = 0;
 
-//	FD_ZERO(&readfd);
-//	FD_SET(fh, &readfd);
+    while (bytes_read < size) {
+	int ret = read(fh, buffer+bytes_read, size-bytes_read);
+	if (ret < 0)
+	  continue;
 
-	for (;;) {
-	  int foo;
-//	  foo=select(fh+1, &readfd, 0, 0, &timeout);
+	if (ret == 0) {
+	    // Nothing read.  Wait up to 1 second for more data.
+	    fd_set readfd;
+	    struct timeval timeout = { 1, 0 };
 
-		ret = read(fh, buffer, size);
-#if DEBUG
-		if (ret <= 0)
-		  fprintf(stderr,"read failed: foo=%d errno=%d\n",foo,errno);
-#endif
-		if (ret == 0 && errno == EINTR)
-			continue;
-		return ret;
+	    FD_ZERO(&readfd);
+	    FD_SET(fh, &readfd);
+
+	    if (! select(fh+1, &readfd, 0, 0, &timeout)) {
+		// Timed out with nothing to read.  Abort.
+		fprintf(stderr,"Yuk. Read %d of %d bytes.\n",bytes_read,size);
+		return bytes_read;
+	    }
+
+	    // select() says there's more to read
 	}
+
+	bytes_read += ret;
+    }
+
+    // Yay!
+    return bytes_read;
 }
 
 
@@ -296,13 +305,14 @@ read_data(int fh, ushort address, uchar count, uchar *readdata)
 		return -1;
 
 	//Read the data bytes
-	for (i = 0; i < count; i++)
-	{
-		if (read_device(fh, readdata + i, 1) != 1)
+//	for (i = 0; i < count; i++)
+//	{
+//		if (read_device(fh, readdata + i, 1) != 1)
+		if (read_device(fh, readdata, count) != count)
 		  { fprintf(stderr,"read_data:read_device(3)\n");
 			return -1;
 		  }
-	}
+//	}
 
 	//Read and verify checksum
 	if (read_device(fh, &answer, 1) != 1)
