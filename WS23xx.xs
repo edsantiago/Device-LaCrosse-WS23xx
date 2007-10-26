@@ -356,7 +356,7 @@ read_data(int fh, ushort address, uchar count, uchar *readdata)
 		return -1;
 		  }
 
-	return i;
+	return count;
 
 }
 
@@ -373,7 +373,7 @@ read_safe(int fh, ushort address, ushort count, uchar *buf)
 	    return 1;
 
 	// FIXME: warn?  Reset?
-	reset_06(fh);
+//	reset_06(fh);
     }
 
     return 0;
