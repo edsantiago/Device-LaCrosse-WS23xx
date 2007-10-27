@@ -221,7 +221,9 @@ int read_device(int fh, uchar *buffer, int size)
 
 	    if (! select(fh+1, &readfd, 0, 0, &timeout)) {
 		// Timed out with nothing to read.  Abort.
+#ifdef DEBUG
 		fprintf(stderr,"Yuk. Read %d of %d bytes.\n",bytes_read,size);
+#endif
 		trace("<-", 0, 0, "timed out");
 		return bytes_read;
 	    }
