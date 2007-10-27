@@ -399,7 +399,7 @@ read_safe(int fh, ushort address, ushort byte_count, uchar *buf)
 
 	// FIXME: warn?  Reset?
 //	reset_06(fh);
-	trace("**",0,0,0);
+	trace("**",0,0," read_data failed");
 	tcflush(fh, TCIOFLUSH);
     }
 
@@ -494,6 +494,7 @@ open_2300(path)
 	// Reset the device, just once
 	reset_06(serial_device);
 
+	// Return the filehandle as a perl scalar
 	XPUSHs(sv_2mortal(newSVnv(serial_device)));
 
 
