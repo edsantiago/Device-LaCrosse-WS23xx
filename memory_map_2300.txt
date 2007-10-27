@@ -967,9 +967,9 @@ WINDCHILL
 03AB 8     |
 03AC 9     |
 03AD 4    _/
-03AE 2     | Date/Time min Windchill: yymmddhhmm($BCD) [time_t]
+03AE 2     | Date/Time min Windchill: <YYMMDDhhmm>	(=2003-04-19 06:02)
 03AF 0     |
-03B0 6     |   2003-04-19 06:02
+03B0 6     |
 03B1 0     |
 03B2 9     |
 03B3 1     |
@@ -977,7 +977,7 @@ WINDCHILL
 03B5 0     |
 03B6 3     |
 03B7 0    _/
-03B8 6     | Date/Time max Windchill: yymmddhhmm($BCD) [time_t]
+03B8 6     | Date/Time max Windchill: <YYMMDDhhmm>	(=2003-04-23 08:46)
 03B9 4     |
 03BA 8     |
 03BB 0     |
@@ -988,12 +988,12 @@ WINDCHILL
 03C0 3     |
 03C1 0    _/
 03C2 0
-03C3 0     | Low Alarm Windchill: <TEMPERATURE>
+03C3 0     | Low Alarm Windchill: <TEMPERATURE>			(=5)
 03C4 0     |
 03C5 5     |
 03C6 3    _/
 03C7 0
-03C8 0     | High Alarm Windchill: <TEMPERATURE>
+03C8 0     | High Alarm Windchill: <TEMPERATURE>		(=30)
 03C9 0     |
 03CA 0     |
 03CB 6    _/

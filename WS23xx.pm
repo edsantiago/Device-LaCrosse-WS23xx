@@ -387,8 +387,8 @@ __DATA__
 03A0:4  Windchill [C]                            $BCD / 100.0 - 30
 03A5:4  Min_Windchill [C]                        $BCD / 100.0 - 30
 03AA:4  Max_Windchill [C]                        $BCD / 100.0 - 30
-03AE:10 Min_Windchill_datetime [time_t]          yymmddhhmm($BCD)
-03B8:10 Max_Windchill_datetime [time_t]          yymmddhhmm($BCD)
+03AE:10 Min_Windchill_datetime [s]               time_convert($BCD)
+03B8:10 Max_Windchill_datetime [s]               time_convert($BCD)
 03C3:4  Low_Alarm_Windchill [C]                  $BCD / 100.0 - 30
 03C8:4  High_Alarm_Windchill [C]                 $BCD / 100.0 - 30
 03CE:4  Dewpoint [C]                             $BCD / 100.0 - 30
