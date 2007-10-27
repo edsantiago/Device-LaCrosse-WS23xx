@@ -105,6 +105,7 @@ sub get {
 		expr  => $6,
 	    };
 	}
+	close DATA;
 
 	\%fields;
     };
