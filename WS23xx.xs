@@ -35,29 +35,58 @@ trace(char *leader, uchar *buf, uchar byte_count, char *rest)
     if (rest)
 	fprintf(trace_fh,rest);
     fprintf(trace_fh,"\n");
+    fflush(trace_fh);
 }
 
 
 
-
-void
-address_encoder(ushort address_in, uchar *address_out)
+/*
+** address_encoder
+**
+** Generates the addressing bytes used to tell the WS-23xx
+** what address we want.
+*/
+uchar
+address_encoder(ushort address, uchar index)
 {
-    int i;
+    /*
+    ** For a given short 0x1234, there are four nybbles to send.
+    ** Thus index goes from 0 to 3, where 0 is the highest-order
+    ** nybble ('1' in 1234) and 3 is the lowest ('4' in 1234).
+    **
+    ** Extract that nybble and 'embed' it into the middle of 0x82.
+    ** That is: shift it left by two, and OR it in.  Binary view:
+    **
+    **       0x82   =   1000 0010
+    **       nybble =     nn nn
+    **       result =   10nn nn10
+    */
+    uchar nybble = (address >> (4 * (3 - index))) & 0x0F;
 
-    for (i=0; i < 4; i++) {
-	// For a given short 0x1234, work our way from the
-	// highest-order nybble (1) to the lowest (4).
-	uchar nybble = (address_in >> (4 * (3 - i))) & 0x0F;
-
-	// The encoded address is that nybble embedded into 0x82, e.g.:
-	//  0x82 =  1000 0010
-	//  0xF  =    11 11
-	address_out[i] = (uchar) (0x82 | (nybble << 2));
-    }
-
-    return;
+    return 0x82 | (nybble << 2);
 }
+
+
+uchar
+bytecount_encoder(uchar bytecount)
+{
+    return 0xC2 | ((bytecount & 0xF) << 2);
+}
+
+uchar
+address_response(ushort address, uchar index)
+{
+    uchar nybble = (address >> (4 * (3 - index))) & 0x0F;
+
+    return (index << 4) | nybble;
+}
+
+uchar
+bytecount_response(uchar bytecount)
+{
+    return 0x30 | (bytecount & 0xF);
+}
+
 
 
 /********************************************************************
@@ -173,22 +202,9 @@ data_checksum(uchar *data, uchar byte_count)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 int read_device(int fh, uchar *buffer, int size)
 {
     int bytes_read = 0;
-    int i;
 
     while (bytes_read < size) {
 	int ret = read(fh, buffer+bytes_read, size-bytes_read);
@@ -228,7 +244,6 @@ int read_device(int fh, uchar *buffer, int size)
 int
 write_device(int fh, uchar *buffer, int size)
 {
-  int i;
 	int ret = write(fh, buffer, size);
 
 	trace(">>", buffer, size, (ret==size ? 0 : "*ERR*"));
@@ -269,7 +284,6 @@ write_readback(int fh, uchar byte, uchar expect)
 	    if (readback == expect) {
 		return 1;
 	    }
-
 	    /* Read something, but it's not what we expected. */
 #if DEBUG
 	    fprintf(stderr,"write_readback: sent %02X, expected %02X, got %02X\n", byte, expect, readback);
@@ -330,41 +344,35 @@ void reset_06(int fh)
 int
 read_data(int fh, ushort address, uchar byte_count, uchar *readdata)
 {
-    uchar answer;
-    uchar commanddata[40];
+    uchar command[5];		// The command bytes we send
+    uchar expect[5];		// The acknowledgment we expect for each byte
     int i;
 
-    // First 4 bytes are populated with converted address range 0000-13B0
-    address_encoder(address, commanddata);
-    // Last populate the 5th byte with the converted number of bytes
-    commanddata[4] = numberof_encoder(byte_count);
+    // Precompute what we send.  That will be five bytes: 4 address bytes,
+    // and one bytecount.  Also precompute the expected response to each.
+    for (i=0; i < 4; i++) {
+	command[i] = address_encoder( address, i);
+	expect[i]  = address_response(address, i);
+    }
+    command[4] = bytecount_encoder( byte_count);
+    expect[4]  = bytecount_response(byte_count);
 
-    for (i = 0; i < 4; i++) {
-	uchar expect = command_check0123(commanddata + i, i);
-
-	if (write_readback(fh, commanddata[i], expect) != 1)
+    // Send them.  Make sure the unit acknowledges each byte.
+    for (i = 0; i < 5; i++) {
+	if (write_readback(fh, command[i], expect[i]) != 1) {
 	    return -1;
+	}
     }
 
-    //Send the final command that asks for 'number' of bytes, check answer
-    if (write_readback(fh,commanddata[4],command_check4(byte_count)) != 1)
-	return -1;
-
-    if (read_device(fh, readdata, byte_count) != byte_count) {
+    // Read response, including checksum
+    if (read_device(fh, readdata, byte_count+1) != byte_count+1) {
 #ifdef DEBUG
 	fprintf(stderr,"read_data:read_device(3)\n");
 #endif
 	return -1;
     }
 
-    //Read and verify checksum
-    if (read_device(fh, &answer, 1) != 1) {
-#ifdef DEBUG
-	fprintf(stderr,"read_data:read_device(4)\n");
-#endif
-	return -1;
-    }
-    if (answer != data_checksum(readdata, byte_count)) {
+    if (readdata[byte_count] != data_checksum(readdata, byte_count)) {
 #ifdef DEBUG
 	fprintf(stderr,"read_data:data_checksum(1)\n");
 #endif
