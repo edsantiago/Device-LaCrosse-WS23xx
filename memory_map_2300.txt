@@ -1368,10 +1368,10 @@ WIND ALARM (Read Only - Set values at 533-535 and 538-53A)
 WIND SPEED AND DIRECTION
 0527 0    Wind overflow flag: 0 = normal
 0528 0    Wind minimum code: 0=min, 1=--.-, 2=OFL
-0529 0    Windspeed: binary nibble 0 [m/s * 10]
-052A 0    Windspeed: binary nibble 1 [m/s * 10]
-052B 0    Windspeed: binary nibble 2 [m/s * 10]
-052C 8    Wind Direction = nibble * 22.5 degrees
+0529 0     | Wind Speed: $HEX / 10.0 [m/s]
+052A 0     |
+052B 0    _/
+052C 8    | Wind Direction: $HEX * 22.5 [degrees]
 052D 8    Wind Direction 1 measurement ago
 052E 9    Wind Direction 2 measurement ago
 052F 8    Wind Direction 3 measurement ago

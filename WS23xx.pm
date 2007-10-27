@@ -267,6 +267,8 @@ __DATA__
 0429:10 Max_Outdoor_Humidity_datetime [s]        time_convert($BCD)
 0433:2  Low_Alarm_Outdoor_Humidity [%]           $BCD
 0435:2  High_Alarm_Outdoor_Humidity [%]          $BCD
+0529:3  Wind_Speed [m/s]                         $HEX / 10.0
+052C:1  Wind_Direction [degrees]                 $HEX * 22.5
 054D:1  Connection_Type                          0=Cable, 3=lost, F=Wireless
 054F:2  Countdown_time_to_next_datBinary [s]     $HEX / 2.0
 05D8:5  Absolute_Pressure [hPa]                  $BCD / 10.0
