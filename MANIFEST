@@ -1,0 +1,9 @@
+README
+ChangeLog
+MANIFEST
+Makefile.PL
+WS23xx.pm
+WS23xx.xs
+memory_map_2300.pl
+memory_map_2300.txt
+t/10fakedata.t
