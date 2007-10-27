@@ -125,7 +125,10 @@ sub get {
 
     # Interpret
     my $BCD = join('', reverse(@foo));  $BCD =~ s/^0+//;
-    my $HEX = hex($BCD);	# FIXME: need to do sprintf("%X")
+    my $HEX;
+    if (@foo < 6) {
+	$HEX = hex(join('', map { sprintf "%X", $_ } @foo));
+    }
 
     # Special case for datetime: return a unix time_t
     sub time_convert($) {
@@ -257,7 +260,7 @@ sub canonical_name {
     }
 
     if ($desc =~ /\S/) {
-	warn "leftover: $desc\n";
+#	warn "leftover: $desc\n";
     }
 
     $canonical_name =~ s/_$//;
