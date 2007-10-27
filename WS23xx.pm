@@ -411,17 +411,48 @@ Device::LaCrosse::WS23xx - read data from La Crosse weather station
 
 =head1  SYNOPSIS
 
-    use Device::LaCrosse::WS23xx;
+  use Device::LaCrosse::WS23xx;
 
-    my $ws = Device::LaCrosse::WS23xx->new("/dev/lacrosse")
-        or die "Cannot FIXME FIXME";
+  my $ws = Device::LaCrosse::WS23xx->new("/dev/lacrosse")
+      or die "Cannot FIXME FIXME";
 
-    for my $field qw(Indoor_Temp Pressure_Rel Outdoor_Humidity) {
-        printf "%-15s = %s\n", $field, $ws->get($field);
-    }
+  for my $field qw(Indoor_Temp Pressure_Rel Outdoor_Humidity) {
+      printf "%-15s = %s\n", $field, $ws->get($field);
+  }
 
 
 =head1  DESCRIPTION
+
+=head1  CONSTRUCTOR
+
+=over 4
+
+=item B<new>( PATH )
+
+Establishes a connection to the weather station.
+PATH is the serial line hooked up to the weather station.  Typical
+values are C</dev/ttyS0>, C</dev/ttyUSB0>.
+
+=back
+
+=head1  METHODS
+
+=over 4
+
+=item   B<get>( FIELD [, CONVERT] )
+
+Retrieves data from the weather station, and FIXME FIXME
+
+
+=item   B<method2>
+
+...
+
+=back
+
+=head1  AUTHOR
+
+Ed Santiago <esm@cpan.org>
 
 =cut
 
