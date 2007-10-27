@@ -195,7 +195,7 @@ sub unit_convert {
 # canonical_name
 #
 sub canonical_name {
-    my $desc = $1;
+    my $desc = shift;
     my $canonical_name = '';
 
     # Min or Max?
