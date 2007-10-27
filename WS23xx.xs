@@ -21,7 +21,7 @@ typedef unsigned short ushort;
 FILE *trace_fh;
 
 void
-trace(char *leader, uchar *buf, uchar count, char *rest)
+trace(char *leader, uchar *buf, uchar byte_count, char *rest)
 {
     int i;
 
@@ -29,7 +29,7 @@ trace(char *leader, uchar *buf, uchar count, char *rest)
 	trace_fh = fopen(".trace", "w");
     }
     fprintf(trace_fh, leader);
-    for (i=0; i < count; i++) {
+    for (i=0; i < byte_count; i++) {
 	fprintf(trace_fh, " %02X", buf[i]);
     }
     if (rest)
@@ -156,12 +156,12 @@ command_check4(int number)
  *
  ********************************************************************/
 uchar
-data_checksum(uchar *data, uchar count)
+data_checksum(uchar *data, uchar byte_count)
 {
     int i;
     unsigned int checksum = 0;
 
-    for (i = 0; i < count; i++) {
+    for (i = 0; i < byte_count; i++) {
 	checksum += data[i];
     }
 
@@ -314,7 +314,7 @@ void reset_06(int fh)
 
 
 int
-read_data(int fh, ushort address, uchar count, uchar *readdata)
+read_data(int fh, ushort address, uchar byte_count, uchar *readdata)
 {
 
 	uchar answer;
@@ -324,7 +324,7 @@ read_data(int fh, ushort address, uchar count, uchar *readdata)
 	// First 4 bytes are populated with converted address range 0000-13B0
 	address_encoder(address, commanddata);
 	// Last populate the 5th byte with the converted number of bytes
-	commanddata[4] = numberof_encoder(count);
+	commanddata[4] = numberof_encoder(byte_count);
 
 	for (i = 0; i < 4; i++)
 	{
@@ -335,14 +335,14 @@ read_data(int fh, ushort address, uchar count, uchar *readdata)
 	}
 
 	//Send the final command that asks for 'number' of bytes, check answer
-	if (write_readback(fh,commanddata[4],command_check4(count)) != 1)
+	if (write_readback(fh,commanddata[4],command_check4(byte_count)) != 1)
 		return -1;
 
 	//Read the data bytes
 //	for (i = 0; i < count; i++)
 //	{
 //		if (read_device(fh, readdata + i, 1) != 1)
-		if (read_device(fh, readdata, count) != count)
+		if (read_device(fh, readdata, byte_count) != byte_count)
 		  { fprintf(stderr,"read_data:read_device(3)\n");
 			return -1;
 		  }
@@ -353,25 +353,25 @@ read_data(int fh, ushort address, uchar count, uchar *readdata)
 		  { fprintf(stderr,"read_data:read_device(4)\n");
 		return -1;
 		  }
-	if (answer != data_checksum(readdata, count))
+	if (answer != data_checksum(readdata, byte_count))
 		  { fprintf(stderr,"read_data:data_checksum(1)\n");
 		return -1;
 		  }
 
-	return count;
+	return byte_count;
 
 }
 
 
 
 int
-read_safe(int fh, ushort address, ushort count, uchar *buf)
+read_safe(int fh, ushort address, ushort byte_count, uchar *buf)
 {
     int i;
 
     for (i=0; i < 10; i++) {
 	// If we get the expected number of bytes, we're done.
-	if (read_data(fh, address, count, buf) == count)
+	if (read_data(fh, address, byte_count, buf) == byte_count)
 	    return 1;
 
 	// FIXME: warn?  Reset?
@@ -475,22 +475,22 @@ open_2300(path)
 
 
 void
-read_2300(fh, addr, count)
+read_2300(fh, addr, nybble_count)
 	int fh
 	unsigned short addr
-	unsigned char count
+	unsigned char nybble_count
     PREINIT:
 	uchar buf[40];
     PPCODE:
 #if	DEBUG
-	printf("got here: fh=%d addr=%04X count=%d\n", fh, addr, count);
+	printf("got here: fh=%d addr=%04X nybbles=%d\n",fh,addr,nybble_count);
 #endif
-	if (read_safe(fh, addr, count, buf)) {
+	if (read_safe(fh, addr, (nybble_count+1)/2, buf)) {
 	    int i;
 
-	    for (i=0; i < count; i += 2) {
+	    for (i=0; i < nybble_count; i += 2) {
 		XPUSHs(sv_2mortal(newSVnv(buf[i/2] & 0x0F)));
-		if (i < count-1)
+		if (i < nybble_count-1)
 		    XPUSHs(sv_2mortal(newSVnv(buf[i/2] >> 4)));
 	    }
 	}
