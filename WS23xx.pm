@@ -59,7 +59,11 @@ sub new {
     my $device = shift                     # in: mandatory arg
       or croak "Usage: ".__PACKAGE__."->new( \"/dev/LACROSS-DEV-NAME\" )";
 
-    # FIXME: if called with local path to mem_map.txt, do fakery
+    # Is $device path a plain (not device) file with a special name?
+    if ($device =~ /map.*\.txt/  &&  ! -c $device) {
+	return Device::LaCrosse::WS23xx::Fake->new($device, @_);
+    }
+
     # FIXME: call xs code
     my $fh = open_2300($device)
 	or die "cannot open\n";
@@ -70,6 +74,13 @@ sub new {
 		 }, $class;
 }
 
+
+sub read_data {
+    my $self = shift;
+
+    # FIXME: enable caching of @_ ?
+    return $self->read_data($self->{fh}, @_);
+}
 
 sub get {
     my $self  = shift;
@@ -99,7 +110,7 @@ sub get {
     my $get = $self->{fields}->{lc $field}
       or croak "$ME: No such value, '$field'";
 
-    my @foo = read_2300($self->{fh}, $get->{address}, $get->{count});
+    my @foo = $self->read_data($get->{address}, $get->{count});
 
     # Asked for raw data?
     if (@_ && lc($_[0]) eq 'raw') {
@@ -217,6 +228,52 @@ sub STORE {
 
 # END   tie() code for treating the ws23xx as a perl array
 ###############################################################################
+# BEGIN fake-device handler for testing
+
+package Device::LaCrosse::WS23xx::Fake;
+
+use Carp;
+
+our @ISA = qw(Device::LaCrosse::WS23xx);
+
+sub new {
+    my $proto = shift;
+    my $class = ref($proto) || $proto;
+
+    my $path = shift
+      or croak "Usage: ".__PACKAGE__."->new( \"path_to_mem_map.txt\" )";
+
+    my $self = {
+        path     => $path,
+	fakedata => [],
+    };
+
+    open my $map_fh, '<', $path
+      or croak "Cannot read $path: $!";
+    while (my $line = <$map_fh>) {
+	# E.g. 0019 0   alarm set flags
+	if ($line =~ m!^([0-9a-f]{4})\s+([0-9a-f])\s*!i) {
+	    $self->{fakedata}->[hex($1)] = $2;
+	}
+    }
+    close $map_fh;
+
+    return bless $self, $class;
+}
+
+sub read_data {
+    my $self    = shift;
+    my $address = shift;
+    my $length  = shift;
+
+    return @{$self->{fakedata}}[$address .. $address+$length-1];
+}
+
+# END   fake-device handler for testing
+###############################################################################
+
+# Need to reset package, so we can read <DATA>
+package Device::LaCrosse::WS23xx;
 
 1;
 
