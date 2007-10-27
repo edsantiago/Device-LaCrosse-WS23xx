@@ -294,7 +294,7 @@ void reset_06(int fh)
     fd_set readfd;
     struct timeval timeout = { 0, 0 };
 
-    trace("--",0,0,0);
+    trace("--reset--",0,0,0);
     for (i = 0; i < 10; i++) {
 	// Discard any garbage in the input buffer
 	tcflush(fh, TCIOFLUSH);
@@ -330,50 +330,49 @@ void reset_06(int fh)
 int
 read_data(int fh, ushort address, uchar byte_count, uchar *readdata)
 {
+    uchar answer;
+    uchar commanddata[40];
+    int i;
 
-	uchar answer;
-	uchar commanddata[40];
-	int i;
+    // First 4 bytes are populated with converted address range 0000-13B0
+    address_encoder(address, commanddata);
+    // Last populate the 5th byte with the converted number of bytes
+    commanddata[4] = numberof_encoder(byte_count);
 
-	// First 4 bytes are populated with converted address range 0000-13B0
-	address_encoder(address, commanddata);
-	// Last populate the 5th byte with the converted number of bytes
-	commanddata[4] = numberof_encoder(byte_count);
+    for (i = 0; i < 4; i++) {
+	uchar expect = command_check0123(commanddata + i, i);
 
-	for (i = 0; i < 4; i++)
-	{
-	  uchar expect = command_check0123(commanddata + i, i);
-
-	  if (write_readback(fh, commanddata[i], expect) != 1)
+	if (write_readback(fh, commanddata[i], expect) != 1)
 	    return -1;
-	}
+    }
 
-	//Send the final command that asks for 'number' of bytes, check answer
-	if (write_readback(fh,commanddata[4],command_check4(byte_count)) != 1)
-		return -1;
+    //Send the final command that asks for 'number' of bytes, check answer
+    if (write_readback(fh,commanddata[4],command_check4(byte_count)) != 1)
+	return -1;
 
-	//Read the data bytes
-//	for (i = 0; i < count; i++)
-//	{
-//		if (read_device(fh, readdata + i, 1) != 1)
-		if (read_device(fh, readdata, byte_count) != byte_count)
-		  { fprintf(stderr,"read_data:read_device(3)\n");
-			return -1;
-		  }
-//	}
+    if (read_device(fh, readdata, byte_count) != byte_count) {
+#ifdef DEBUG
+	fprintf(stderr,"read_data:read_device(3)\n");
+#endif
+	return -1;
+    }
 
-	//Read and verify checksum
-	if (read_device(fh, &answer, 1) != 1)
-		  { fprintf(stderr,"read_data:read_device(4)\n");
-		return -1;
-		  }
-	if (answer != data_checksum(readdata, byte_count))
-		  { fprintf(stderr,"read_data:data_checksum(1)\n");
-		return -1;
-		  }
+    //Read and verify checksum
+    if (read_device(fh, &answer, 1) != 1) {
+#ifdef DEBUG
+	fprintf(stderr,"read_data:read_device(4)\n");
+#endif
+	return -1;
+    }
+    if (answer != data_checksum(readdata, byte_count)) {
+#ifdef DEBUG
+	fprintf(stderr,"read_data:data_checksum(1)\n");
+#endif
+	return -1;
+    }
 
-	return byte_count;
-
+    // Success
+    return byte_count;
 }
 
 
