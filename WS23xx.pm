@@ -76,10 +76,12 @@ sub new {
 
 
 sub read_data {
-    my $self = shift;
+    my $self    = shift;
+    my $address = shift;
+    my $length  = shift;
 
     # FIXME: enable caching of @_ ?
-    return $self->read_data($self->{fh}, @_);
+    return read_2300($self->{fh}, $address, $length);
 }
 
 sub get {
