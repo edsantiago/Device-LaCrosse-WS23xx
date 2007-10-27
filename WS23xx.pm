@@ -124,7 +124,7 @@ sub get {
     my @data = $self->read_data($get->{address}, $get->{count});
 
     # Convert to string context: (0, 3, 0xF, 9) becomes '03F9'.
-    my $data = join('', map { sprintf "%X",$_ } @data);
+    my $data = join('', map { sprintf "%X",hex($_) } @data);
 
     # Asked for raw data?  If called with 'raw' as second argument,
     # return the nybbles directly as they are.
