@@ -124,7 +124,10 @@ sub get {
     }
 
     # Interpret
-    my $BCD = join('', reverse(@foo));  $BCD =~ s/^0+//;
+    my $BCD = join('', reverse(@foo));
+    $BCD =~ s/^0+//;
+    $BCD = '0' if $BCD eq '';
+
     my $HEX;
     if (@foo < 6) {
 	$HEX = hex(join('', map { sprintf "%X", $_ } @foo));
