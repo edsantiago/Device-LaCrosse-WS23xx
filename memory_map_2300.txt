@@ -3,6 +3,7 @@ version 1.6, 2004 Apr 22
 
    macro TEMPERATURE = $BCD / 100.0 - 30 [C]
    macro PRESSURE    = $BCD / 10.0 [hPa]
+   macro RAIN        = $BCD / 100.0 [mm]
    macro PERCENT     = $BCD [%]
    macro YYMMDDhhmm  = time_convert($BCD) [s]
 
@@ -1213,28 +1214,28 @@ HUMIDITY OUTDOORS
 0496 0    Rain 1h area
 
 RAIN 24 HOUR
-0497 0    Rain 24 hour: BCD 0.01s [mm]
-0498 0    Rain 24 hour: BCD 0.1s [mm]
-0499 0    Rain 24 hour: BCD 1s [mm]
-049A 0    Rain 24 hour: BCD 10s [mm]
-049B 0    Rain 24 hour: BCD 100s [mm]
-049C 0    Rain 24 hour: BCD 1000s [mm]
-049D 8    Rain max 24 hour: BCD 0.01s [mm]
-049E 9    Rain max 24 hour: BCD 0.1s [mm]
-049F 8    Rain max 24 hour: BCD 1s [mm]
-04A0 2    Rain max 24 hour: BCD 10s [mm]
-04A1 1    Rain max 24 hour: BCD 100s [mm]
-04A2 0    Rain max 24 hour: BCD 1000s [mm]
-04A3 9    Time max rain 24h, minutes BCD 1s
-04A4 5    Time max rain 24h, minutes BCD 10s
-04A5 4    Time max rain 24h, hours BCD 1s
-04A6 1    Time max rain 24h, hours BCD 10s
-04A7 1    Date max rain 24h, BCD day 1s
-04A8 2    Date max rain 24h, BCD day 10s
-04A9 4    Date max rain 24h, BCD month 1s
-04AA 0    Date max rain 24h, BCD month 10s
-04AB 3    Date max rain 24h , BCD year 1s
-04AC 0    Date max rain 24h, BCD year 10s
+0497 0     | Rain 24 hour: <RAIN>
+0498 0     |
+0499 0     |
+049A 0     |
+049B 0     |
+049C 0    _/
+049D 8     | Rain max 24 hour: <RAIN>
+049E 9     |
+049F 8     |
+04A0 2     |
+04A1 1     |
+04A2 0    _/
+04A3 9     | Date/Time max rain 24h: <YYMMDDhhmm>
+04A4 5     |
+04A5 4     |
+04A6 1     |
+04A7 1     |
+04A8 2     |
+04A9 4     |
+04AA 0     |
+04AB 3     |
+04AC 0    _/
 04AD 0
 04AE 0    Alarm Rain 24h, BCD 0.01 [mm] (probably not really used)
 04AF 0    Alarm Rain 24h, BCD 0.1 [mm]
@@ -1244,28 +1245,28 @@ RAIN 24 HOUR
 04B3 0    Alarm Rain 24h, BCD 1000 [mm]
 
 RAIN 1 HOUR
-04B4 0    Rain 1 hour: BCD 0.01s [mm]
-04B5 0    Rain 1 hour: BCD 0.1s [mm]
-04B6 0    Rain 1 hour: BCD 1s [mm]
-04B7 0    Rain 1 hour: BCD 10s [mm]
-04B8 0    Rain 1 hour: BCD 100s [mm]
-04B9 0    Rain 1 hour: BCD 1000s [mm]
-04BA 6    Rain max 1 hour: BCD 0.01s [mm]
-04BB 4    Rain max 1 hour: BCD 0.1s [mm]
-04BC 8    Rain max 1 hour: BCD 1s [mm]
-04BD 2    Rain max 1 hour: BCD 10s [mm]
-04BE 1    Rain max 1 hour: BCD 100s [mm]
-04BF 0    Rain max 1 hour: BCD 1000s [mm]
-04C0 8    Time max rain 1h, minutes BCD 1s
-04C1 0    Time max rain 1h, minutes BCD 10s
-04C2 6    Time max rain 1h, hours BCD 1s
-04C3 1    Time max rain 1h, hours BCD 10s
-04C4 0    Date max rain 1h, BCD day 1s
-04C5 2    Date max rain 1h, BCD day 10s
-04C6 4    Date max rain 1h, BCD month 1s
-04C7 0    Date max rain 1h, BCD month 10s
-04C8 3    Date max rain 1h, BCD year 1s
-04C9 0    Date max rain 1h, BCD year 10s
+04B4 0     | Rain 1 hour: <RAIN>
+04B5 0     |
+04B6 0     |
+04B7 0     |
+04B8 0     |
+04B9 0    _/
+04BA 6     | Rain max 1 hour: <RAIN>
+04BB 4     |
+04BC 8     |
+04BD 2     |
+04BE 1     |
+04BF 0    _/
+04C0 8     | Date/Time max rain 1h: <YYMMDDhhmm>
+04C1 0     |
+04C2 6     |
+04C3 1     |
+04C4 0     |
+04C5 2     |
+04C6 4     |
+04C7 0     |
+04C8 3     |
+04C9 0    _/
 04CA 0
 04CB 0    Alarm Rain 1h, BCD 0.01 [mm] (probably not really used)
 04CC 7    Alarm Rain 1h, BCD 0.1 [mm]
@@ -1276,22 +1277,22 @@ RAIN 1 HOUR
 04D1 2
 
 RAIN TOTAL
-04D2 2    Rain total: BCD 0.01s [mm]
-04D3 5    Rain total: BCD 0.1s [mm]
-04D4 4    Rain total: BCD 1s [mm]
-04D5 4    Rain total: BCD 10s [mm]
-04D6 1    Rain total: BCD 100s [mm]
-04D7 0    Rain total: BCD 1000s [mm]
-04D8 0    Time for reset of rain total, minutes BCD 1s
-04D9 4    Time for reset of rain total, minutes BCD 10s
-04DA 3    Time for reset of rain total, hours BCD 1s
-04DB 2    Time for reset of rain total, hours BCD 10s
-04DC 4    Date for reset of rain total, BCD day 1s
-04DD 1    Date for reset of rain total, BCD day 10s
-04DE 4    Date for reset of rain total, BCD month 1s
-04DF 0    Date for reset of rain total, BCD month 10s
-04E0 3    Date for reset of rain total , BCD year 1s
-04E1 0    Date for reset of rain total, BCD year 10s
+04D2 2     | Rain Total: <RAIN>
+04D3 5     |
+04D4 4     |
+04D5 4     |
+04D6 1     |
+04D7 0    _/
+04D8 0     | Date/Time for reset of rain total: <YYMMDDhhmm>
+04D9 4     |
+04DA 3     |
+04DB 2     |
+04DC 4     |
+04DD 1     |
+04DE 4     |
+04DF 0     |
+04E0 3     |
+04E1 0    _/
 04E2 F
 04E3 F
 04E4 F

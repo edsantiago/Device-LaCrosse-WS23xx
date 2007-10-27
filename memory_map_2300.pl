@@ -47,6 +47,15 @@ sub canonical_name {
 	$canonical_name .= ucfirst(lc($1));
 	$desc =~ s/\bRel(ative)?\b/ /i;
     }
+    elsif ($desc =~ s/\b(Rain)\b//i) {
+	$canonical_name .= "Rain";
+	if ($desc =~ s/\b(1|24)(\s*h(ou)?r?)?\b//i) {
+	    $canonical_name .= "_$1hour";
+	}
+	elsif ($desc =~ s/\btotal\b//i) {
+	    $canonical_name .= "_Total";
+	}
+    }
     else {
 	(my $tmp = $desc) =~ s/\s+/_/g;
 	$canonical_name .= $tmp;

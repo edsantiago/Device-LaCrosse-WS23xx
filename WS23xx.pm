@@ -267,6 +267,14 @@ __DATA__
 0429:10 Max_Outdoor_Humidity_datetime [s]        time_convert($BCD)
 0433:2  Low_Alarm_Outdoor_Humidity [%]           $BCD
 0435:2  High_Alarm_Outdoor_Humidity [%]          $BCD
+0497:6  Rain_24hour [mm]                         $BCD / 100.0
+049D:6  Max_Rain_24hour [mm]                     $BCD / 100.0
+04A3:10 Max_Rain_24hour_datetime [s]             time_convert($BCD)
+04B4:6  Rain_1hour [mm]                          $BCD / 100.0
+04BA:6  Max_Rain_1hour [mm]                      $BCD / 100.0
+04C0:10 Max_Rain_1hour_datetime [s]              time_convert($BCD)
+04D2:6  Rain_Total [mm]                          $BCD / 100.0
+04D8:10 Rain_Total_datetime [s]                  time_convert($BCD)
 0529:3  Wind_Speed [m/s]                         $HEX / 10.0
 052C:1  Wind_Direction [degrees]                 $HEX * 22.5
 054D:1  Connection_Type                          0=Cable, 3=lost, F=Wireless
