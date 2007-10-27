@@ -245,30 +245,44 @@ write_device(int fh, uchar *buffer, int size)
 int
 write_readback(int fh, uchar byte, uchar expect)
 {
-    uchar buf[16];
+    int i;
+    uchar readback;
 
-    if (write_device(fh, &byte, 1) != 1) {
+    /*
+    ** The WS-23xx seems to sometimes miss its input.  That is,
+    ** we send something but it's never received.  If we time out
+    ** on receiving the acknowledgment, retry the send.  Mistakes
+    ** are unlikely due to the nature of the protocol.
+    */
+    for (i=0; i < 2; i++) {
+	if (write_device(fh, &byte, 1) != 1) {
 #if DEBUG
-	fprintf(stderr,"Error writing byte[%X]\n", byte);
+	    fprintf(stderr,"Error writing byte[%X]\n", byte);
 #endif
-	return -1;
+	    return -1;
+	}
+
+	/*
+	** If the read is successful, make sure it's what we expect.
+	*/
+	if (read_device(fh, &readback, 1) == 1) {
+	    if (readback == expect) {
+		return 1;
+	    }
+
+	    /* Read something, but it's not what we expected. */
+#if DEBUG
+	    fprintf(stderr,"write_readback: sent %02X, expected %02X, got %02X\n", byte, expect, readback);
+#endif
+	    return -1;
+	}
     }
 
-    if (read_device(fh, buf, 1) != 1) {
+    /* Fall through: tried multiple writes, but never got back anything. */
 #if DEBUG
-	fprintf(stderr,"Error reading byte after sending %02X\n",byte);
+    fprintf(stderr,"Error reading byte after sending %02X\n",byte);
 #endif
-	return -1;
-    }
-
-    if (buf[0] != expect) {
-#if DEBUG
-      fprintf(stderr,"write_readback: sent %02X, expected %02X, got %02X\n", byte, expect, buf[0]);
-#endif
-      return -1;
-    }
-
-    return 1;
+    return -1;
 }
 
 
