@@ -58,5 +58,13 @@ for my $r (@sample_data) {
 		       $lt[5]+1900, $lt[4]+1, @lt[3,2,1]);
     }
 
+    # ARGH! Compensate for IEEE floating point arithmetic.  We put $got
+    # into the same scale as $expect.
+    # This is necessary because Air Pressure Correction is 10022/10.0-1000
+    # which ends up as 2.20000000000005, which != 2.2
+    if ($expect =~ /\.(\d+)$/) {
+	$got = sprintf("%.*f", length($1), $got);
+    }
+
     is $got, $expect, "$field = $expect";
 }
