@@ -40,6 +40,8 @@ use Device::LaCrosse::WS23xx;
 
 $loaded = 1;
 
+# Note that this uses the ::Fake subclass, which does not
+# actually talk to a weather station device!
 my $x = Device::LaCrosse::WS23xx->new($mmap);
 
 my @got_data = $x->read_data(0, scalar(@fakedata));
