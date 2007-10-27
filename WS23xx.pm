@@ -235,6 +235,8 @@ sub canonical_name {
     my $desc = shift;
     my $canonical_name = '';
 
+    $desc =~ s/_/ /g;
+
     # Min or Max?
     if ($desc =~ s/\bmin(imum)?\b/ /i) {
 	$canonical_name .= 'Min_';
@@ -250,8 +252,8 @@ sub canonical_name {
     }
 
     # Where?
-    if ($desc =~ s/\b(indoor|outdoor)s?\b/ /i) {
-	$canonical_name .= ucfirst(lc($1)) . '_';
+    if ($desc =~ s/\b(in|out)(doors?)?(\b|$)/ /i) {
+	$canonical_name .= ucfirst(lc($1) . 'door') . '_';
     }
 
     # What: Temperature, Windchill, Pressure, ...
@@ -261,8 +263,11 @@ sub canonical_name {
     elsif ($desc =~ s/\bPress(ure)?\b/ /i) {
 	$desc =~ s/\bair\b/ /i;
 
-	if ($desc =~ s/\b(Absolute|Relative)\b/ /i) {
-	    $canonical_name .= ucfirst(lc($1)) . '_';
+	if ($desc =~ s/\bAbs(olute)?\b/ /i) {
+	    $canonical_name .= 'Absolute_';
+	}
+	elsif ($desc =~ s/\bRel(ative)?\b/ /i) {
+	    $canonical_name .= 'Relative_';
 	}
 	$canonical_name .= 'Pressure';
 	if ($desc =~ s/\bCorrection\b/ /i) {
@@ -396,6 +401,32 @@ sub read_data {
 
 # Need to reset package, so we can read <DATA>
 package Device::LaCrosse::WS23xx;
+
+###############################################################################
+# BEGIN documentation
+
+=head1  NAME
+
+Device::LaCrosse::WS23xx - read data from La Crosse weather station
+
+=head1  SYNOPSIS
+
+    use Device::LaCrosse::WS23xx;
+
+    my $ws = Device::LaCrosse::WS23xx->new("/dev/lacrosse")
+        or die "Cannot FIXME FIXME";
+
+    for my $field qw(Indoor_Temp Pressure_Rel Outdoor_Humidity) {
+        printf "%-15s = %s\n", $field, $ws->get($field);
+    }
+
+
+=head1  DESCRIPTION
+
+=cut
+
+# END   documentation
+###############################################################################
 
 1;
 
