@@ -20,7 +20,7 @@ BEGIN {
 
 	# E.g. 0019 0   alarm set flags
 	if ($line =~ s!^([0-9a-f]{4})\s+([0-9a-f])\s*!!i) {
-	    $fakedata[hex($1)] = $2;
+	    $fakedata[hex($1)] = hex($2);
 
 	    if ($line =~ m!^\|\s+([^ 0-9].*?)\s*:\s*(.*)!) {
 		my ($desc, $formula) = ($1, $2);
