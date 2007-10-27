@@ -115,6 +115,13 @@ sub get {
     # Canonicalize the requested field name, e.g.
     # 'Indoor Temp Max' => Max_Indoor_Temperature
     my $canonical_field = canonical_name($field);
+    if (! exists $self->{fields}->{lc $canonical_field}) {
+	(my $re = lc $field) =~ s/[ _]+/.*/g;
+	my @match = grep { /$re/i } keys %{$self->{fields}};
+	if (@match == 1) {
+	    $canonical_field = $match[0];
+	}
+    }
 
     # Get the field info.
     # FIXME: If there's no such field, return undef instead of croaking?
@@ -124,7 +131,7 @@ sub get {
     my @data = $self->read_data($get->{address}, $get->{count});
 
     # Convert to string context: (0, 3, 0xF, 9) becomes '03F9'.
-    my $data = join('', map { sprintf "%X",hex($_) } @data);
+    my $data = join('', map { sprintf "%X",$_ } @data);
 
     # Asked for raw data?  If called with 'raw' as second argument,
     # return the nybbles directly as they are.
@@ -368,7 +375,7 @@ sub new {
     while (my $line = <$map_fh>) {
 	# E.g. 0019 0   alarm set flags
 	if ($line =~ m!^([0-9a-f]{4})\s+([0-9a-f])\s*!i) {
-	    $self->{fakedata}->[hex($1)] = $2;
+	    $self->{fakedata}->[hex($1)] = hex($2);
 	}
     }
     close $map_fh;
