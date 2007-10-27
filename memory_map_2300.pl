@@ -100,6 +100,11 @@ while (my $line = <IN>) {
 	}
 	$previous_address = $address;
 
+	# Anything in plain parentheses, at the end, is a comment:
+	#    0266 4    | LCD contrast: $BCD+1 (Read Only: ....)
+	# strip it off.
+	$line =~ s/\s*\(.*\)$//;
+
 	# Is it a definition line?
 	if ($line =~ m!^\|\s+([^ 0-9].*?)\s*:\s*(.*)!) {
 	    my ($desc, $formula) = ($1, $2);
