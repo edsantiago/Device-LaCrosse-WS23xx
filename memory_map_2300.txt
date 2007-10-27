@@ -638,8 +638,8 @@ DATE UNIT SET
 026A 0
 
 TENDENCY/FORECAST
-026B 0    | Forecast: 0=Rainy, 1=Cloudy, 2=Sunny
-026C 2    | Tendency: 0=Steady, 1=Rising, 2=Falling
+026B 0    | Forecast: 0=Rainy, 1=Cloudy, 2=Sunny       (=Rainy)
+026C 2    | Tendency: 0=Steady, 1=Rising, 2=Falling    (=Falling)
 026D 0
 026E 0
 026F 0
@@ -859,23 +859,23 @@ TENDENCY/FORECAST
 0345 0
 
 INDOOR TEMPERATURE
-0346 0     | Current Indoor Temperature: <TEMPERATURE>
+0346 0     | Current Indoor Temperature: <TEMPERATURE>		(=28.6)
 0347 6     |
-0348 8     |  28.60
+0348 8     |
 0349 5    _/
 034A 0
-034B 0     | Minimum Indoor Temperature: <TEMPERATURE>
+034B 0     | Minimum Indoor Temperature: <TEMPERATURE>		(=15.5)
 034C 5     |
-034D 5     |    15.50
+034D 5     |
 034E 4    _/
 034F 0
-0350 0     | Maximum Indoor Temperature: <TEMPERATURE>
+0350 0     | Maximum Indoor Temperature: <TEMPERATURE>		(=29.7)
 0351 7     |
-0352 9     |    29.70
+0352 9     |
 0353 5    _/
-0354 0     | Date/Time min Indoor Temperature: <YYMMDDhhmm>
+0354 0     | Date/Time min Indoor Temperature: <YYMMDDhhmm> (=2001-01-01 12:20)
 0355 2     |
-0356 2     |    2001-01-01 12:20
+0356 2     |
 0357 1     |
 0358 1     |
 0359 0     |
@@ -894,35 +894,35 @@ INDOOR TEMPERATURE
 0366 3     |
 0367 0    _/
 0368 0
-0369 0     | Low Alarm Indoor Temperature: <TEMPERATURE>
+0369 0     | Low Alarm Indoor Temperature: <TEMPERATURE>	(=17.1)
 036A 1     |
-036B 7     |    17.10
+036B 7     |
 036C 4    _/
 036D 0
-036E 0     | High Alarm Indoor Temperature: <TEMPERATURE>
+036E 0     | High Alarm Indoor Temperature: <TEMPERATURE>	(=29.6)
 036F 6     |
-0370 9     |    29.60
+0370 9     |
 0371 5    _/
 0372 0
 
 OUTDOOR TEMPERATURE
-0373 0     | Current Outdoor Temperature: <TEMPERATURE>
+0373 0     | Current Outdoor Temperature: <TEMPERATURE>		(=7.4)
 0374 4     |
-0375 7     |    17.40
+0375 7     |
 0376 3    _/
 0377 0
-0378 0     | Minimum Outdoor Temperature: <TEMPERATURE>
+0378 0     | Minimum Outdoor Temperature: <TEMPERATURE>		(=2.5)
 0379 5     |
-037A 2     |    02.50
+037A 2     |
 037B 3    _/
 037C 0
-037D 0     | Maximum Outdoor Temperature: <TEMPERATURE>
+037D 0     | Maximum Outdoor Temperature: <TEMPERATURE>		(=35.8)
 037E 8     |
-037F 5     |    28.00
+037F 5     |
 0380 6    _/
-0381 5     | Date/Time min Outdoor Temperature: <YYMMDDhhmm>
+0381 5     | Date/Time min Outdoor Temperature: <YYMMDDhhmm> (=2003-04-17 06:25)
 0382 2     |
-0383 6     |    2003-04-17 06:25
+0383 6     |
 0384 0     |
 0385 7     |
 0386 1     |
@@ -930,9 +930,9 @@ OUTDOOR TEMPERATURE
 0388 0     |
 0389 3     |
 038A 0    _/
-038B 1     | Date/Time max Outdoor Temperature: <YYMMDDhhmm>
+038B 1     | Date/Time max Outdoor Temperature: <YYMMDDhhmm> (=2003-04-17 17:01)
 038C 0     |
-038D 7     |    2003-04-17 17:01
+038D 7     |
 038E 1     |
 038F 7     |
 0390 1     |
@@ -941,31 +941,31 @@ OUTDOOR TEMPERATURE
 0393 3     |
 0394 0    _/
 0395 0
-0396 0     | Low Alarm Outdoor Temperature: <TEMPERATURE>
+0396 0     | Low Alarm Outdoor Temperature: <TEMPERATURE>	(=0)
 0397 0     |
-0398 0     |    00.00
+0398 0     |
 0399 3    _/
 039A 0
-039B 0     | High Alarm Outdoor Temperature: <TEMPERATURE>
+039B 0     | High Alarm Outdoor Temperature: <TEMPERATURE>	(=40)
 039C 0     |
-039D 0     |    40.00
+039D 0     |
 039E 7    _/
 039F 0
 
 WINDCHILL
-03A0 0     | Current Windchill: <TEMPERATURE>
+03A0 0     | Current Windchill: <TEMPERATURE>			(=7.4)
 03A1 4     |
-03A2 7     |    07.40
+03A2 7     |
 03A3 3    _/
 03A4 8
-03A5 0     | Minimum Windchill: <TEMPERATURE>
+03A5 0     | Minimum Windchill: <TEMPERATURE>			(=-11.8)
 03A6 2     |
-03A7 8     |   -12.20
+03A7 8     |
 03A8 1    _/
 03A9 0
-03AA 0     | Maximum Windchill: <TEMPERATURE>
+03AA 0     | Maximum Windchill: <TEMPERATURE>			(=19.8)
 03AB 8     |
-03AC 9     |   19.80
+03AC 9     |
 03AD 4    _/
 03AE 2     | Date/Time min Windchill: yymmddhhmm($BCD) [time_t]
 03AF 0     |
@@ -1001,19 +1001,19 @@ WINDCHILL
 03CD 0
 
 DEWPOINT
-03CE 9     | Current Dewpoint: <TEMPERATURE>
+03CE 9     | Current Dewpoint: <TEMPERATURE>			(=2.49)
 03CF 4     |
-03D0 2     |    02.49
+03D0 2     |
 03D1 3    _/
 03D2 6
-03D3 1     | Minimum Dewpoint: <TEMPERATURE>
+03D3 1     | Minimum Dewpoint: <TEMPERATURE>			(=-6.89)
 03D4 1     |
-03D5 3     |    -7.11
+03D5 3     |
 03D6 2    _/
 03D7 0
-03D8 4     | Maximum Dewpoint: <TEMPERATURE>
+03D8 4     | Maximum Dewpoint: <TEMPERATURE>			(=8.44)
 03D9 4     |
-03DA 8     |    08.44
+03DA 8     |
 03DB 3    _/
 03DC 7     | Date/Time min Dewpoint: <YYMMDDhhmm>
 03DD 1     |

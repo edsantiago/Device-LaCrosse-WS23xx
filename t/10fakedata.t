@@ -6,8 +6,33 @@ use Test::More;
 
 my $loaded = 0;
 
+our $mmap;
+our @fakedata;
+our @sample_data;
+
 BEGIN {
-  plan tests => 2;
+    $mmap = 'memory_map_2300.txt';
+    open my $map_fh, '<', $mmap or die "Cannot read $mmap: $!";
+
+    while (my $line = <$map_fh>) {
+	chomp $line;
+	$line =~ s/\s+$//;			# Remove trailing whitespace
+
+	# E.g. 0019 0   alarm set flags
+	if ($line =~ s!^([0-9a-f]{4})\s+([0-9a-f])\s*!!i) {
+	    $fakedata[hex($1)] = $2;
+
+	    if ($line =~ m!^\|\s+([^ 0-9].*?)\s*:\s*(.*)!) {
+		my ($desc, $formula) = ($1, $2);
+		if ($formula =~ /\(=(.*)\)$/) {
+		    push @sample_data, [ $desc, $1 ];
+		}
+	    }
+	}
+    }
+    close $map_fh;
+
+    plan tests => 3 + @sample_data;
 }
 END { $loaded or print "not ok 1\n"; }
 
@@ -15,7 +40,23 @@ use Device::LaCrosse::WS23xx;
 
 $loaded = 1;
 
-my $x = Device::LaCrosse::WS23xx->new("memory_map_2300.txt");
+my $x = Device::LaCrosse::WS23xx->new($mmap);
+
+my @got_data = $x->read_data(0, scalar(@fakedata));
+is_deeply \@got_data, \@fakedata, "array contents";
 
 is $x->get("LCD_Contrast"), 5, "LCD contrast";
 is $x->get("Max_Dewpoint"), "8.44", "Max Dewpoint";
+
+for my $r (@sample_data) {
+    my ($field, $expect) = @$r;
+
+    my $got = $x->get($field);
+    if ($field =~ /date.*time/i) {
+	my @lt = localtime($got);
+	$got = sprintf("%04d-%02d-%02d %02d:%02d",
+		       $lt[5]+1900, $lt[4]+1, @lt[3,2,1]);
+    }
+
+    is $got, $expect, "$field = $expect";
+}
