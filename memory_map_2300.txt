@@ -1048,11 +1048,11 @@ DEWPOINT
 03FA 2
 
 HUMIDITY INDOORS
-03FB 4     | Relative Humidity Indoors: <PERCENT>
+03FB 4     | Relative Humidity Indoors: <PERCENT>		(=24)
 03FC 2    _/
-03FD 9     | Minimum Relative Humidity Indoors: <PERCENT>
+03FD 9     | Minimum Relative Humidity Indoors: <PERCENT>	(=19)
 03FE 1    _/
-03FF 7     | Maximum Relative Humidity Indoors: <PERCENT>
+03FF 7     | Maximum Relative Humidity Indoors: <PERCENT>	(=47)
 0400 4    _/
 0401 8     | Date/Time Min Relative Humidity Indoors: <YYMMDDhhmm>
 0402 1     |
@@ -1074,17 +1074,17 @@ HUMIDITY INDOORS
 0412 0     |
 0413 3     |
 0414 0    _/
-0415 5     | Low Alarm Relative Humidity Indoors: <PERCENT>
+0415 5     | Low Alarm Relative Humidity Indoors: <PERCENT>	(=35)
 0416 3    _/
-0417 5     | High Alarm Relative Humidity Indoors: <PERCENT>
+0417 5     | High Alarm Relative Humidity Indoors: <PERCENT>	(=65)
 0418 6    _/
 
 HUMIDITY OUTDOORS
-0419 1     | Relative Humidity Outdoors: <PERCENT>
+0419 1     | Relative Humidity Outdoors: <PERCENT>		(=71)
 041A 7    _/
-041B 9     | Minimum Relative Humidity Outdoors: <PERCENT>
+041B 9     | Minimum Relative Humidity Outdoors: <PERCENT>	(=19)
 041C 1    _/
-041D 8     | Maximum Relative Humidity Outdoors: <PERCENT>
+041D 8     | Maximum Relative Humidity Outdoors: <PERCENT>	(=78)
 041E 7    _/
 041F 9     | Date/Time min Relative Humidity Outdoors: <YYMMDDhhmm>
 0420 1     |
@@ -1106,9 +1106,9 @@ HUMIDITY OUTDOORS
 0430 0     |
 0431 3     |
 0432 0    _/
-0433 5     | Low Alarm Relative Humidity Outdoors: <PERCENT>
+0433 5     | Low Alarm Relative Humidity Outdoors: <PERCENT>	(=45)
 0434 4    _/
-0435 0     | High Alarm Relative Humidity Outdoors: <PERCENT>
+0435 0     | High Alarm Relative Humidity Outdoors: <PERCENT>	(=70)
 0436 7    _/
 0437 6
 0438 0
@@ -1214,13 +1214,13 @@ HUMIDITY OUTDOORS
 0496 0    Rain 1h area
 
 RAIN 24 HOUR
-0497 0     | Rain 24 hour: <RAIN>
+0497 0     | Rain 24 hour: <RAIN>			(=0)
 0498 0     |
 0499 0     |
 049A 0     |
 049B 0     |
 049C 0    _/
-049D 8     | Rain max 24 hour: <RAIN>
+049D 8     | Rain max 24 hour: <RAIN>			(=128.98)
 049E 9     |
 049F 8     |
 04A0 2     |
@@ -1245,13 +1245,13 @@ RAIN 24 HOUR
 04B3 0    Alarm Rain 24h, BCD 1000 [mm]
 
 RAIN 1 HOUR
-04B4 0     | Rain 1 hour: <RAIN>
+04B4 0     | Rain 1 hour: <RAIN>			(=0)
 04B5 0     |
 04B6 0     |
 04B7 0     |
 04B8 0     |
 04B9 0    _/
-04BA 6     | Rain max 1 hour: <RAIN>
+04BA 6     | Rain max 1 hour: <RAIN>			(=128.46)
 04BB 4     |
 04BC 8     |
 04BD 2     |
@@ -1277,7 +1277,7 @@ RAIN 1 HOUR
 04D1 2
 
 RAIN TOTAL
-04D2 2     | Rain Total: <RAIN>
+04D2 2     | Rain Total: <RAIN>			(=144.52)
 04D3 5     |
 04D4 4     |
 04D5 4     |
@@ -1369,10 +1369,10 @@ WIND ALARM (Read Only - Set values at 533-535 and 538-53A)
 WIND SPEED AND DIRECTION
 0527 0    Wind overflow flag: 0 = normal
 0528 0    Wind minimum code: 0=min, 1=--.-, 2=OFL
-0529 0     | Wind Speed: $HEX / 10.0 [m/s]
+0529 0     | Wind Speed: $HEX / 10.0 [m/s]			(=0)
 052A 0     |
 052B 0    _/
-052C 8    | Wind Direction: $HEX * 22.5 [degrees]
+052C 8    | Wind Direction: $HEX * 22.5 [degrees]		(=180)
 052D 8    Wind Direction 1 measurement ago
 052E 9    Wind Direction 2 measurement ago
 052F 8    Wind Direction 3 measurement ago
@@ -1409,9 +1409,9 @@ WIND ALARM SETTING (Changing this causes 50E-511 or 514-517 to be updated)
 
 HF Reception, 550/54F start value: 0F=cable, 3F=lost, FF=Wireless
 054C D
-054D 0     | Connection Type: 0=Cable, 3=lost, F=Wireless
+054D 0     | Connection Type: 0=Cable, 3=lost, F=Wireless	(=Cable)
 054E 0
-054F C     | Countdown time to next datBinary: $HEX / 2.0 [s]
+054F C     | Countdown time to next datBinary: $HEX / 2.0 [s]	(=6)
 0550 0    _/
 0551 0
 0552 0
@@ -1550,9 +1550,9 @@ HF Reception, 550/54F start value: 0F=cable, 3F=lost, FF=Wireless
 05D7 4
 
 AIR PRESSURE
-05D8 2     | Absolute air pressure: <PRESSURE>
+05D8 2     | Absolute air pressure: <PRESSURE>			(=1016.2)
 05D9 6     |
-05DA 1     |    1016.2
+05DA 1     |
 05DB 0     |
 05DC 1    _/
 05DD 0
@@ -1560,9 +1560,9 @@ AIR PRESSURE
 05DF 0
 05E0 3
 05E1 0
-05E2 4     | Relative air pressure: <PRESSURE>
+05E2 4     | Relative air pressure: <PRESSURE>			(=1018.4)
 05E3 8     |
-05E4 1     |    1018.4
+05E4 1     |
 05E5 0     |
 05E6 1    _/
 05E7 7
@@ -1570,9 +1570,9 @@ AIR PRESSURE
 05E9 0
 05EA 3
 05EB 0
-05EC 2     | Air pressure correction: <PRESSURE> - 1000
+05EC 2     | Air pressure correction: <PRESSURE> - 1000		(=2.2)
 05ED 2     |
-05EE 0     |    2.2
+05EE 0     |
 05EF 0     |
 05F0 1    _/
 05F1 7
@@ -1580,9 +1580,9 @@ AIR PRESSURE
 05F3 0
 05F4 0
 05F5 1
-05F6 0     | Absolute air pressure minimum: <PRESSURE>
+05F6 0     | Absolute air pressure minimum: <PRESSURE>		(=1013)
 05F7 3     |
-05F8 1     |    1013.0
+05F8 1     |
 05F9 0     |
 05FA 1    _/
 05FB 1
@@ -1590,9 +1590,9 @@ AIR PRESSURE
 05FD 9
 05FE 2
 05FF 0
-0600 2     | Relative air pressure minimum: <PRESSURE>
+0600 2     | Relative air pressure minimum: <PRESSURE>		(=1015.2)
 0601 5     |
-0602 1     |    1015.2
+0602 1     |
 0603 0     |
 0604 1    _/
 0605 7
@@ -1600,7 +1600,7 @@ AIR PRESSURE
 0607 9
 0608 2
 0609 0
-060A 6     | Absolute air pressure maximum: <PRESSURE>
+060A 6     | Absolute air pressure maximum: <PRESSURE>		(=1034.6)
 060B 4     |
 060C 3     |
 060D 0     |
@@ -1610,7 +1610,7 @@ AIR PRESSURE
 0611 0
 0612 3
 0613 0
-0614 8     | Relative air pressure maximum: <PRESSURE>
+0614 8     | Relative air pressure maximum: <PRESSURE>		(=1036.8)
 0615 6     |
 0616 3     |
 0617 0     |
@@ -1620,9 +1620,9 @@ AIR PRESSURE
 061B 0
 061C 3
 061D 0
-061E 2     | Date/Time min air pressure: <YYMMDDhhmm>
+061E 2     | Date/Time min air pressure: <YYMMDDhhmm>	(=2003-04-23 05:02)
 061F 0     |
-0620 5     |    2003-04-23 05:02
+0620 5     |
 0621 0     |
 0622 3     |
 0623 2     |
@@ -1630,9 +1630,9 @@ AIR PRESSURE
 0625 0     |
 0626 3     |
 0627 0    _/
-0628 6     | Date/Time max air pressure: <YYMMDDhhmm>
+0628 6     | Date/Time max air pressure: <YYMMDDhhmm>	(=2003-04-18 02:46)
 0629 4     |
-062A 2     |    2003-04-18 02:46
+062A 2     |
 062B 0     |
 062C 8     |
 062D 1     |
@@ -1650,7 +1650,7 @@ AIR PRESSURE
 0639 8
 063A 2
 063B 0
-063C 6     | Low Alarm air pressure: <PRESSURE>
+063C 6     | Low Alarm air pressure: <PRESSURE>			(=963.6)
 063D 3     |
 063E 6     |
 063F 9     |
@@ -1670,7 +1670,7 @@ AIR PRESSURE
 064D 0
 064E 3
 064F 0
-0650 0     | High Alarm air pressure: <PRESSURE>
+0650 0     | High Alarm air pressure: <PRESSURE>		(=1041)
 0651 1     |
 0652 4     |
 0653 0     |
