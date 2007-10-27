@@ -109,7 +109,9 @@ sub get {
 	\%fields;
     };
 
-    my $get = $self->{fields}->{lc $field}
+    my $canonical_field = canonical_name($field);
+
+    my $get = $self->{fields}->{lc $canonical_field}
       or croak "$ME: No such value, '$field'";
 
     my @foo = $self->read_data($get->{address}, $get->{count});
@@ -183,6 +185,86 @@ sub unit_convert {
     croak "$ME: Don't know how to convert $units_in to $units_out";
 }
 
+
+###############################################################################
+# BEGIN canonical_name
+
+################
+#
+# canonical_name
+#
+sub canonical_name {
+    my $desc = $1;
+    my $canonical_name = '';
+
+    # Min or Max?
+    if ($desc =~ s/\bmin(imum)?\b/ /i) {
+	$canonical_name .= 'Min_';
+    }
+    elsif ($desc =~ s/\bmax(imum)?\b/ /i) {
+	$canonical_name .= 'Max_';
+    }
+    elsif ($desc =~ s/\b(High|Low)\s*Alarm\b/ /i) {
+	$canonical_name .= ucfirst(lc($1)) . '_Alarm_';
+    }
+    elsif ($desc =~ s/\bCurrent\b/ /i) {
+	# do nothing
+    }
+
+    # Where?
+    if ($desc =~ s/\b(indoor|outdoor)s?\b/ /i) {
+	$canonical_name .= ucfirst(lc($1)) . '_';
+    }
+
+    # What: Temperature, Windchill, Pressure, ...
+    if ($desc =~ s/\btemp(erature)?\b/ /i) {
+	$canonical_name .= 'Temperature';
+    }
+    elsif ($desc =~ s/\bPress(ure)?\b/ /i) {
+	$desc =~ s/\bair\b/ /i;
+
+	if ($desc =~ s/\b(Absolute|Relative)\b/ /i) {
+	    $canonical_name .= ucfirst(lc($1)) . '_';
+	}
+	$canonical_name .= 'Pressure';
+	if ($desc =~ s/\bCorrection\b/ /i) {
+	    $canonical_name .= '_Correction';
+	}
+    }
+    elsif ($desc =~ s/\b(Humidity|Windchill|Dewpoint)\b/ /i) {
+	$canonical_name .= ucfirst(lc($1));
+	$desc =~ s/\bRel(ative)?\b/ /i;
+    }
+    elsif ($desc =~ s/\b(Rain)\b//i) {
+	$canonical_name .= "Rain";
+	if ($desc =~ s/\b(1|24)(\s*h(ou)?r?)?\b//i) {
+	    $canonical_name .= "_$1hour";
+	}
+	elsif ($desc =~ s/\btotal\b//i) {
+	    $canonical_name .= "_Total";
+	}
+    }
+    else {
+	(my $tmp = $desc) =~ s/\s+/_/g;
+	$canonical_name .= $tmp;
+	# FIXME: warn?
+    }
+
+    # Is this a date/time field?
+    if ($desc =~ s!\bDate/Time\b! !i) {
+	$canonical_name .= '_datetime';
+    }
+
+    if ($desc =~ /\S/) {
+	warn "leftover: $desc\n";
+    }
+
+    $canonical_name =~ s/_$//;
+
+    return $canonical_name;
+}
+
+# END   canonical_name
 ###############################################################################
 # BEGIN tie() code for treating the ws23xx as a perl array
 

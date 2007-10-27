@@ -3,78 +3,24 @@
 # FIXME
 #
 
-# Get the 'canonical_name' function from Open2300.pm
-# FIXME
-sub canonical_name {
-    my $desc = $1;
-    my $canonical_name = '';
-
-    # Min or Max?
-    if ($desc =~ s/\bmin(imum)?\b/ /i) {
-	$canonical_name .= 'Min_';
+# Get the 'canonical_name' function from Open2300.pm.  We can't just 'do'
+# or 'require' the module, because the xs might not exist yet.
+my $func_buffer = '';
+open IN, '<', 'WS23xx.pm' or die;
+while (<IN>) {
+    if (/^sub\s+canonical_name/) {
+	$func_buffer .= $_;
     }
-    elsif ($desc =~ s/\bmax(imum)?\b/ /i) {
-	$canonical_name .= 'Max_';
-    }
-    elsif ($desc =~ s/\b(High|Low)\s*Alarm\b/ /i) {
-	$canonical_name .= ucfirst(lc($1)) . '_Alarm_';
-    }
-    elsif ($desc =~ s/\bCurrent\b/ /i) {
-	# do nothing
-    }
-
-    # Where?
-    if ($desc =~ s/\b(indoor|outdoor)s?\b/ /i) {
-	$canonical_name .= ucfirst(lc($1)) . '_';
-    }
-
-    # What: Temperature, Windchill, Pressure, ...
-    if ($desc =~ s/\btemp(erature)?\b/ /i) {
-	$canonical_name .= 'Temperature';
-    }
-    elsif ($desc =~ s/\bPress(ure)?\b/ /i) {
-	$desc =~ s/\bair\b/ /i;
-
-	if ($desc =~ s/\b(Absolute|Relative)\b/ /i) {
-	    $canonical_name .= ucfirst(lc($1)) . '_';
-	}
-	$canonical_name .= 'Pressure';
-	if ($desc =~ s/\bCorrection\b/ /i) {
-	    $canonical_name .= '_Correction';
+    elsif ($func_buffer) {
+	$func_buffer .= $_;
+	if (/^\}/) {
+	    close IN;
+	    last;
 	}
     }
-    elsif ($desc =~ s/\b(Humidity|Windchill|Dewpoint)\b/ /i) {
-	$canonical_name .= ucfirst(lc($1));
-	$desc =~ s/\bRel(ative)?\b/ /i;
-    }
-    elsif ($desc =~ s/\b(Rain)\b//i) {
-	$canonical_name .= "Rain";
-	if ($desc =~ s/\b(1|24)(\s*h(ou)?r?)?\b//i) {
-	    $canonical_name .= "_$1hour";
-	}
-	elsif ($desc =~ s/\btotal\b//i) {
-	    $canonical_name .= "_Total";
-	}
-    }
-    else {
-	(my $tmp = $desc) =~ s/\s+/_/g;
-	$canonical_name .= $tmp;
-	# FIXME: warn?
-    }
-
-    # Is this a date/time field?
-    if ($desc =~ s!\bDate/Time\b! !i) {
-	$canonical_name .= '_datetime';
-    }
-
-    if ($desc =~ /\S/) {
-	warn "leftover: $desc\n";
-    }
-
-    $canonical_name =~ s/_$//;
-
-    return $canonical_name;
 }
+eval $func_buffer;
+die "$@" if $@;
 
 # Read the memory map, write out FIXME
 (my $mapfile = $0) =~ s!^(.*/)?(.*)\.pl$!$2.txt!;
