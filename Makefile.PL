@@ -7,4 +7,7 @@ WriteMakefile(
 	      NAME         => 'Device::LaCrosse::WS23xx',
 	      PMLIBDIRS    => [ '' ],
 	      VERSION_FROM => 'WS23xx.pm',
+	      ($ExtUtils::MakeMaker::VERSION ge '6.30_00'?
+	       ('LICENSE'         => 'perl', ) : ()),
+
 );
