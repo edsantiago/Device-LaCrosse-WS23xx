@@ -222,14 +222,14 @@ int read_device(int fh, uchar *buffer, int size)
 	    if (! select(fh+1, &readfd, 0, 0, &timeout)) {
 		// Timed out with nothing to read.  Abort.
 		fprintf(stderr,"Yuk. Read %d of %d bytes.\n",bytes_read,size);
-		trace("<<", 0, 0, "timed out");
+		trace("<-", 0, 0, "timed out");
 		return bytes_read;
 	    }
 
 	    // select() says there's more to read
 	}
 	else {
-	  trace("<<", buffer+bytes_read, ret, 0);
+	  trace("<-", buffer+bytes_read, ret, 0);
 	}
 
 	bytes_read += ret;
@@ -246,7 +246,7 @@ write_device(int fh, uchar *buffer, int size)
 {
 	int ret = write(fh, buffer, size);
 
-	trace(">>", buffer, size, (ret==size ? 0 : "*ERR*"));
+	trace("->", buffer, size, (ret==size ? 0 : "*ERR*"));
 
 	if (ret != size) {
 	  fprintf(stderr,"write failed: size=%d ret=%d errno=%d\n",
