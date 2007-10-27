@@ -89,6 +89,8 @@ sub get {
     my $field = shift
       or croak "Usage: $PKG->new( FIELD )";
 
+    # First time through?  Read and parse the memory map at the
+    # end of this file.
     $self->{fields} ||= do {
 	my %fields;
 	for my $line (<DATA>) {
@@ -110,47 +112,67 @@ sub get {
 	\%fields;
     };
 
+    # Canonicalize the requested field name, e.g.
+    # 'Indoor Temp Max' => Max_Indoor_Temperature
     my $canonical_field = canonical_name($field);
 
+    # Get the field info.
+    # FIXME: If there's no such field, return undef instead of croaking?
     my $get = $self->{fields}->{lc $canonical_field}
       or croak "$ME: No such value, '$field'";
 
-    my @foo = $self->read_data($get->{address}, $get->{count});
+    my @data = $self->read_data($get->{address}, $get->{count});
 
-    # Asked for raw data?
+    # Convert to string context: (0, 3, 0xF, 9) becomes '03F9'.
+    my $data = join('', map { sprintf "%X",$_ } @data);
+
+    # Asked for raw data?  If called with 'raw' as second argument,
+    # return the nybbles directly as they are.
     if (@_ && lc($_[0]) eq 'raw') {
-	return wantarray ? @foo
-	                 : join('', map { sprintf "%X",$_ } @foo);
+	return wantarray ? @data
+	                 : $data;
     }
 
-    # Interpret
-    my $BCD = join('', reverse(@foo));
+    # Interpret.  This will be done inside an eval which may access
+    # two variables: $BCD and $HEX.  Both actually consist of the
+    # same thing, they're just interpreted differently.  They are
+    # the decimal or hexadecimal interpretation of the sequence
+    # of data nybbles read from the device.  Note that data nybbles
+    # are returned Least Significant First.  So if @data = (0, 3, 2)
+    # then $BCD will be '230' (two hundred and thirty)
+    # and  $HEX will be 0x230 (= decimal 560).
+    my $BCD = reverse($data);
     $BCD =~ s/^0+//;
     $BCD = '0' if $BCD eq '';
 
+    # Only evaluate $HEX if it is used in the expression.  That
+    # prevents this warning: 'Integer overflow in hexadecimal number'
+    # on the YYMMDDhhmm fields.
     my $HEX;
-    if (@foo < 6) {
-	$HEX = hex(join('', map { sprintf "%X", $_ } @foo));
+    my $expr = $get->{expr};
+    if ($expr =~ /HEX/) {
+	$HEX = hex($BCD);
     }
 
     # Special case for datetime: return a unix time_t
     sub time_convert($) {
-	#             YY      MM     DD    HH    MM
+	#             YY      MM     DD    hh    mm
 	$_[0] =~ m!^(\d{1,2})(\d\d)(\d\d)(\d\d)(\d\d)$!
 	  or die "$ME: Internal error: bad datetime '$_[0]'";
 	return timelocal( 0,$5,$4, $3, $2-1, $1+100);
     }
 
-    my $expr = $get->{expr};
+    # Special case for values with well-defined meanings:
+    #    0=Foo, 1=Bar, 2=Fubar, ...
     if ($expr =~ /\d=.*,.*\d=/) {
-	my @y;
+	my @string_value;
 	for my $pair (split(/\s*,\s*/, $expr)) {
 	    # FIXME: don't die!  This is customer code.
 	    $pair =~ /([0-9a-f])=(.*)/i or die;
-	    $y[hex($1)] = $2;
+	    $string_value[hex($1)] = $2;
 	}
 
-	my $val = $y[$BCD || 0];
+	my $val = $string_value[hex($BCD)];
 	if (defined $val) {
 	    return $val;
 	}
@@ -159,15 +181,17 @@ sub get {
 	}
     }
 
-    my $val = eval($get->{expr});
+    # Interpret the equation, e.g. $BCD / 10.0
+    my $val = eval($expr);
     if ($@) {
 	croak "$ME: eval( $get->{expr} ) died: $@";
     }
 
-    # Asked to convert?
+    # Asked to convert units?
     if (@_) {
 	return unit_convert($val, $get->{units}, $_[0]);
     }
+
     return $val;
 }
 
@@ -304,9 +328,9 @@ sub FETCH {
 
     # FIXME: assert that 0 <= index <= MAX
     # FIXME: read and cache more than just 1
-    my @foo = read_2300($self->{ws}->{fh}, $index, 1);
+    my @data = read_2300($self->{ws}->{fh}, $index, 1);
 
-    return $foo[0];
+    return $data[0];
 }
 
 sub FETCHSIZE {
