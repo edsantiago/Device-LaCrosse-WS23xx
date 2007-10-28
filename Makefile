@@ -176,10 +176,13 @@ PERL_ARCHIVE       =
 PERL_ARCHIVE_AFTER = 
 
 
-TO_INST_PM = lib/Device/LaCrosse/WS23xx.pm
+TO_INST_PM = lib/Device/LaCrosse/WS23xx.pm \
+	lib/Device/LaCrosse/WS23xx/MemoryMap.pm
 
 PM_TO_BLIB = lib/Device/LaCrosse/WS23xx.pm \
-	blib/lib/Device/LaCrosse/WS23xx.pm
+	blib/lib/Device/LaCrosse/WS23xx.pm \
+	lib/Device/LaCrosse/WS23xx/MemoryMap.pm \
+	blib/lib/Device/LaCrosse/WS23xx/MemoryMap.pm
 
 
 # --- MakeMaker platform_constants section:
@@ -929,7 +932,8 @@ ppd:
 
 pm_to_blib : $(TO_INST_PM)
 	$(NOECHO) $(ABSPERLRUN) -MExtUtils::Install -e 'pm_to_blib({@ARGV}, '\''$(INST_LIB)/auto'\'', '\''$(PM_FILTER)'\'')' \
-	  lib/Device/LaCrosse/WS23xx.pm blib/lib/Device/LaCrosse/WS23xx.pm 
+	  lib/Device/LaCrosse/WS23xx.pm blib/lib/Device/LaCrosse/WS23xx.pm \
+	  lib/Device/LaCrosse/WS23xx/MemoryMap.pm blib/lib/Device/LaCrosse/WS23xx/MemoryMap.pm 
 	$(NOECHO) $(TOUCH) pm_to_blib
 
 
