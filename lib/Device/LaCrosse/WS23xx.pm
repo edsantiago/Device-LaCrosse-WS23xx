@@ -403,6 +403,29 @@ Retrieves data from the weather station, and FIXME FIXME
 
 Ed Santiago <esm@cpan.org>
 
+=head1	ACKNOWLEDGMENTS
+
+I am indebted to Kenneth Lavrsen, author of Open2300, for his
+excellent code and documentation.  Thanks also to Claude
+Ocquidant for very helpful notes on the WS-23xx protocol.
+
+=head1 BUGS
+
+No support for writing data.  To reset the rain counters or perform
+other write operations, use the Open2300 tools.
+
+Please report any bugs or feature requests to C<bug-device-lacrosse-ws23xx at rt.cpan.org>, or through
+the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Device-LaCrosse-WS23xx>.  I will be notified, and then you'll
+automatically be notified of progress on your bug as I make changes.
+
+=head1	SEE ALSO
+
+Open2300:
+L<http://www.lavrsen.dk/twiki/bin/view/Open2300/WebHome>
+
+Claude Ocquidant:
+L<http://perso.orange.fr/claude.ocquidant/autrespages/leprotocol/protocol-eng.htm>
+
 =cut
 
 # END   documentation
