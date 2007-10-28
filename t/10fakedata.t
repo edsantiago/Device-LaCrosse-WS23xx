@@ -44,7 +44,7 @@ $loaded = 1;
 # actually talk to a weather station device!
 my $x = Device::LaCrosse::WS23xx->new($mmap);
 
-my @got_data = $x->read_data(0, scalar(@fakedata));
+my @got_data = $x->_read_data(0, scalar(@fakedata));
 is_deeply \@got_data, \@fakedata, "array contents";
 
 is $x->get("LCD_Contrast"), 5, "LCD contrast";

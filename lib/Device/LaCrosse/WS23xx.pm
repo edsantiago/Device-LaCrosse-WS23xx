@@ -99,20 +99,20 @@ sub new {
 	mmap => Device::LaCrosse::WS23xx::MemoryMap->new(),
     };
 
-    $self->{fh} = open_2300($device)
+    $self->{fh} = _ws_open($device)
 	or die "cannot open\n";
 
     return bless $self, $class;
 }
 
 
-sub read_data {
+sub _read_data {
     my $self    = shift;
     my $address = shift;
     my $length  = shift;
 
     # FIXME: enable caching of @_ ?
-    return read_2300($self->{fh}, $address, $length);
+    return _ws_read($self->{fh}, $address, $length);
 }
 
 sub get {
@@ -134,7 +134,7 @@ sub get {
 
 
 
-    my @data = $self->read_data($get->{address}, $get->{count});
+    my @data = $self->_read_data($get->{address}, $get->{count});
 
     # Convert to string context: (0, 3, 0xF, 9) becomes '03F9'.
     my $data = join('', map { sprintf "%X",$_ } @data);
@@ -288,7 +288,7 @@ sub FETCH {
 
     # FIXME: assert that 0 <= index <= MAX
     # FIXME: read and cache more than just 1
-    my @data = read_2300($self->{ws}->{fh}, $index, 1);
+    my @data = $self->_read_data($index, 1);
 
     return $data[0];
 }
@@ -340,7 +340,7 @@ sub new {
     return bless $self, $class;
 }
 
-sub read_data {
+sub _read_data {
     my $self    = shift;
     my $address = shift;
     my $length  = shift;

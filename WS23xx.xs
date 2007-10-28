@@ -413,7 +413,7 @@ MODULE = Device::LaCrosse::WS23xx	PACKAGE = Device::LaCrosse::WS23xx
 
 
 int
-open_2300(path)
+_ws_open(path)
 	char *     path
     INIT:
 	int serial_device;
@@ -499,7 +499,7 @@ open_2300(path)
 
 
 void
-read_2300(fh, addr, nybble_count)
+_ws_read(fh, addr, nybble_count)
 	int fh
 	unsigned short addr
 	unsigned char nybble_count
