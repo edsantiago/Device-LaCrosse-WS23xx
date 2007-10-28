@@ -168,7 +168,7 @@ sub get {
     }
 
     # Special case for datetime: return a unix time_t
-    sub time_convert($) {
+    sub _time_convert($) {
 	#             YY      MM     DD    hh    mm
 	$_[0] =~ m!^(\d{1,2})(\d\d)(\d\d)(\d\d)(\d\d)$!
 	  or die "$ME: Internal error: bad datetime '$_[0]'";

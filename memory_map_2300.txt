@@ -5,7 +5,7 @@ version 1.6, 2004 Apr 22
    macro PRESSURE    = $BCD / 10.0 [hPa]
    macro RAIN        = $BCD / 100.0 [mm]
    macro PERCENT     = $BCD [%]
-   macro YYMMDDhhmm  = time_convert($BCD) [s]
+   macro YYMMDDhhmm  = _time_convert($BCD) [s]
 
 Address Data_Sample Function
 
