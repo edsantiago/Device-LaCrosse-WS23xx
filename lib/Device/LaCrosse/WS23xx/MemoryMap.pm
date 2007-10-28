@@ -8,6 +8,7 @@ package Device::LaCrosse::WS23xx::MemoryMap;
 
 use strict;
 use warnings;
+use Carp;
 
 my $_memory_map = <<'END_MEMORY_MAP';
 000F:1  Wind_unit                                0=m/s, 1=knots, 2=beaufort, 3=km/h, 4=mph
@@ -81,7 +82,55 @@ my $_memory_map = <<'END_MEMORY_MAP';
 0650:5  High_Alarm_Pressure [hPa]                $BCD / 10.0
 END_MEMORY_MAP
 
-# FIXME: split and parse
+
+sub new {
+    my $proto = shift;
+    my $class = ref($proto) || $proto;
+
+    my $self = {
+	fields => {},
+    };
+
+    # Read and parse the memory map at top.
+    for my $line (split "\n", $_memory_map) {
+	next if $line =~ m!^\s*$!;		# Skip blank lines
+	next if $line =~ m!^\s*#!;		# Skip comments
+
+	$line =~ /^(\S+):(\S+)\s+(\S+)(\s+\[(.*?)\])?\s+(\S.*\S)/
+	  or die "Internal error: Cannot grok '$line'";
+	$self->{fields}{lc $3} = {
+	    address => hex($1),
+	    count   => $2,
+	    name  => $3,
+	    units => $5 || '?',
+	    expr  => $6,
+	};
+    }
+
+    return bless $self, $class;
+}
+
+sub find_field {
+    my $self = shift;
+    my $field = shift;
+
+    # Canonicalize the requested field name, e.g.
+    # 'Indoor Temp Max' => Max_Indoor_Temperature
+    my $canonical_field = _canonical_name($field);
+    if (! exists $self->{fields}->{lc $canonical_field}) {
+	(my $re = lc $field) =~ s/[ _]+/.*/g;
+	my @match = grep { /$re/i } keys %{$self->{fields}};
+	if (@match == 1) {
+	    $canonical_field = $match[0];
+	}
+    }
+
+    # Get the field info.
+    # FIXME: If there's no such field, return undef instead of croaking?
+    return $self->{fields}->{lc $canonical_field}
+      or croak "No such value, '$field'";
+}
+
 # FIXME: include canonical_name ?
 # FIXME: POD
 
