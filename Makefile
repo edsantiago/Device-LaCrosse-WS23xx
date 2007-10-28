@@ -942,9 +942,6 @@ pm_to_blib : $(TO_INST_PM)
 
 
 # --- MakeMaker postamble section:
-newmappings:	memory_map_2300.txt memory_map_2300.pl
-	@echo "FIXME: trim DATA from WS23xx.pm"
-	./memory_map_2300.pl >> WS23xx.pm
 
 
 # End.
