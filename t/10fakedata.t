@@ -32,7 +32,7 @@ BEGIN {
     }
     close $map_fh;
 
-    plan tests => 3 + @sample_data;
+    plan tests => 4 + @sample_data;
 }
 END { $loaded or print "not ok 1\n"; }
 
@@ -42,18 +42,25 @@ $loaded = 1;
 
 # Note that this uses the ::Fake subclass, which does not
 # actually talk to a weather station device!
-my $x = Device::LaCrosse::WS23xx->new($mmap);
+my $ws = Device::LaCrosse::WS23xx->new($mmap);
 
-my @got_data = $x->_read_data(0, scalar(@fakedata));
+my @got_data = $ws->_read_data(0, scalar(@fakedata));
 is_deeply \@got_data, \@fakedata, "array contents";
 
-is $x->get("LCD_Contrast"), 5, "LCD contrast";
-is $x->get("Max_Dewpoint"), "8.44", "Max Dewpoint";
+# Test the tied interface.  @WS is a magical object that maps
+# the WS-23xx device memory into a perl list.
+tie my @WS, 'Device::LaCrosse::WS23xx', $ws
+    or die "Cannot tie";
+is_deeply \@WS, \@fakedata, "tie";
+
+is $ws->get("LCD_Contrast"), 5, "LCD contrast";
+is $ws->get("Max_Dewpoint"), "8.44", "Max Dewpoint";
+
 
 for my $r (@sample_data) {
     my ($field, $expect) = @$r;
 
-    my $got = $x->get($field);
+    my $got = $ws->get($field);
     if ($field =~ /date.*time/i) {
 	my @lt = localtime($got);
 	$got = sprintf("%04d-%02d-%02d %02d:%02d",
