@@ -17,22 +17,6 @@ use Device::LaCrosse::WS23xx::MemoryMap;
 ###############################################################################
 # BEGIN user-customizable section
 
-our $Canonical = <<'END_CANONICAL';
-Max		Maximum | Maximal
-Min		Minimum | Minimal
-
-Indoor		Indoors  | Inside  | In
-Outdoor		Outdoors | Outside | Out
-
-Pressure	Press | Air Pressure
-Temperature	Temp
-Humidity	Hum   | Relative Humidity | Rel Humidity
-Windchill	Wind Chill
-Wind_Speed	Wind Speed | Windspeed
-Dewpoint	Dew Point
-Rain		Rainfall  | Rain
-END_CANONICAL
-
 # The conversions we know how to do.  Format of this table is:
 #
 #    <from>    <to>(<precision>)   <expression>

@@ -93,6 +93,24 @@ my $_memory_map = <<'END_MEMORY_MAP';
 06C4:2  Number_of_Records                        hex($BCD)
 END_MEMORY_MAP
 
+my $Canonical = <<'END_CANONICAL';
+Max		Maximum | Maximal
+Min		Minimum | Minimal
+
+Indoor		Indoors  | Inside  | In
+Outdoor		Outdoors | Outside | Out
+
+Pressure	Press | Air Pressure
+Temperature	Temp
+Humidity	Hum   | Relative Humidity | Rel Humidity
+Windchill	Wind Chill
+Wind_Speed	Wind Speed | Windspeed
+Dewpoint	Dew Point
+Rain		Rainfall  | Rain
+END_CANONICAL
+
+
+
 
 sub new {
     my $proto = shift;
