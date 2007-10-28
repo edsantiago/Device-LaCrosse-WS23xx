@@ -302,7 +302,7 @@ write_readback(int fh, uchar byte, uchar expect)
 }
 
 
-void reset_06(int fh)
+void _ws_reset(int fh)
 {
     uchar reset = 0x06;
     uchar answer;
@@ -398,7 +398,7 @@ read_safe(int fh, ushort address, ushort byte_count, uchar *buf)
 	    return 1;
 
 	// FIXME: warn?  Reset?
-//	reset_06(fh);
+//	_ws_reset(fh);
 	trace("**",0,0," read_data failed");
 	tcflush(fh, TCIOFLUSH);
     }
@@ -493,7 +493,7 @@ _ws_open(path)
 	ioctl(fh, TIOCMSET, &portstatus);	// set current port status
 
 	// Reset the device, just once
-	reset_06(fh);
+	_ws_reset(fh);
 
 	// Return the filehandle as a perl scalar
 	XPUSHs(sv_2mortal(newSVnv(fh)));
