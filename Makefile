@@ -176,12 +176,9 @@ PERL_ARCHIVE       =
 PERL_ARCHIVE_AFTER = 
 
 
-TO_INST_PM = lib/Device/LaCrosse/WS23xx.pm \
-	memory_map_2300.pl
+TO_INST_PM = lib/Device/LaCrosse/WS23xx.pm
 
-PM_TO_BLIB = memory_map_2300.pl \
-	$(INST_LIB)/Device/LaCrosse/memory_map_2300.pl \
-	lib/Device/LaCrosse/WS23xx.pm \
+PM_TO_BLIB = lib/Device/LaCrosse/WS23xx.pm \
 	blib/lib/Device/LaCrosse/WS23xx.pm
 
 
@@ -498,6 +495,12 @@ manifypods : pure_all  \
 
 
 # --- MakeMaker processPL section:
+
+all :: memory_map_2300
+	$(NOECHO) $(NOOP)
+
+memory_map_2300 :: memory_map_2300.PL pm_to_blib
+	$(PERLRUNINST) memory_map_2300.PL memory_map_2300
 
 
 # --- MakeMaker installbin section:
@@ -926,7 +929,6 @@ ppd:
 
 pm_to_blib : $(TO_INST_PM)
 	$(NOECHO) $(ABSPERLRUN) -MExtUtils::Install -e 'pm_to_blib({@ARGV}, '\''$(INST_LIB)/auto'\'', '\''$(PM_FILTER)'\'')' \
-	  memory_map_2300.pl $(INST_LIB)/Device/LaCrosse/memory_map_2300.pl \
 	  lib/Device/LaCrosse/WS23xx.pm blib/lib/Device/LaCrosse/WS23xx.pm 
 	$(NOECHO) $(TOUCH) pm_to_blib
 
