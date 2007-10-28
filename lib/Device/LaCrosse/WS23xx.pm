@@ -87,7 +87,7 @@ sub new {
     my $class = ref($proto) || $proto;
 
     my $device = shift                     # in: mandatory arg
-      or croak "Usage: ".__PACKAGE__."->new( \"/dev/LACROSS-DEV-NAME\" )";
+      or croak "Usage: ".__PACKAGE__."->new( \"/dev/LACROSSE-DEV-NAME\" )";
 
     # Is $device path a plain (not device) file with a special name?
     if ($device =~ /map.*\.txt/  &&  ! -c $device) {
@@ -99,8 +99,10 @@ sub new {
 	mmap => Device::LaCrosse::WS23xx::MemoryMap->new(),
     };
 
+    # Open and initialize the device.  If that fails, we'll get undef
+    # and pass it along (hoping that $! is set).
     $self->{fh} = _ws_open($device)
-	or die "cannot open\n";
+	or return undef;
 
     return bless $self, $class;
 }
@@ -111,8 +113,42 @@ sub _read_data {
     my $address = shift;
     my $length  = shift;
 
-    # FIXME: enable caching of @_ ?
-    return _ws_read($self->{fh}, $address, $length);
+    # See if we've already cached this address range
+    if (my $cache = $self->{cache}) {
+	for (my $i=0; $i < @$cache; $i++) {
+	    my $c = $cache->[$i];
+
+	    # First, delete expired entries
+	    if ($c->{expires} < time) {
+		splice @$cache, $i, 1;
+		redo;
+	    }
+
+	    # Check range
+	    if ($c->{address} <= $address) {
+		if ($address+$length < $c->{address} + @{$c->{data}}) {
+		    my $data = $c->{data};
+		    my $start = $address - $c->{address};
+		    return @{$data}[$start .. $start + $length - 1];
+		}
+	    }
+	}
+    }
+
+    # Not cached.  Read, and cache.
+    my $n_read = 30;	# FIXME: try $self->{cache}->{count} ?
+    my @data = _ws_read($self->{fh}, $address, $n_read);
+
+    $self->{cache} ||= [];
+    push @{ $self->{cache} }, {
+	address => $address,
+	data    => \@data,
+	expires => time + 10,	# FIXME
+    };
+
+    use Data::Dumper; print Dumper($self->{cache});
+
+    return @data[0 .. $length-1];
 }
 
 sub get {
