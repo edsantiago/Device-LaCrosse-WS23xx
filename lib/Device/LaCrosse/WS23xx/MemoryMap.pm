@@ -65,10 +65,10 @@ my $_memory_map = <<'END_MEMORY_MAP';
 04C0:10 Max_Rain_1hour_datetime [s]              _time_convert($BCD)
 04D2:6  Rain_Total [mm]                          $BCD / 100.0
 04D8:10 Rain_Total_datetime [s]                  _time_convert($BCD)
-0529:3  Wind_Speed [m/s]                         $HEX / 10.0
-052C:1  Wind_Direction [degrees]                 $HEX * 22.5
+0529:3  Wind_Speed [m/s]                         hex($BCD) / 10.0
+052C:1  Wind_Direction [degrees]                 hex($BCD) * 22.5
 054D:1  Connection_Type                          0=Cable, 3=lost, F=Wireless
-054F:2  Countdown_time_to_next_datBinary [s]     $HEX / 2.0
+054F:2  Countdown_time_to_next_datBinary [s]     hex($BCD) / 2.0
 05D8:5  Absolute_Pressure [hPa]                  $BCD / 10.0
 05E2:5  Relative_Pressure [hPa]                  $BCD / 10.0
 05EC:5  Pressure_Correction [hPa]                $BCD / 10.0- 1000

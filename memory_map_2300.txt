@@ -1369,10 +1369,10 @@ WIND ALARM (Read Only - Set values at 533-535 and 538-53A)
 WIND SPEED AND DIRECTION
 0527 0    Wind overflow flag: 0 = normal
 0528 0    Wind minimum code: 0=min, 1=--.-, 2=OFL
-0529 0     | Wind Speed: $HEX / 10.0 [m/s]			(=0)
+0529 0     | Wind Speed: hex($BCD) / 10.0 [m/s]			(=0)
 052A 0     |
 052B 0    _/
-052C 8    | Wind Direction: $HEX * 22.5 [degrees]		(=180)
+052C 8    | Wind Direction: hex($BCD) * 22.5 [degrees]		(=180)
 052D 8    Wind Direction 1 measurement ago
 052E 9    Wind Direction 2 measurement ago
 052F 8    Wind Direction 3 measurement ago
@@ -1411,7 +1411,7 @@ HF Reception, 550/54F start value: 0F=cable, 3F=lost, FF=Wireless
 054C D
 054D 0     | Connection Type: 0=Cable, 3=lost, F=Wireless	(=Cable)
 054E 0
-054F C     | Countdown time to next datBinary: $HEX / 2.0 [s]	(=6)
+054F C     | Countdown time to next datBinary: hex($BCD) / 2.0 [s]	(=6)
 0550 0    _/
 0551 0
 0552 0
