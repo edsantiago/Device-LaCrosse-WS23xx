@@ -1306,36 +1306,36 @@ RAIN TOTAL
 04EC 0
 04ED 0
 WIND MIN/MAX
-04EE 0    Minimum wind: binary nibble 0, nnnn/360 [m/s]
-04EF 0    Minimum wind: binary nibble 1, -
-04F0 0    Minimum wind: binary nibble 2, -
-04F1 0    Minimum wind: binary nibble 3, -
+04EE 0     | Minimum wind: hex($BCD) / 360.0 [m/s]		(=0)
+04EF 0     |
+04F0 0     |
+04F1 0    _/
 04F2 0
 04F3 0
-04F4 C    Maximum wind: binary nibble 0, nnnn/360 [m/s]
-04F5 D    Maximum wind: binary nibble 1, -
-04F6 3    Maximum wind: binary nibble 2, -
-04F7 2    Maximum wind: binary nibble 3, -
-04F8 6    Time min wind, minutes BCD 1s
-04F9 2    Time min wind, minutes BCD 10s
-04FA 3    Time min wind, hours BCD 1s
-04FB 0    Time min wind, hours BCD 10s
-04FC 4    Date min wind, BCD day 1s
-04FD 2    Date min wind, BCD day 10s
-04FE 4    Date min wind, BCD month 1s
-04FF 0    Date min wind, BCD month 10s
-0500 3    Date min wind, BCD year 1s
-0501 0    Date min wind, BCD year 10s
-0502 5    Time max wind, minutes BCD 1s
-0503 2    Time max wind, minutes BCD 10s
-0504 3    Time max wind, hours BCD 1s
-0505 0    Time max wind, hours BCD 10s
-0506 4    Date max wind, BCD day 1s
-0507 2    Date max wind, BCD day 10s
-0508 4    Date max wind, BCD month 1s
-0509 0    Date max wind, BCD month 10s
-050A 3    Date max wind, BCD year 1s
-050B 0    Date max wind, BCD year 10s
+04F4 C     | Maximum wind: hex($BCD) / 360.0 [m/s]		(=25.5)
+04F5 D     |
+04F6 3     |
+04F7 2    _/
+04F8 6     | Date/Time min wind: <YYMMDDhhmm>	(=2003-04-24 03:26)
+04F9 2     |
+04FA 3     |
+04FB 0     |
+04FC 4     |
+04FD 2     |
+04FE 4     |
+04FF 0     |
+0500 3     |
+0501 0    _/
+0502 5     | Date/Time max wind: <YYMMDDhhmm>	(=2003-04-24 03:25)
+0503 2     |
+0504 3     |
+0505 0     |
+0506 4     |
+0507 2     |
+0508 4     |
+0509 0     |
+050A 3     |
+050B 0    _/
 050C 0
 050D 0
 
@@ -1381,14 +1381,14 @@ WIND SPEED AND DIRECTION
 0532 0
 
 WIND ALARM SETTING (Changing this causes 50E-511 or 514-517 to be updated)
-0533 0    Low wind alarm setting: BCD 0.1s [m/s]
-0534 0    Low wind alarm setting: BCD 1s [m/s]
-0535 0    Low wind alarm setting: BCD 10s [m/s]
+0533 0     | Low wind alarm setting: $BCD / 10.0 [m/s]		(=0)
+0534 0     |
+0535 0    _/
 0536 0
 0537 0
-0538 0    High wind alarm setting: BCD 0.1s [m/s]
-0539 1    High wind alarm setting: BCD 1s [m/s]
-053A 0    High wind alarm setting: BCD 10s [m/s]
+0538 0     | High wind alarm setting: $BCD / 10.0 [m/s]		(=1)
+0539 1     |
+053A 0    _/
 053B 0
 053C F
 053D F
@@ -1770,26 +1770,26 @@ AIR PRESSURE
 06B1 4
 
 HISTORY SETTINGS
-06B2 1    History saving interval: Binary nibble 0 [minutes]
-06B3 0    History saving interval: Binary nibble 1 [minutes]
-06B4 0    History saving interval: Binary nibble 2 [minutes]
-06B5 1    Countdown to next saving: Binary nibble 0 [minutes]
-06B6 0    Countdown to next saving: Binary nibble 1 [minutes]
-06B7 0    Countdown to next saving: Binary nibble 2 [minutes]
-06B8 6    Time last record, minutes BCD 1s
-06B9 2    Time last record, minutes BCD 10s
-06BA 3    Time last record, hours BCD 1s
-06BB 0    Time last record, hours BCD 10s
-06BC 4    Date last record, BCD day 1s
-06BD 2    Date last record, BCD day 10s
-06BE 4    Date last record, BCD month 1s
-06BF 0    Date last record, BCD month 10s
-06C0 3    Date last record, BCD year 1s
-06C1 0    Date last record, BCD year 10s
-06C2 6    Pointer to last written Record: Binary nibble 0 [Range 00-AE]
-06C3 9    Pointer to last written Record: Binary nibble 1
-06C4 F    Number of Records: Binary nibble 0 [Range 00-AF]
-06C5 A    Number of Records: Binary nibble 1
+06B2 1     | History saving interval: hex($BCD) [minutes]
+06B3 0     |
+06B4 0    _/
+06B5 1     | Countdown to next saving: hex($BCD) [minutes]
+06B6 0     |
+06B7 0    _/
+06B8 6     | Date/Time last record: <YYMMDDhhmm>	(=2003-04-24 03:26)
+06B9 2     |
+06BA 3     |
+06BB 0     |
+06BC 4     |
+06BD 2     |
+06BE 4     |
+06BF 0     |
+06C0 3     |
+06C1 0    _/
+06C2 6     | Pointer to last written Record: hex($BCD)	(Range 00-AE)
+06C3 9    _/
+06C4 F     | Number of Records: hex($BCD)		(Range 00-AF)
+06C5 A    _/
 
 HISTORY
 4,3,2,1,0: Indoor and outdoor temperature

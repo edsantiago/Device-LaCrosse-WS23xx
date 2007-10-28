@@ -65,8 +65,14 @@ my $_memory_map = <<'END_MEMORY_MAP';
 04C0:10 Max_Rain_1hour_datetime [s]              _time_convert($BCD)
 04D2:6  Rain_Total [mm]                          $BCD / 100.0
 04D8:10 Rain_Total_datetime [s]                  _time_convert($BCD)
+04EE:4  Min__wind [m/s]                          hex($BCD) / 360.0
+04F4:4  Max__wind [m/s]                          hex($BCD) / 360.0
+04F8:10 Min_Date/Time_wind_datetime [s]          _time_convert($BCD)
+0502:10 Max_Date/Time_wind_datetime [s]          _time_convert($BCD)
 0529:3  Wind_Speed [m/s]                         hex($BCD) / 10.0
 052C:1  Wind_Direction [degrees]                 hex($BCD) * 22.5
+0533:3  Low_wind_alarm_setting [m/s]             $BCD / 10.0
+0538:3  High_wind_alarm_setting [m/s]            $BCD / 10.0
 054D:1  Connection_Type                          0=Cable, 3=lost, F=Wireless
 054F:2  Countdown_time_to_next_datBinary [s]     hex($BCD) / 2.0
 05D8:5  Absolute_Pressure [hPa]                  $BCD / 10.0
@@ -80,6 +86,11 @@ my $_memory_map = <<'END_MEMORY_MAP';
 0628:10 Max_Pressure_datetime [s]                _time_convert($BCD)
 063C:5  Low_Alarm_Pressure [hPa]                 $BCD / 10.0
 0650:5  High_Alarm_Pressure [hPa]                $BCD / 10.0
+06B2:3  History_saving_interval [minutes]        hex($BCD)
+06B5:3  Countdown_to_next_saving [minutes]       hex($BCD)
+06B8:10 Date/Time_last_record_datetime [s]       _time_convert($BCD)
+06C2:2  Pointer_to_last_written_Record           hex($BCD)
+06C4:2  Number_of_Records                        hex($BCD)
 END_MEMORY_MAP
 
 
