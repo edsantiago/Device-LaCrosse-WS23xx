@@ -97,7 +97,49 @@ sub new {
     my $self = {
 	path => $device,
 	mmap => Device::LaCrosse::WS23xx::MemoryMap->new(),
+
+	cache_expire    => 10,
+	cache_readahead => 30,
     };
+
+    # Any cache parameters included?
+    if (@_) {
+	my %param;
+	if (@_ % 2 == 0) {
+	    %param = @_;
+	}
+	elsif (@_ == 1) {
+	    ref($_[0]) eq 'HASH'
+		or croak "Second arg to ->new() must be a hashref";
+	    %param = %{$_[0]};
+	}
+	else {
+	    croak "$PKG->new() takes options, but you need to read the docs";
+	}
+
+	if (my $n = $param{cache_expire}) {
+	    $n =~ /^\s*(\d{1,3})\s*$/
+		or croak "cache_expire must be a 1- to 3-digit number";
+	    $self->{cache_expire} = $1;
+	    delete $param{cache_expire};
+	}
+
+	if (my $n = $param{cache_readahead}) {
+	    $n =~ /^\s*(\d{1,2})\s*$/
+		or croak "cache_readahead must be a 1- or 2-digit number";
+	    $n = $1;
+	    if ($n > 30) {
+		carp "cache_readahead is limited to 30 nybbles; truncating";
+		$n = 30;
+	    }
+	    $self->{cache_readahead} = $n;
+	    delete $param{cache_readahead};
+	}
+
+	if (my @unknown = sort keys %param) {
+	    croak "Unknown param '@unknown'";
+	}
+    }
 
     # Open and initialize the device.  If that fails, we'll get undef
     # and pass it along (hoping that $! is set).
@@ -112,6 +154,11 @@ sub _read_data {
     my $self    = shift;
     my $address = shift;
     my $length  = shift;
+
+    if ($length > 30) {
+	carp "cannot read more than 30 nybbles; truncating";
+	$length = 30;
+    }
 
     # See if we've already cached this address range
     if (my $cache = $self->{cache}) {
@@ -135,19 +182,23 @@ sub _read_data {
 	}
     }
 
-    # Not cached.  Read, and cache.
-    my $n_read = 30;	# FIXME: try $self->{cache}->{count} ?
+    # Not cached (or expired).  Read the desired range, plus a few more.
+    my $n_read = $self->{cache_readahead};
+    if ($n_read < $length) {
+	$n_read = $length;
+    }
+
     my @data = _ws_read($self->{fh}, $address, $n_read);
 
+    # Preserve in our cache
     $self->{cache} ||= [];
     push @{ $self->{cache} }, {
 	address => $address,
 	data    => \@data,
-	expires => time + 10,	# FIXME
+	expires => time + $self->{cache_expire},
     };
 
-    use Data::Dumper; print Dumper($self->{cache});
-
+    # Return desired address range
     return @data[0 .. $length-1];
 }
 
