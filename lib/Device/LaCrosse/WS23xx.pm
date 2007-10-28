@@ -327,22 +327,33 @@ sub TIEARRAY {
     my $ws    = shift;		# in: weatherstation object _or_ path
 
     my $ws_obj;
-    if (ref($ws)) {
-	if (ref($ws) =~ /^Device::LaCrosse::WS23xx/) {
-	    $ws_obj = $ws;
+    if (ref($class)) {
+	# Called as: 'tie @X, $ws'
+	$ws_obj = $class;
+    }
+    elsif ($ws) {
+	if (ref($ws)) {
+	    if (ref($ws) =~ /^Device::LaCrosse::WS23xx/) {
+		$ws_obj = $ws;
+	    }
+	    else {
+		croak "Error: you called 'tie' with a strange object";
+	    }
 	}
 	else {
-	    croak "Usage: tie \@X, $PKG, [ WS obj | /dev/path ]";
+	    # $ws is not a ref: assume it's a path
+	    $ws_obj = $class->new($ws)
+		or die "Cannot make a WS object out of $ws";
 	}
     }
     else {
-	$ws_obj = $class->new($ws)
-	  or die "Cannot make a WS object out of $ws";
+	# Called without a class object or a ws
+	croak "Usage: tie \@X, [ WS obj | \"$PKG\", \"/dev/path\" ]";
     }
 
     my $self = { ws => $ws_obj };
 
-    return bless $self, $class;
+    return bless $self, ref($class)||$class;
 }
 
 sub FETCH {
