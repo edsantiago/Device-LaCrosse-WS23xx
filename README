@@ -7,7 +7,7 @@ based on the Open2300 project, but differs in several respects:
 
 * Simplicity: the interface is simple and intuitive.  For hackers, the
   Tied interface makes it easy to visualize the address space.  And
-  you don't have to do any of the nybble shifting or masking, it's all
+  you don't have to do any of the nybble shifting or masking: it's all
   done for you.
 
 * Versatility: read the values you want, in the units you want.  Write

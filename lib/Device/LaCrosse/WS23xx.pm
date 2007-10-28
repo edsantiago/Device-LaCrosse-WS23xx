@@ -447,7 +447,7 @@ but differs in several respects:
 
 Simplicity: the interface is simple and intuitive.  For hackers,
 the Tied interface makes it easy to visualize the address space.
-And you don't have to do any of the nybble shifting or masking,
+And you don't have to do any of the nybble shifting or masking:
 it's all done for you.
 
 =item *
