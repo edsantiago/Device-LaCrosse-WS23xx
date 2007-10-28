@@ -510,7 +510,7 @@ of addresses, each of which contains one data nybble.
 
 =head1  AUTHOR
 
-Ed Santiago <esm@cpan.org>
+Eduardo Santiago <esm@cpan.org>
 
 =head1	ACKNOWLEDGMENTS
 
