@@ -16,21 +16,18 @@ use Time::Local;
 ###############################################################################
 # BEGIN user-customizable section
 
-our $Values = <<'END_VALUES';
-# Rainfall
-Rain_24h	      mm	[0x0497:6] / 100.0
-Rain_1h		      mm	[0x04B4:6] / 100.0
-Rain_Total            mm	[0x04D2:6] / 100.0
+our $Conversions = <<'END_CONVERSIONS';
+C	F	$value * 9.0 / 5.0 + 32
 
-# Wind info
-Wind_Speed	      m/s	[0x0529:3]
-Wind_Direction        degrees	[0x052C:1] * 22.5
+hPa	inHg	$value / 33.8638864
+hPa	mmHg	$value / 1.3332239
 
-# Logistics
-Connection_Type	      string	[0x054D:1]
+m/s	kph	$value * 3.6
+m/s	kt	$value * 1.9438445
+m/s	mph	$value * 2.2369363
 
-Countdown	      seconds	[0x054F:2] / 2.0
-END_VALUES
+mm	in	$value / 25.4
+END_CONVERSIONS
 
 # END   user-customizable section
 ###############################################################################
@@ -208,19 +205,41 @@ sub unit_convert {
     my $units_in  = shift;
     my $units_out = shift;
 
-    if ($units_in eq 'C') {
-	if ($units_out =~ /^(deg(rees)?)?F$/) {
-	    return $value * 9.0 / 5.0 + 32.0;
+    our %Convert;
+    # First time through?  Read and parse the conversion table at top
+    if (! keys %Convert) {
+	for my $line (split "\n", $Conversions) {
+	    next if $line eq '';
+	    $line =~ m!^(\S+)\s+(\S+)\s+(.*)!
+	      or croak "Internal error: Cannot grok conversion '$line'";
+	    push @{ $Convert{$1} }, [ $2, $3 ];
 	}
     }
 
-    elsif($units_in eq 'hPa') {
-	if ($units_out =~ /^inhg$/i) {
-	    return $value / 33.8638864;
-	}
+    # No known conversions for this unit?
+    if (! exists $Convert{$units_in}) {
+	warn "$ME: Cannot convert '$units_in' to anything\n";
+	return $value;
+    }
+    my @conversions = @{ $Convert{$units_in} };
+
+    # There exists at least one conversion.  Do we have the one
+    # requested by our caller?
+    my @match = grep { lc($_->[0]) eq lc($units_out) } @conversions;
+    if (! @match) {
+	my @try = map { $_->[0] } @conversions;
+	my $try = join ", ", @try;
+	warn "$ME: Cannot convert '$units_in' to '$units_out'.  Try: $try\n";
+	return $value;
     }
 
-    croak "$ME: Don't know how to convert $units_in to $units_out";
+    my $newval = eval $match[0]->[1];
+    if ($@) {
+	warn "$@";
+	return $value;
+    }
+
+    return $newval;
 }
 
 
