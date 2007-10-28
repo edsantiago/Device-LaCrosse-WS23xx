@@ -174,8 +174,7 @@ END_MMAP_REST
 
 print { $mmap_fh } $canonical_name_func;
 
-print { $mmap_fh } <<'END_MMAP_FINAL';
-# FIXME: POD
+print { $mmap_fh } <<'END_MMAP_REST';
 
 =head1 NAME
 
@@ -239,6 +238,29 @@ Perl expression used to convert data nybbles to a useful form.
 If FIELD is not found, returns undef.
 
 =back
+
+=head2	Known Fields
+
+The known data fields -- i.e., what you can use as an
+argument to Device::LaCrosse::WS23xx->get() -- are:
+
+END_MMAP_REST
+
+for my $entry (@map) {
+    my $name = sprintf("%-40s", $entry->{name});
+
+    if (my $units = $entry->{units}) {
+	$name .= $units;
+    }
+    $name =~ s/\s+$//;
+
+    print  { $mmap_fh } "   ", $name, "\n";
+}
+
+
+print { $mmap_fh } <<'END_MMAP_FINAL';
+
+Where applicable, units are displayed to the right of each field.
 
 =head2	Units
 

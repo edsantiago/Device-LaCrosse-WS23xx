@@ -224,7 +224,6 @@ sub _canonical_name {
 }
 
 # END   canonical_name
-# FIXME: POD
 
 =head1 NAME
 
@@ -288,6 +287,94 @@ Perl expression used to convert data nybbles to a useful form.
 If FIELD is not found, returns undef.
 
 =back
+
+=head2	Known Fields
+
+The known data fields -- i.e., what you can use as an
+argument to Device::LaCrosse::WS23xx->get() -- are:
+
+   Wind_unit
+   LCD_contrast
+   Forecast
+   Tendency
+   Indoor_Temperature                      C
+   Min_Indoor_Temperature                  C
+   Max_Indoor_Temperature                  C
+   Min_Indoor_Temperature_datetime         s
+   Max_Indoor_Temperature_datetime         s
+   Low_Alarm_Indoor_Temperature            C
+   High_Alarm_Indoor_Temperature           C
+   Outdoor_Temperature                     C
+   Min_Outdoor_Temperature                 C
+   Max_Outdoor_Temperature                 C
+   Min_Outdoor_Temperature_datetime        s
+   Max_Outdoor_Temperature_datetime        s
+   Low_Alarm_Outdoor_Temperature           C
+   High_Alarm_Outdoor_Temperature          C
+   Windchill                               C
+   Min_Windchill                           C
+   Max_Windchill                           C
+   Min_Windchill_datetime                  s
+   Max_Windchill_datetime                  s
+   Low_Alarm_Windchill                     C
+   High_Alarm_Windchill                    C
+   Dewpoint                                C
+   Min_Dewpoint                            C
+   Max_Dewpoint                            C
+   Min_Dewpoint_datetime                   s
+   Max_Dewpoint_datetime                   s
+   Low_Alarm_Dewpoint                      C
+   High_Alarm_Dewpoint                     C
+   Indoor_Humidity                         %
+   Min_Indoor_Humidity                     %
+   Max_Indoor_Humidity                     %
+   Min_Indoor_Humidity_datetime            s
+   Max_Indoor_Humidity_datetime            s
+   Low_Alarm_Indoor_Humidity               %
+   High_Alarm_Indoor_Humidity              %
+   Outdoor_Humidity                        %
+   Min_Outdoor_Humidity                    %
+   Max_Outdoor_Humidity                    %
+   Min_Outdoor_Humidity_datetime           s
+   Max_Outdoor_Humidity_datetime           s
+   Low_Alarm_Outdoor_Humidity              %
+   High_Alarm_Outdoor_Humidity             %
+   Rain_24hour                             mm
+   Max_Rain_24hour                         mm
+   Max_Rain_24hour_datetime                s
+   Rain_1hour                              mm
+   Max_Rain_1hour                          mm
+   Max_Rain_1hour_datetime                 s
+   Rain_Total                              mm
+   Rain_Total_datetime                     s
+   Min__wind                               m/s
+   Max__wind                               m/s
+   Min_Date/Time_wind_datetime             s
+   Max_Date/Time_wind_datetime             s
+   Wind_Speed                              m/s
+   Wind_Direction                          degrees
+   Low_wind_alarm_setting                  m/s
+   High_wind_alarm_setting                 m/s
+   Connection_Type
+   Countdown_time_to_next_datBinary        s
+   Absolute_Pressure                       hPa
+   Relative_Pressure                       hPa
+   Pressure_Correction                     hPa
+   Min_Absolute_Pressure                   hPa
+   Min_Relative_Pressure                   hPa
+   Max_Absolute_Pressure                   hPa
+   Max_Relative_Pressure                   hPa
+   Min_Pressure_datetime                   s
+   Max_Pressure_datetime                   s
+   Low_Alarm_Pressure                      hPa
+   High_Alarm_Pressure                     hPa
+   History_saving_interval                 minutes
+   Countdown_to_next_saving                minutes
+   Date/Time_last_record_datetime          s
+   Pointer_to_last_written_Record
+   Number_of_Records
+
+Where applicable, units are displayed to the right of each field.
 
 =head2	Units
 
