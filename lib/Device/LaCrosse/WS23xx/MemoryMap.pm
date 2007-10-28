@@ -131,7 +131,88 @@ sub find_field {
       or croak "No such value, '$field'";
 }
 
-# FIXME: include canonical_name ?
+
+################
+#
+# canonical_name
+#
+sub _canonical_name {
+    my $desc = shift;
+    my $canonical_name = '';
+
+    $desc =~ s/_/ /g;
+
+    # Min or Max?
+    if ($desc =~ s/\bmin(imum)?\b/ /i) {
+	$canonical_name .= 'Min_';
+    }
+    elsif ($desc =~ s/\bmax(imum)?\b/ /i) {
+	$canonical_name .= 'Max_';
+    }
+    elsif ($desc =~ s/\b(High|Low)\s*Alarm\b/ /i) {
+	$canonical_name .= ucfirst(lc($1)) . '_Alarm_';
+    }
+    elsif ($desc =~ s/\bCurrent\b/ /i) {
+	# do nothing
+    }
+
+    # Where?
+    if ($desc =~ s/\b(in|out)(doors?)?(\b|$)/ /i) {
+	$canonical_name .= ucfirst(lc($1) . 'door') . '_';
+    }
+
+    # What: Temperature, Windchill, Pressure, ...
+    if ($desc =~ s/\btemp(erature)?\b/ /i) {
+	$canonical_name .= 'Temperature';
+    }
+    elsif ($desc =~ s/\bPress(ure)?\b/ /i) {
+	$desc =~ s/\bair\b/ /i;
+
+	if ($desc =~ s/\bAbs(olute)?\b/ /i) {
+	    $canonical_name .= 'Absolute_';
+	}
+	elsif ($desc =~ s/\bRel(ative)?\b/ /i) {
+	    $canonical_name .= 'Relative_';
+	}
+	$canonical_name .= 'Pressure';
+	if ($desc =~ s/\bCorrection\b/ /i) {
+	    $canonical_name .= '_Correction';
+	}
+    }
+    elsif ($desc =~ s/\b(Humidity|Windchill|Dewpoint)\b/ /i) {
+	$canonical_name .= ucfirst(lc($1));
+	$desc =~ s/\bRel(ative)?\b/ /i;
+    }
+    elsif ($desc =~ s/\b(Rain)\b//i) {
+	$canonical_name .= "Rain";
+	if ($desc =~ s/\b(1|24)(\s*h(ou)?r?)?\b//i) {
+	    $canonical_name .= "_$1hour";
+	}
+	elsif ($desc =~ s/\btotal\b//i) {
+	    $canonical_name .= "_Total";
+	}
+    }
+    else {
+	(my $tmp = $desc) =~ s/\s+/_/g;
+	$canonical_name .= $tmp;
+	# FIXME: warn?
+    }
+
+    # Is this a date/time field?
+    if ($desc =~ s!\bDate/Time\b! !i) {
+	$canonical_name .= '_datetime';
+    }
+
+    if ($desc =~ /\S/) {
+#	warn "leftover: $desc\n";
+    }
+
+    $canonical_name =~ s/_$//;
+
+    return $canonical_name;
+}
+
+# END   canonical_name
 # FIXME: POD
 
 1;

@@ -13,26 +13,10 @@ unlink $tmpfile;
 open my $mmap_fh, '>', $tmpfile
     or die "Cannot create $tmpfile: $!\n";
 
-# Get the 'canonical_name' function from Open2300.pm.  We can't just 'do'
-# or 'require' the module, because the xs might not exist yet.
-(my $pm = $mmap) =~ s!/[^/]+(\.pm)$!$1!;
-
-my $func_buffer = '';
-open my $pm_in, '<', $pm
-    or die "Cannot read $pm: $!\n";
-while (my $line = <$pm_in>) {
-    if ($line =~ /^sub\s+_canonical_name/) {
-	$func_buffer .= $line;
-    }
-    elsif ($func_buffer) {
-	$func_buffer .= $line;
-	if ($line =~ /^\}/) {
-	    close $pm_in;
-	    last;
-	}
-    }
-}
-eval $func_buffer;
+# The _canonical_name() function is defined in the DATA section below.
+# We want to eval it, and also need to include it in the .pm source.
+my $canonical_name_func = do { local $/; <DATA>; }; close DATA;
+eval $canonical_name_func;
 die "$0: $@" if $@;
 
 # Read in the memory map...
@@ -186,11 +170,15 @@ sub find_field {
       or croak "No such value, '$field'";
 }
 
-# FIXME: include canonical_name ?
+END_MMAP_REST
+
+print { $mmap_fh } $canonical_name_func;
+
+print { $mmap_fh } <<"END_MMAP_FINAL";
 # FIXME: POD
 
 1;
-END_MMAP_REST
+END_MMAP_FINAL
 
 close $mmap_fh
     or die "$0: Error writing $mmap: $!\n";
@@ -199,3 +187,88 @@ rename $tmpfile => $mmap
     or die "$0: could not rename $tmpfile: $!\n";
 
 exit 0;
+
+
+__DATA__
+
+################
+#
+# canonical_name
+#
+sub _canonical_name {
+    my $desc = shift;
+    my $canonical_name = '';
+
+    $desc =~ s/_/ /g;
+
+    # Min or Max?
+    if ($desc =~ s/\bmin(imum)?\b/ /i) {
+	$canonical_name .= 'Min_';
+    }
+    elsif ($desc =~ s/\bmax(imum)?\b/ /i) {
+	$canonical_name .= 'Max_';
+    }
+    elsif ($desc =~ s/\b(High|Low)\s*Alarm\b/ /i) {
+	$canonical_name .= ucfirst(lc($1)) . '_Alarm_';
+    }
+    elsif ($desc =~ s/\bCurrent\b/ /i) {
+	# do nothing
+    }
+
+    # Where?
+    if ($desc =~ s/\b(in|out)(doors?)?(\b|$)/ /i) {
+	$canonical_name .= ucfirst(lc($1) . 'door') . '_';
+    }
+
+    # What: Temperature, Windchill, Pressure, ...
+    if ($desc =~ s/\btemp(erature)?\b/ /i) {
+	$canonical_name .= 'Temperature';
+    }
+    elsif ($desc =~ s/\bPress(ure)?\b/ /i) {
+	$desc =~ s/\bair\b/ /i;
+
+	if ($desc =~ s/\bAbs(olute)?\b/ /i) {
+	    $canonical_name .= 'Absolute_';
+	}
+	elsif ($desc =~ s/\bRel(ative)?\b/ /i) {
+	    $canonical_name .= 'Relative_';
+	}
+	$canonical_name .= 'Pressure';
+	if ($desc =~ s/\bCorrection\b/ /i) {
+	    $canonical_name .= '_Correction';
+	}
+    }
+    elsif ($desc =~ s/\b(Humidity|Windchill|Dewpoint)\b/ /i) {
+	$canonical_name .= ucfirst(lc($1));
+	$desc =~ s/\bRel(ative)?\b/ /i;
+    }
+    elsif ($desc =~ s/\b(Rain)\b//i) {
+	$canonical_name .= "Rain";
+	if ($desc =~ s/\b(1|24)(\s*h(ou)?r?)?\b//i) {
+	    $canonical_name .= "_$1hour";
+	}
+	elsif ($desc =~ s/\btotal\b//i) {
+	    $canonical_name .= "_Total";
+	}
+    }
+    else {
+	(my $tmp = $desc) =~ s/\s+/_/g;
+	$canonical_name .= $tmp;
+	# FIXME: warn?
+    }
+
+    # Is this a date/time field?
+    if ($desc =~ s!\bDate/Time\b! !i) {
+	$canonical_name .= '_datetime';
+    }
+
+    if ($desc =~ /\S/) {
+#	warn "leftover: $desc\n";
+    }
+
+    $canonical_name =~ s/_$//;
+
+    return $canonical_name;
+}
+
+# END   canonical_name
