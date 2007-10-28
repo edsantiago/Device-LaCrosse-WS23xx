@@ -42,7 +42,7 @@ for my $t (@Tests) {
     my ($val, $units_from, $expect, $units_to, $name) = @$t;
 
     my $got
-      = Device::LaCrosse::WS23xx::unit_convert($val, $units_from, $units_to);
+      = Device::LaCrosse::WS23xx::_unit_convert($val, $units_from, $units_to);
 
     is $got, $expect, $name;
 }

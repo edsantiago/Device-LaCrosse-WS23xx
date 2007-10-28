@@ -225,14 +225,14 @@ sub get {
 
     # Asked to convert units?
     if (@_) {
-	return unit_convert($val, $get->{units}, $_[0]);
+	return _unit_convert($val, $get->{units}, $_[0]);
     }
 
     return $val;
 }
 
 
-sub unit_convert {
+sub _unit_convert {
     my $value     = shift;
     my $units_in  = shift;
     my $units_out = shift;
