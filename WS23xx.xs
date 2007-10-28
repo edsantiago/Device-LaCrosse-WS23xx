@@ -423,12 +423,13 @@ _ws_open(path)
 	//Setup serial port
 	if ((serial_device = open(path, O_RDWR | O_NONBLOCK | O_SYNC)) < 0)
 	{
-	    fprintf(stderr,"\nUnable to open serial device %s\n", path);
+//	    fprintf(stderr,"\nUnable to open serial device %s\n", path);
 	    XSRETURN_UNDEF;
 	}
 
 	if ( flock(serial_device, LOCK_EX|LOCK_NB) < 0 ) {
-	    fprintf(stderr,"\nSerial device is locked by other program\n");
+	    fprintf(stderr,"Serial device is locked by other program\n");
+	    close(serial_device);
 	    XSRETURN_UNDEF;
 	}
 
@@ -479,7 +480,7 @@ _ws_open(path)
 
 	if (tcsetattr(serial_device, TCSANOW, &adtio) < 0)
 	{
-	    fprintf(stderr,"Unable to initialize serial device");
+//	    fprintf(stderr,"Unable to initialize serial device");
 	    XSRETURN_UNDEF;
 	}
 
