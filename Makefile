@@ -155,7 +155,8 @@ C_FILES  = WS23xx.c
 O_FILES  = WS23xx.o
 H_FILES  = 
 MAN1PODS = 
-MAN3PODS = lib/Device/LaCrosse/WS23xx.pm
+MAN3PODS = lib/Device/LaCrosse/WS23xx.pm \
+	lib/Device/LaCrosse/WS23xx/MemoryMap.pm
 
 # Where is the Config information that we are using/depend on
 CONFIGDEP = $(PERL_ARCHLIB)$(DFSEP)Config.pm $(PERL_INC)$(DFSEP)config.h
@@ -491,9 +492,12 @@ POD2MAN = $(POD2MAN_EXE)
 
 manifypods : pure_all  \
 	lib/Device/LaCrosse/WS23xx.pm \
-	lib/Device/LaCrosse/WS23xx.pm
+	lib/Device/LaCrosse/WS23xx/MemoryMap.pm \
+	lib/Device/LaCrosse/WS23xx.pm \
+	lib/Device/LaCrosse/WS23xx/MemoryMap.pm
 	$(NOECHO) $(POD2MAN) --section=3 --perm_rw=$(PERM_RW) \
-	  lib/Device/LaCrosse/WS23xx.pm $(INST_MAN3DIR)/Device::LaCrosse::WS23xx.$(MAN3EXT) 
+	  lib/Device/LaCrosse/WS23xx.pm $(INST_MAN3DIR)/Device::LaCrosse::WS23xx.$(MAN3EXT) \
+	  lib/Device/LaCrosse/WS23xx/MemoryMap.pm $(INST_MAN3DIR)/Device::LaCrosse::WS23xx::MemoryMap.$(MAN3EXT) 
 
 
 
