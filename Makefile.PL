@@ -2,12 +2,14 @@
 use ExtUtils::MakeMaker;
 
 WriteMakefile(
-	      LIBS         => '',
-	      INC          => '',
-	      NAME         => 'Device::LaCrosse::WS23xx',
-	      PMLIBDIRS    => [ '' ],
-	      VERSION_FROM => 'WS23xx.pm',
-	      ($ExtUtils::MakeMaker::VERSION ge '6.30_00'?
-	       ('LICENSE'         => 'perl', ) : ()),
+    NAME         => 'Device::LaCrosse::WS23xx',
+    VERSION_FROM => 'WS23xx.pm',
 
+    ($] >= 5.005 ?  (ABSTRACT_FROM  => 'WS23xx.pm',
+		     AUTHOR         => 'Eduardo Santiago <esm@cpan.org>')
+	         :  ()
+	     ),
+
+    ($ExtUtils::MakeMaker::VERSION ge '6.30_00'?
+	 ('LICENSE'         => 'perl', ) : ()),
 );
