@@ -174,8 +174,122 @@ END_MMAP_REST
 
 print { $mmap_fh } $canonical_name_func;
 
-print { $mmap_fh } <<"END_MMAP_FINAL";
+print { $mmap_fh } <<'END_MMAP_FINAL';
 # FIXME: POD
+
+=head1 NAME
+
+Device::LaCrosse::WS23xx::MemoryMap - Weather station address meanings
+
+=head1 SYNOPSIS
+
+    use Device::LaCrosse::WS23xx::MemoryMap;
+
+    my $map = Device::LaCrosse::WS23xx::MemoryMap->new();
+
+This is NOT intended as a user-visible module.  It is
+used internally by Device::LaCrosse::WS23xx.  This interface
+is subject to change without notice.
+
+=head1  DESCRIPTION
+
+=head1  CONSTRUCTOR
+
+=over 4
+
+=item B<new>()
+
+Parses the data table contained in the module itself.
+
+=back
+
+=head1  METHODS
+
+=over 4
+
+=item   B<find_field>( FIELD )
+
+Canonicalizes B<FIELD> and looks it up.  If found, returns a
+hashref with the following elements:
+
+=over 8
+
+=item	name
+
+Canonical field name.
+
+=item	units
+
+Units of the measurement.  See Units below.
+
+=item	address
+
+Starting address of this field in the WS-23xx memory map
+
+=item	count
+
+Length, in nybbles, of the field.
+
+=item	expr
+
+Perl expression used to convert data nybbles to a useful form.
+
+=back
+
+If FIELD is not found, returns undef.
+
+=back
+
+=head2	Units
+
+The WS-23xx devices return data in the following units:
+
+=over 8
+
+=item	B<C>
+
+Degrees Centigrade (temperature)
+
+=item	B<%>
+
+Percent (humidity)
+
+=item	B<hPa>
+
+hectoPascals (pressure)
+
+=item	B<m/s>
+
+Meters per Second (wind speed)
+
+=item	B<mm>
+
+Millimeters (rainfall)
+
+=item	B<degrees>
+
+Compass degrees, 0-359, (wind direction)
+
+=item	B<s>
+
+Seconds.  Mostly used in B<datetime> measurements, in which it
+should be interpreted as a time_t (seconds since the Epoch),
+but also used in the B<Countdown> field in which it will be
+a number between 0 and 128.5.
+
+=back
+
+
+=head1  AUTHOR
+
+Ed Santiago <esm@cpan.org>
+
+=head1	SEE ALSO
+
+L<Device::LaCrosse::WS23xx>
+
+=cut
+
 
 1;
 END_MMAP_FINAL
