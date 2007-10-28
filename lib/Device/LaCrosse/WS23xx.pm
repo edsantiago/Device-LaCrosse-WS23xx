@@ -265,7 +265,7 @@ sub TIEARRAY {
 
     my $ws_obj;
     if (ref($ws)) {
-	if (ref($ws) eq $PKG) {
+	if (ref($ws) =~ /^Device::LaCrosse::WS23xx/) {
 	    $ws_obj = $ws;
 	}
 	else {
@@ -288,7 +288,7 @@ sub FETCH {
 
     # FIXME: assert that 0 <= index <= MAX
     # FIXME: read and cache more than just 1
-    my @data = $self->_read_data($index, 1);
+    my @data = $self->{ws}->_read_data($index, 1);
 
     return $data[0];
 }
@@ -388,16 +388,24 @@ values are F</dev/ttyS0>, F</dev/ttyUSB0>.
 
 =over 4
 
-=item   B<get>( FIELD [, CONVERT] )
+=item   B<get>( FIELD [, UNITS] )
 
-Retrieves data from the weather station, and FIXME FIXME
-
-
-=item   B<method2>
-
-...
+Retrieves a reading from the weather station, optionally
+converting it to B<UNITS>.
 
 =back
+
+=head1	Tied Array Interface
+
+The WS-2300 memory map can be visualized as a simple sequence
+of addresses, each of which contains one data nybble.
+
+    my $serial = '/dev/ttyUSB0';
+    tie my @WS, 'Device::LaCrosse::WS23xx', $serial
+      or die "Cannot tie to $serial: $!\n";
+
+    print $WS[10], "\n";
+    my @temp_in = @WS[0x346..0x34A];
 
 =head1  AUTHOR
 
