@@ -883,9 +883,9 @@ INDOOR TEMPERATURE
 035B 0     |
 035C 1     |
 035D 0    _/
-035E 5     | Date/Time max Indoor Temperature: <YYMMDDhhmm>
+035E 5     | Date/Time max Indoor Temperature: <YYMMDDhhmm> (=2003-04-21 17:55)
 035F 5     |
-0360 7     |    2003-04-21 17:55
+0360 7     |
 0361 1     |
 0362 1     |
 0363 2     |
@@ -1015,7 +1015,7 @@ DEWPOINT
 03D9 4     |
 03DA 8     |
 03DB 3    _/
-03DC 7     | Date/Time min Dewpoint: <YYMMDDhhmm>
+03DC 7     | Date/Time min Dewpoint: <YYMMDDhhmm>	(=2003-04-20 17:17)
 03DD 1     |
 03DE 7     |
 03DF 1     |
@@ -1025,7 +1025,7 @@ DEWPOINT
 03E3 0     |
 03E4 3     |
 03E5 0    _/
-03E6 2     | Date/Time max Dewpoint: <YYMMDDhhmm>
+03E6 2     | Date/Time max Dewpoint: <YYMMDDhhmm>	(=2001-01-01 00:02)
 03E7 0     |
 03E8 0     |
 03E9 0     |
@@ -1036,12 +1036,12 @@ DEWPOINT
 03EE 1     |
 03EF 0    _/
 03F0 0
-03F1 0     | Low Alarm Dewpoint: <TEMPERATURE>
+03F1 0     | Low Alarm Dewpoint: <TEMPERATURE>		(=0)
 03F2 0     |
 03F3 0     |
 03F4 3    _/
 03F5 0
-03F6 0     | High Alarm Dewpoint: <TEMPERATURE>
+03F6 0     | High Alarm Dewpoint: <TEMPERATURE>		(=20)
 03F7 0     |
 03F8 0     |
 03F9 5    _/
@@ -1226,7 +1226,7 @@ RAIN 24 HOUR
 04A0 2     |
 04A1 1     |
 04A2 0    _/
-04A3 9     | Date/Time max rain 24h: <YYMMDDhhmm>
+04A3 9     | Date/Time max rain 24h: <YYMMDDhhmm>	(=2003-04-21 14:59)
 04A4 5     |
 04A5 4     |
 04A6 1     |
@@ -1257,7 +1257,7 @@ RAIN 1 HOUR
 04BD 2     |
 04BE 1     |
 04BF 0    _/
-04C0 8     | Date/Time max rain 1h: <YYMMDDhhmm>
+04C0 8     | Date/Time max rain 1h: <YYMMDDhhmm>	(=2003-04-20 16:08)
 04C1 0     |
 04C2 6     |
 04C3 1     |
