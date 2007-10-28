@@ -153,13 +153,15 @@ sub _read_data {
 
     # See if we've already cached this address range
     if (my $cache = $self->{cache}) {
+      CACHE_ENTRY:
 	for (my $i=0; $i < @$cache; $i++) {
 	    my $c = $cache->[$i];
 
 	    # First, delete expired entries
 	    if ($c->{expires} < time) {
 		splice @$cache, $i, 1;
-		redo;
+		last CACHE_ENTRY		if @$cache == 0;
+		redo CACHE_ENTRY;
 	    }
 
 	    # Check range
