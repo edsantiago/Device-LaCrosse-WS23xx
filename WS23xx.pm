@@ -42,7 +42,7 @@ m/s	kph(1)		$value * 3.6
 m/s	kt(1)		$value * 1.9438445
 m/s	mph(1)		$value * 2.2369363
 
-mm	in(1)		$value / 25.4
+mm	in(2)		$value / 25.4
 END_CONVERSIONS
 
 # END   user-customizable section
