@@ -319,6 +319,10 @@ Millimeters (rainfall)
 
 Compass degrees, 0-359, (wind direction)
 
+=item	B<minutes>
+
+Minutes.
+
 =item	B<s>
 
 Seconds.  Mostly used in B<datetime> measurements, in which it
