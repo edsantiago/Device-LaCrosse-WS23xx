@@ -380,7 +380,7 @@ Device::LaCrosse::WS23xx - read data from La Crosse weather station
 
 Establishes a connection to the weather station.
 PATH is the serial line hooked up to the weather station.  Typical
-values are C</dev/ttyS0>, C</dev/ttyUSB0>.
+values are F</dev/ttyS0>, F</dev/ttyUSB0>.
 
 =back
 
