@@ -416,31 +416,31 @@ int
 _ws_open(path)
 	char *     path
     INIT:
-	int serial_device;
+	int fh;
 	struct termios adtio;
 	int portstatus, fdflags;
     PPCODE:
 	//Setup serial port
-	if ((serial_device = open(path, O_RDWR | O_NONBLOCK | O_SYNC)) < 0)
+	if ((fh = open(path, O_RDWR | O_NONBLOCK | O_SYNC)) < 0)
 	{
 //	    fprintf(stderr,"\nUnable to open serial device %s\n", path);
 	    XSRETURN_UNDEF;
 	}
 
-	if ( flock(serial_device, LOCK_EX|LOCK_NB) < 0 ) {
+	if ( flock(fh, LOCK_EX|LOCK_NB) < 0 ) {
 	    fprintf(stderr,"Serial device is locked by other program\n");
-	    close(serial_device);
+	    close(fh);
 	    XSRETURN_UNDEF;
 	}
 
-	if ((fdflags = fcntl(serial_device, F_GETFL)) == -1 ||
-	     fcntl(serial_device, F_SETFL, fdflags & ~O_NONBLOCK) < 0)
+	if ((fdflags = fcntl(fh, F_GETFL)) == -1 ||
+	     fcntl(fh, F_SETFL, fdflags & ~O_NONBLOCK) < 0)
 	{
 		perror("couldn't reset non-blocking mode");
 		exit(EXIT_FAILURE);
 	}
 
-	tcgetattr(serial_device, &adtio);
+	tcgetattr(fh, &adtio);
 
 	// Serial control options
 	adtio.c_cflag &= ~PARENB;      // No parity
@@ -478,25 +478,25 @@ _ws_open(path)
 	adtio.c_cc[VTIME] = 10;		// timer 1s
 	adtio.c_cc[VMIN] = 0;		// blocking read until 1 char
 
-	if (tcsetattr(serial_device, TCSANOW, &adtio) < 0)
+	if (tcsetattr(fh, TCSANOW, &adtio) < 0)
 	{
 //	    fprintf(stderr,"Unable to initialize serial device");
 	    XSRETURN_UNDEF;
 	}
 
-	tcflush(serial_device, TCIOFLUSH);
+	tcflush(fh, TCIOFLUSH);
 
 	// Set DTR low and RTS high and leave other ctrl lines untouched
-	ioctl(serial_device, TIOCMGET, &portstatus);	// get current port status
+	ioctl(fh, TIOCMGET, &portstatus);	// get current port status
 	portstatus &= ~TIOCM_DTR;
 	portstatus |= TIOCM_RTS;
-	ioctl(serial_device, TIOCMSET, &portstatus);	// set current port status
+	ioctl(fh, TIOCMSET, &portstatus);	// set current port status
 
 	// Reset the device, just once
-	reset_06(serial_device);
+	reset_06(fh);
 
 	// Return the filehandle as a perl scalar
-	XPUSHs(sv_2mortal(newSVnv(serial_device)));
+	XPUSHs(sv_2mortal(newSVnv(fh)));
 
 
 void
