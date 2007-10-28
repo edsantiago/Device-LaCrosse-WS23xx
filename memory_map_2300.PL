@@ -296,12 +296,14 @@ Compass degrees, 0-359, (wind direction)
 
 Minutes.
 
-=item	B<s>
+=item	B<seconds>
 
-Seconds.  Mostly used in B<datetime> measurements, in which it
-should be interpreted as a time_t (seconds since the Epoch),
-but also used in the B<Countdown> field in which it will be
-a number between 0 and 128.5.
+Seconds.
+
+=item	B<time_t>
+
+Seconds since the Epoch; you probably want to use it as
+an argument to B<localtime>().
 
 =back
 

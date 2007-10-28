@@ -5,7 +5,7 @@ version 1.6, 2004 Apr 22
    macro PRESSURE    = $BCD / 10.0 [hPa]
    macro RAIN        = $BCD / 100.0 [mm]
    macro PERCENT     = $BCD [%]
-   macro YYMMDDhhmm  = _time_convert($BCD) [s]
+   macro YYMMDDhhmm  = _time_convert($BCD) [time_t]
 
 Address Data_Sample Function
 
@@ -1411,7 +1411,7 @@ HF Reception, 550/54F start value: 0F=cable, 3F=lost, FF=Wireless
 054C D
 054D 0     | Connection Type: 0=Cable, 3=lost, F=Wireless	(=Cable)
 054E 0
-054F C     | Countdown time to next datBinary: hex($BCD) / 2.0 [s]	(=6)
+054F C     | Countdown time to next datBinary: hex($BCD) / 2.0 [seconds] (=6)
 0550 0    _/
 0551 0
 0552 0
