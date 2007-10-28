@@ -473,8 +473,9 @@ reads large blocks and caches them for a few seconds.
 
 =item *
 
-Debugging: the serial protocol has its problems.  Use the optional
-trace flag to log serial I/O and track down errors.
+Debugging: the La Crosse units don't always communicate too
+reliably.  Use the B<trace> option to log serial I/O and track down
+problems.
 
 =back
 

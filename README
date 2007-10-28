@@ -16,8 +16,9 @@ based on the Open2300 project, but differs in several respects:
 * Caching: to minimize communication errors, Device::LaCrosse::WS23xx
   reads large blocks and caches them for a few seconds.
 
-* Debugging: the serial protocol has its problems.  Use the optional
-  trace flag to log serial I/O and track down errors.
+* Debugging: the La Crosse units don't always communicate too
+  reliably.  Use the trace option to log serial I/O and track down
+  problems.
 
 Device::LaCrosse::WS23xx is intended for Perl hackers who
 want a simple way to talk to their La Crosse weather station.
