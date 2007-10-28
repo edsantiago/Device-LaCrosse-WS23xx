@@ -1,8 +1,30 @@
 Device-LaCrosse-WS23xx version 0.01
-==================================
+===================================
 
-FIXME
+Device::LaCrosse::WS23xx provides a simple interface for reading
+data from La Crosse Technology WS-2300 series weather stations.
+It is based on the Open2300 project, but differs in several respects:
 
+ * Simplicity: the interface is simple and intuitive.  For hackers,
+   the Tied interface makes it easy to visualize the address space.
+   And you don't have to do any of the nybble shifting or masking,
+   it's all done for you.
+
+ * Versatility: read the values you want, in the units you want.
+   Write a script that logs only the values you're interested in.
+
+ * Caching: to minimize communication errors, Device::LaCrosse::WS23xx
+   reads large blocks and caches them for a few seconds.
+
+ * Debugging: the serial protocol has its problems.  Use the optional
+   trace flag to log serial I/O and track down errors.
+
+Device::LaCrosse::WS23xx is intended for Perl hackers who
+want a simple way to talk to their La Crosse weather station.
+It could also be useful for non-Perl-types who want a simple
+way to explore their devices.
+
+Device::LaCrosse::WS23xx is standalone; it does not require Open2300.
 
 INSTALLATION
 
