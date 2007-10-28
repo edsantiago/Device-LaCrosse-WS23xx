@@ -12,13 +12,16 @@ our @Tests;
 my $loaded = 0;
 BEGIN {
     my $tests = <<'END_TESTS';
-   0 C   =  32.0  F
-  20 C   =  68.0  F
-1000 hPa =  29.53 inHg
-1000 hPa = 750.1  mmHg
- 100 hPa = 100    hPa
-   1 mm  =   0.04 in
-  10 mm  =   0.39 in
+   0   C   =  32.0  F
+  20   C   =  68.0  F
+1000   hPa =  29.53 inHg
+1000   hPa = 750.1  mmHg
+ 100   hPa = 100    hPa
+   1   mm  =   0.04 in
+  10   mm  =   0.39 in
+   5.3 m/s =  19.1  kph
+   5.3 m/s =  11.9  mph
+   5.3 m/s =  10.3  kt
 END_TESTS
 
   for my $line (split "\n", $tests) {
