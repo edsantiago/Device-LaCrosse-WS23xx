@@ -13,6 +13,7 @@
 #     ABSTRACT_FROM => q[lib/Device/LaCrosse/WS23xx.pm]
 #     AUTHOR => q[Eduardo Santiago <esm@cpan.org>]
 #     NAME => q[Device::LaCrosse::WS23xx]
+#     PL_FILES => { memory_map_2300.PL=>q[lib/Device/LaCrosse/WS23xx/MemoryMap.pm] }
 #     PREREQ_PM => { Test::More=>q[0] }
 #     VERSION_FROM => q[lib/Device/LaCrosse/WS23xx.pm]
 #     clean => { FILES=>q[Device-LaCrosse-WS23xx-*] }
@@ -499,11 +500,11 @@ manifypods : pure_all  \
 
 # --- MakeMaker processPL section:
 
-all :: memory_map_2300
+all :: lib/Device/LaCrosse/WS23xx/MemoryMap.pm
 	$(NOECHO) $(NOOP)
 
-memory_map_2300 :: memory_map_2300.PL pm_to_blib
-	$(PERLRUNINST) memory_map_2300.PL memory_map_2300
+lib/Device/LaCrosse/WS23xx/MemoryMap.pm :: memory_map_2300.PL 
+	$(PERLRUN) memory_map_2300.PL lib/Device/LaCrosse/WS23xx/MemoryMap.pm
 
 
 # --- MakeMaker installbin section:

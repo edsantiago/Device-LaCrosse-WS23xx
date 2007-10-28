@@ -4,11 +4,14 @@ use ExtUtils::MakeMaker;
 
 my $pm = 'lib/Device/LaCrosse/WS23xx.pm';
 
+(my $mmap = $pm) =~ s!\.pm$!/MemoryMap\.pm!;
+
 WriteMakefile(
     NAME          => 'Device::LaCrosse::WS23xx',
     AUTHOR        => 'Eduardo Santiago <esm@cpan.org>',
     VERSION_FROM  => $pm,
     ABSTRACT_FROM => $pm,
+    PL_FILES      => { 'memory_map_2300.PL' => $mmap },
     PREREQ_PM     => { 'Test::More' => 0 },
     dist          => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean         => { FILES => 'Device-LaCrosse-WS23xx-*' },
