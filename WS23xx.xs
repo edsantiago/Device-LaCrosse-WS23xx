@@ -1,11 +1,15 @@
 /* -*- c -*-
 **
-** Filename: NIS.xs - back end for the Net::NIS package
+** WS23xx.xs - part of Device::LaCrosse::WS23xx
 **
-** $Id: NIS.xs,v 1.8 2004/12/20 13:32:55 esm Exp $
+** Almost all the code in here was shamelessly stolen from Open2300:
+**
+**    http://www.lavrsen.dk/twiki/bin/view/Open2300/WebHome
+**
+** Many thanks to Kenneth Lavrsen for writing such useful code,
+** and especially for documenting it.
 */
 
-#include <sys/types.h>		/* Needed on FreeBSD */
 #include <fcntl.h>
 #include <termios.h>
 #include <unistd.h>
@@ -17,7 +21,10 @@
 typedef unsigned char  uchar;
 typedef unsigned short ushort;
 
-/* FIXME */
+/*
+** For debugging: trace all serial I/O to this file
+*/
+char *trace_path;
 FILE *trace_fh;
 
 void
@@ -25,8 +32,14 @@ trace(char *leader, uchar *buf, uchar byte_count, char *rest)
 {
     int i;
 
+    // No trace file defined: do nothing
+    if (! trace_path) {
+	return;
+    }
+
+    // First time through: open the trace file for writing
     if (!trace_fh) {
-	trace_fh = fopen(".trace", "w");
+	trace_fh = fopen(trace_path, "w");
     }
     fprintf(trace_fh, leader);
     for (i=0; i < byte_count; i++) {
@@ -411,6 +424,14 @@ read_safe(int fh, ushort address, ushort byte_count, uchar *buf)
 
 MODULE = Device::LaCrosse::WS23xx	PACKAGE = Device::LaCrosse::WS23xx
 
+void
+_ws_trace_path(path)
+	char *     path
+CODE:
+	trace_path = malloc(strlen(path));
+	if (trace_path == 0)
+	    croak("malloc failed");
+	strcpy(trace_path,path);
 
 int
 _ws_open(path)
@@ -497,7 +518,6 @@ _ws_open(path)
 
 	// Return the filehandle as a perl scalar
 	XPUSHs(sv_2mortal(newSVnv(fh)));
-
 
 void
 _ws_read(fh, addr, nybble_count)

@@ -117,14 +117,13 @@ sub new {
 	    croak "$PKG->new() takes options, but you need to read the docs";
 	}
 
-	if (my $n = $param{cache_expire}) {
+	if (my $n = delete $param{cache_expire}) {
 	    $n =~ /^\s*(\d{1,3})\s*$/
 		or croak "cache_expire must be a 1- to 3-digit number";
 	    $self->{cache_expire} = $1;
-	    delete $param{cache_expire};
 	}
 
-	if (my $n = $param{cache_readahead}) {
+	if (my $n = delete $param{cache_readahead}) {
 	    $n =~ /^\s*(\d{1,2})\s*$/
 		or croak "cache_readahead must be a 1- or 2-digit number";
 	    $n = $1;
@@ -133,7 +132,15 @@ sub new {
 		$n = 30;
 	    }
 	    $self->{cache_readahead} = $n;
-	    delete $param{cache_readahead};
+	}
+
+	if (my $p = delete $param{trace}) {
+	    if ($p eq '1') {
+		my @lt = localtime;
+		$p = sprintf(".trace.%04d-%02d-%02d_%02d%02d%02d",
+			     $lt[5]+1900,$lt[4]+1,@lt[3,2,1,0]);
+	    }
+	    _ws_trace_path($p);
 	}
 
 	if (my @unknown = sort keys %param) {
