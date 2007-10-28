@@ -551,10 +551,19 @@ of addresses, each of which contains one data nybble.  In
 other words, a perl array:
 
     my $serial = '/dev/ttyUSB0';
-    tie my @WS, 'Device::LaCrosse::WS23xx', $serial
+    tie my @ws, 'Device::LaCrosse::WS23xx', $serial
       or die "Cannot tie to $serial: $!\n";
 
-    my @temp_in = @WS[0x346..0x349];
+Or, if you already have a $ws object, it's even simpler:
+
+    tie my @ws, $ws;
+
+Then access any WS-2300 memory cells as if the unit were
+directly mapped to the array:
+
+    print "backlight = $ws[0x16]\n";
+
+    my @temp_in = @ws[0x346..0x349];
     print "@temp_in\n";		# e.g. '0 8 9 4'
 
 Note that each value is a B<nybble>: a value between 0 and 0xF.
