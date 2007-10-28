@@ -136,25 +136,15 @@ sub get {
     }
 
     # Interpret.  This will be done inside an eval which may access
-    # two variables: $BCD and $HEX.  Both actually consist of the
-    # same thing, they're just interpreted differently.  They are
-    # the decimal or hexadecimal interpretation of the sequence
-    # of data nybbles read from the device.  Note that data nybbles
+    # the variable $BCD.  $BCD is simply the sequence of data nybbles
+    # read from the device, in string form.  Note that data nybbles
     # are returned Least Significant First.  So if @data = (0, 3, 2)
-    # then $BCD will be '230' (two hundred and thirty)
-    # and  $HEX will be 0x230 (= decimal 560).
+    # then $BCD will be '230' (two hundred and thirty), not '032'.
     my $BCD = reverse($data);
     $BCD =~ s/^0+//;
     $BCD = '0' if $BCD eq '';
 
-    # Only evaluate $HEX if it is used in the expression.  That
-    # prevents this warning: 'Integer overflow in hexadecimal number'
-    # on the YYMMDDhhmm fields.
-    my $HEX;
     my $expr = $get->{expr};
-    if ($expr =~ /HEX/) {
-	$HEX = hex($BCD);
-    }
 
     # Special case for datetime: return a unix time_t
     sub _time_convert($) {
