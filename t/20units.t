@@ -1,5 +1,9 @@
 # -*- perl -*-
 #
+# Test the unit conversions in Device::LaCrosse::WS23xx.
+#
+# The unit_convert() function is an internal-only interface.  You are
+# not expected to use it.
 #
 use strict;
 use Test::More;
