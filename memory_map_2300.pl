@@ -8,7 +8,7 @@
 my $func_buffer = '';
 open IN, '<', 'WS23xx.pm' or die;
 while (<IN>) {
-    if (/^sub\s+canonical_name/) {
+    if (/^sub\s+_canonical_name/) {
 	$func_buffer .= $_;
     }
     elsif ($func_buffer) {
@@ -56,7 +56,7 @@ while (my $line = <IN>) {
 	    my ($desc, $formula) = ($1, $2);
 	    push @map, {
 			desc => $desc,
-			name => canonical_name($desc),
+			name => _canonical_name($desc),
 			address => $address,
 			length => 1,
 			   };

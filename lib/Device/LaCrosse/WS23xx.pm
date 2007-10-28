@@ -143,7 +143,7 @@ sub get {
 
     # Canonicalize the requested field name, e.g.
     # 'Indoor Temp Max' => Max_Indoor_Temperature
-    my $canonical_field = canonical_name($field);
+    my $canonical_field = _canonical_name($field);
     if (! exists $self->{fields}->{lc $canonical_field}) {
 	(my $re = lc $field) =~ s/[ _]+/.*/g;
 	my @match = grep { /$re/i } keys %{$self->{fields}};
@@ -287,7 +287,7 @@ sub _unit_convert {
 #
 # canonical_name
 #
-sub canonical_name {
+sub _canonical_name {
     my $desc = shift;
     my $canonical_name = '';
 
