@@ -123,17 +123,6 @@ sub get {
     my $get = $self->{mmap}->find_field( $field )
 	or croak "No such field, '$field'";
 
-
-
-
-
-
-
-
-
-
-
-
     my @data = $self->_read_data($get->{address}, $get->{count});
 
     # Convert to string context: (0, 3, 0xF, 9) becomes '03F9'.
