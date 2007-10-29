@@ -8,7 +8,29 @@ use warnings;
 use Device::LaCrosse::WS23xx;
 use Time::Piece;
 
+###############################################################################
+# BEGIN user-customizable section
+
+# Path to serial device.
 my $serial = '/dev/lacrosse';
+
+# The fields we want, in the format we want.
+my $want = <<'END_WANT';
+Indoor_Temperature       F      %4.1f
+Indoor_Humidity                 %2d%%
+Outdoor_Temperature      F      %5.1f
+Outdoor_Humidity                %2d%%
+Relative_Pressure        inHg   %5.2f
+Tendency                        %-7s
+Wind_Direction                  %03d @
+Wind_Speed               kt     %2.0f
+Rain_1h                         %4.1f
+Rain_24h                        %4.1f
+Rain_Total                      %4.1f
+END_WANT
+
+# END   user-customizable section
+###############################################################################
 
 my $ws = Device::LaCrosse::WS23xx->new( $serial )
     or die "$ME: Cannot communicate with $serial: $!\n";
@@ -16,25 +38,22 @@ my $ws = Device::LaCrosse::WS23xx->new( $serial )
 
 my $now = localtime;
 
-my $logline = sprintf("%d-%02d-%02d %02d:%02d:%02d ",
+my $logline = sprintf("%d-%02d-%02d %02d:%02d:%02d",
 		      $now->year, $now->mon, $now->mday,
 		      $now->hour, $now->min, $now->sec);
 
-my @want = qw(
-    Indoor_Temperature:F
-    Indoor_Humidity
-    Outdoor_Temperature:F
-    Outdoor_Humidity
-    Relative_Pressure:inHg
-    Tendency
-    Wind_Direction
-    Wind_Speed:kt
-    Rain_1h
-    Rain_24h
-    Rain_Total
-);
+for my $line (split "\n", $want) {
+    #           1   1   23   3   2 4   4
+    $line =~ m!^(\S+)\s+((\S+)\s+)?(%.*)$!
+	or die "$ME: Internal error: cannot grok formattine line '$line'";
+    my @field = ($1);
+    push @field, $3	if defined $2;
+    my $format = $4;
 
-$logline .= join(' ', map { $ws->get(split(':',$_)) } @want);
+    my $value = $ws->get(@field);
+    $logline .= " " . sprintf($format, $value);
+}
+
 
 print $logline, "\n";
 
