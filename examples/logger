@@ -1,0 +1,58 @@
+#!/usr/bin/perl
+
+(our $ME = $0) =~ s|^.*/||;
+
+use strict;
+use warnings;
+
+use Device::LaCrosse::WS23xx;
+use Time::Piece;
+
+my $serial = '/dev/lacrosse';
+
+my $ws = Device::LaCrosse::WS23xx->new( $serial )
+    or die "$ME: Cannot communicate with $serial: $!\n";
+
+
+my $now = localtime;
+
+my $logline = sprintf("%d-%02d-%02d %02d:%02d:%02d ",
+		      $now->year, $now->mon, $now->mday,
+		      $now->hour, $now->min, $now->sec);
+
+my @want = qw(
+    Indoor_Temperature:F
+    Indoor_Humidity
+    Outdoor_Temperature:F
+    Outdoor_Humidity
+    Relative_Pressure:inHg
+    Tendency
+    Wind_Direction
+    Wind_Speed:kt
+    Rain_1h
+    Rain_24h
+    Rain_Total
+);
+
+$logline .= join(' ', map { $ws->get(split(':',$_)) } @want);
+
+print $logline, "\n";
+
+#my $outfile = outfile($now);
+
+
+
+
+
+
+
+
+
+sub outfile {
+    my $t = shift;			# in: Time::Piece object
+
+    my $dir = sprintf("/var/www/wx/data/%d/%02d", $t->year, $t->mon);
+
+    # mkdir
+    return sprintf("%s/%02d", $dir, $t->mday);
+}
