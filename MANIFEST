@@ -3,6 +3,7 @@ MANIFEST
 Makefile.PL
 README
 WS23xx.xs
+examples/logger
 lib/Device/LaCrosse/WS23xx.pm
 lib/Device/LaCrosse/WS23xx/MemoryMap.pm
 memory_map_2300.PL
