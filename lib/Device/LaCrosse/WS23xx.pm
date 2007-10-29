@@ -60,7 +60,7 @@ use vars qw(@ISA %EXPORT_TAGS @EXPORT_OK @EXPORT);
 @EXPORT_OK   = ( );
 @EXPORT      = ( );
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 our $PKG = __PACKAGE__;		# For interpolating into error messages
 
