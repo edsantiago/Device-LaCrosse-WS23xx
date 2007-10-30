@@ -6,7 +6,7 @@
 #
 package Device::LaCrosse::WS23xx;
 
-use v5.6;
+use 5.006;
 
 use strict;
 use warnings;
