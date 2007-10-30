@@ -519,6 +519,12 @@ _ws_open(path)
 	// Return the filehandle as a perl scalar
 	XPUSHs(sv_2mortal(newSVnv(fh)));
 
+int
+_ws_close(fh)
+	int	fh
+CODE:
+	RETVAL = close(fh);
+
 void
 _ws_read(fh, addr, nybble_count)
 	int fh

@@ -143,6 +143,19 @@ sub new {
 }
 
 
+############
+#  DELETE  #  Destructor.  Call C code to close the filehandle.
+############
+sub DELETE {
+    my $self = shift;
+
+    if (defined $self->{fh}) {
+	_ws_close($self->{fh})
+	    or warn "$ME: Error closing $self->{path}: $!";
+    }
+}
+
+
 sub _read_data {
     my $self    = shift;
     my $address = shift;
