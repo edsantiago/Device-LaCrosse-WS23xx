@@ -1,7 +1,9 @@
 use strict;
 use warnings;
 use ExtUtils::MakeMaker;
-use v5.6;
+
+# I like the three-argument open, and there might be other 5.6isms.
+use 5.006;
 
 my $pm = 'lib/Device/LaCrosse/WS23xx.pm';
 
