@@ -1,6 +1,7 @@
 use strict;
 use warnings;
 use ExtUtils::MakeMaker;
+use v5.6;
 
 my $pm = 'lib/Device/LaCrosse/WS23xx.pm';
 
