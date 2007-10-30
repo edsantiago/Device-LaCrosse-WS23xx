@@ -1,4 +1,8 @@
 Revision history for Device-LaCrosse-WS23xx
 
+0.02	????
+	- implemented destructor + close()
+	- explicitly require 5.6
+
 0.01	Sun 2007-10-28
         - Initial CPAN release
