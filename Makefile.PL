@@ -16,7 +16,11 @@ my $mm = WriteMakefile(
     ABSTRACT_FROM => $pm,
     PL_FILES      => { 'memory_map_2300.PL' => $mmap },
     PREREQ_PM     => { 'Test::More' => 0 },
-    dist          => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
+    dist          => {
+	COMPRESS => 'gzip -9f',
+	SUFFIX   => 'gz',
+	PREOP    => 'fgrep  \?\? Changes && exit 1',
+    },
     clean         => { FILES => 'Device-LaCrosse-WS23xx-*' },
 );
 

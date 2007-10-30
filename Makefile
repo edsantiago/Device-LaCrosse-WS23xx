@@ -17,7 +17,7 @@
 #     PREREQ_PM => { Test::More=>q[0] }
 #     VERSION_FROM => q[lib/Device/LaCrosse/WS23xx.pm]
 #     clean => { FILES=>q[Device-LaCrosse-WS23xx-*] }
-#     dist => { COMPRESS=>q[gzip -9f], SUFFIX=>q[gz] }
+#     dist => { COMPRESS=>q[gzip -9f], PREOP=>q[fgrep  \?\? Changes && exit 1], SUFFIX=>q[gz] }
 
 # --- MakeMaker post_initialize section:
 
@@ -251,7 +251,7 @@ ZIPFLAGS = -r
 COMPRESS = gzip -9f
 SUFFIX = gz
 SHAR = shar
-PREOP = $(NOECHO) $(NOOP)
+PREOP = fgrep  \?\? Changes && exit 1
 POSTOP = $(NOECHO) $(NOOP)
 TO_UNIX = $(NOECHO) $(NOOP)
 CI = ci -u
