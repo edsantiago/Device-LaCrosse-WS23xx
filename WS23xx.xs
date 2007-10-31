@@ -11,6 +11,7 @@
 */
 
 #include <fcntl.h>
+#include <sys/file.h>
 #include <termios.h>
 #include <unistd.h>
 
