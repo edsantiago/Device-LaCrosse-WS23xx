@@ -5,6 +5,10 @@ use ExtUtils::MakeMaker;
 # I like the three-argument open, and there might be other 5.6isms.
 use 5.006;
 
+# The .xs would need to be rewritten to work on Windows
+die "OS unsupported"	if $^O =~ /mswin/i;
+
+
 my $pm = 'lib/Device/LaCrosse/WS23xx.pm';
 
 (my $mmap = $pm) =~ s!\.pm$!/MemoryMap\.pm!;
