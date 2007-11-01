@@ -1,5 +1,7 @@
 Revision history for Device-LaCrosse-WS23xx
 
+0.03	???
+
 0.02	Wed 2007-10-31
 	- implemented destructor + close()
 	- for CPAN testing: explicitly require 5.6; disallow building
