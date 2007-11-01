@@ -23,7 +23,7 @@ my $mm = WriteMakefile(
     dist          => {
 	COMPRESS => 'gzip -9f',
 	SUFFIX   => 'gz',
-	PREOP    => 'fgrep  \?\? Changes && exit 1',
+	PREOP    => 'fgrep  \?\? Changes && exit 1 || true',
     },
     clean         => { FILES => 'Device-LaCrosse-WS23xx-*' },
 );
