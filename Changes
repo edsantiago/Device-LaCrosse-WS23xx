@@ -1,9 +1,9 @@
 Revision history for Device-LaCrosse-WS23xx
 
-0.02	????
+0.02	Wed 2007-10-31
 	- implemented destructor + close()
 	- for CPAN testing: explicitly require 5.6; disallow building
-	  on Windows;
+	  on Windows; add #include needed by Solaris.
 
 0.01	Sun 2007-10-28
         - Initial CPAN release
