@@ -9,8 +9,11 @@ my $loaded = 0;
 our $mmap;
 our @fakedata;
 our @sample_data;
+our @canonicalize_tests;
 
 BEGIN {
+    # Read the memory map file; get tests from there.  This will
+    # make sure that we're interpreting data correctly.
     $mmap = 'memory_map_2300.txt';
     open my $map_fh, '<', $mmap or die "Cannot read $mmap: $!";
 
@@ -32,7 +35,25 @@ BEGIN {
     }
     close $map_fh;
 
-    plan tests => 4 + @sample_data;
+    # Create some hardcoded tests.  This requires knowledge of
+    # the sample data values in the memory map file.  These
+    # tests aren't completely duplicates of the above.  These
+    # tests use nonstandard field names, so we're actually
+    # testing the canonicalize() function.
+    my $canonicalize = <<'END_CANONICALIZE_TESTS';
+LCD_Contrast                    5
+Max_Dewpoint                    8.44
+Min_Outdoor_Temp_datetime	1050582300
+Min_Out_temp_datetime           1050582300
+END_CANONICALIZE_TESTS
+
+    for my $line (split "\n", $canonicalize) {
+	$line =~ /^(\S.*\S)\s+(\S+)$/
+	  or die "Internal error: cannot grok test '$line'";
+	push @canonicalize_tests, { field => $1, expect => $2 };
+    }
+
+    plan tests => 2 + @sample_data + @canonicalize_tests;
 }
 END { $loaded or print "not ok 1\n"; }
 
@@ -53,10 +74,6 @@ tie my @WS, 'Device::LaCrosse::WS23xx', $ws
     or die "Cannot tie";
 is_deeply \@WS, \@fakedata, "tie";
 
-is $ws->get("LCD_Contrast"), 5, "LCD contrast";
-is $ws->get("Max_Dewpoint"), "8.44", "Max Dewpoint";
-
-
 for my $r (@sample_data) {
     my ($field, $expect) = @$r;
 
@@ -76,4 +93,11 @@ for my $r (@sample_data) {
     }
 
     is $got, $expect, "$field = $expect";
+}
+
+for my $t (@canonicalize_tests) {
+    my $field = $t->{field};
+    my $expect = $t->{expect};
+
+    is $ws->get($field), $expect, "[canonicalize] $field";
 }
