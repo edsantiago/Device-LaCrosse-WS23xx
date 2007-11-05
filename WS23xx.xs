@@ -345,7 +345,8 @@ void _ws_reset(int fh)
 	    if (answer == 2) {
 		return;
 	    }
-	    else {
+	    else if (answer != 0) {
+	      // Ignore 0, complain about anything else
 	      printf("unexpected reply after reset: %X\n", answer);
 	    }
 	}
