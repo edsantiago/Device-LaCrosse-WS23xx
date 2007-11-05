@@ -1,6 +1,10 @@
 Revision history for Device-LaCrosse-WS23xx
 
-0.03	???
+0.03	Mon 2007-11-05
+	- _ws_reset() : sometimes we get a '0' back.  Ignore it.
+	- canonicalize() : 'xxx_datetime' was not being parsed
+	  properly.  Thanks to morten bjoernsvik at yahoo dot no
+	  for pointing out.
 
 0.02	Wed 2007-10-31
 	- implemented destructor + close()
