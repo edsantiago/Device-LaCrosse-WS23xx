@@ -228,7 +228,7 @@ sub _canonical_name {
     }
 
     # Is this a date/time field?
-    if ($desc =~ s!\bDate/Time\b! !i) {
+    if ($desc =~ s!\bDate/?Time\b! !i) {
 	$canonical_name .= '_datetime';
     }
 
