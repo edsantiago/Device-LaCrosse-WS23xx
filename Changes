@@ -1,5 +1,8 @@
 Revision history for Device-LaCrosse-WS23xx
 
+0.04	Fri 2007-11-16
+	- WS23xx.xs : add #include needed by Solaris
+
 0.03	Mon 2007-11-05
 	- _ws_reset() : sometimes we get a '0' back.  Ignore it.
 	- canonicalize() : 'xxx_datetime' was not being parsed
