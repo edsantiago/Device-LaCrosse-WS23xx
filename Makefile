@@ -36,7 +36,7 @@ DLSRC = dl_dlopen.xs
 LD = i686-pc-linux-gnu-gcc
 LDDLFLAGS = -shared -L/usr/local/lib
 LDFLAGS =  -L/usr/local/lib
-LIBC = /lib/libc-2.5.so
+LIBC = /lib/libc-2.6.1.so
 LIB_EXT = .a
 OBJ_EXT = .o
 OSNAME = linux
@@ -57,11 +57,11 @@ DIRFILESEP = /
 DFSEP = $(DIRFILESEP)
 NAME = Device::LaCrosse::WS23xx
 NAME_SYM = Device_LaCrosse_WS23xx
-VERSION = 0.03
+VERSION = 0.04
 VERSION_MACRO = VERSION
-VERSION_SYM = 0_03
+VERSION_SYM = 0_04
 DEFINE_VERSION = -D$(VERSION_MACRO)=\"$(VERSION)\"
-XS_VERSION = 0.03
+XS_VERSION = 0.04
 XS_VERSION_MACRO = XS_VERSION
 XS_DEFINE_VERSION = -D$(XS_VERSION_MACRO)=\"$(XS_VERSION)\"
 INST_ARCHLIB = blib/arch
@@ -259,7 +259,7 @@ RCS_LABEL = rcs -Nv$(VERSION_SYM): -q
 DIST_CP = best
 DIST_DEFAULT = tardist
 DISTNAME = Device-LaCrosse-WS23xx
-DISTVNAME = Device-LaCrosse-WS23xx-0.03
+DISTVNAME = Device-LaCrosse-WS23xx-0.04
 
 
 # --- MakeMaker macro section:
@@ -571,7 +571,7 @@ metafile : create_distdir
 	$(NOECHO) $(ECHO) '# http://module-build.sourceforge.net/META-spec.html' > META_new.yml
 	$(NOECHO) $(ECHO) '#XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#' >> META_new.yml
 	$(NOECHO) $(ECHO) 'name:         Device-LaCrosse-WS23xx' >> META_new.yml
-	$(NOECHO) $(ECHO) 'version:      0.03' >> META_new.yml
+	$(NOECHO) $(ECHO) 'version:      0.04' >> META_new.yml
 	$(NOECHO) $(ECHO) 'version_from: lib/Device/LaCrosse/WS23xx.pm' >> META_new.yml
 	$(NOECHO) $(ECHO) 'installdirs:  site' >> META_new.yml
 	$(NOECHO) $(ECHO) 'requires:' >> META_new.yml
@@ -920,7 +920,7 @@ testdb_static :: pure_all $(MAP_TARGET)
 # --- MakeMaker ppd section:
 # Creates a PPD (Perl Package Description) for a binary distribution.
 ppd:
-	$(NOECHO) $(ECHO) '<SOFTPKG NAME="$(DISTNAME)" VERSION="0,03,0,0">' > $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '<SOFTPKG NAME="$(DISTNAME)" VERSION="0,04,0,0">' > $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <TITLE>$(DISTNAME)</TITLE>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <ABSTRACT>read data from La Crosse weather station</ABSTRACT>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <AUTHOR>Eduardo Santiago &lt;esm@cpan.org&gt;</AUTHOR>' >> $(DISTNAME).ppd
