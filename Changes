@@ -1,5 +1,8 @@
 Revision history for Device-LaCrosse-WS23xx
 
+0.05	Fri 2007-11-16
+	- test suite: explicitly set time zone
+
 0.04	Fri 2007-11-16
 	- WS23xx.xs : add #include needed by Solaris
 
