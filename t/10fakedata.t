@@ -43,8 +43,8 @@ BEGIN {
     my $canonicalize = <<'END_CANONICALIZE_TESTS';
 LCD_Contrast                    5
 Max_Dewpoint                    8.44
-Min_Outdoor_Temp_datetime	1050582300
-Min_Out_temp_datetime           1050582300
+Min_Outdoor_Temp_datetime	1050560700
+Min_Out_temp_datetime           1050560700
 END_CANONICALIZE_TESTS
 
     for my $line (split "\n", $canonicalize) {
@@ -99,5 +99,8 @@ for my $t (@canonicalize_tests) {
     my $field = $t->{field};
     my $expect = $t->{expect};
 
+    # The time_t values in the table at top are all UT.  Since $ws->get()
+    # invokes timelocal(), make sure it does so in the proper time zone.
+    local $ENV{TZ} = 'UTC';
     is $ws->get($field), $expect, "[canonicalize] $field";
 }
