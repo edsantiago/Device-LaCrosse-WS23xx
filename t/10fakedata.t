@@ -43,8 +43,8 @@ BEGIN {
     my $canonicalize = <<'END_CANONICALIZE_TESTS';
 LCD_Contrast                    5
 Max_Dewpoint                    8.44
-Min_Outdoor_Temp_datetime	1050560700
-Min_Out_temp_datetime           1050560700
+Min_Outdoor_Temp_datetime       2003-04-17.06:25:00
+Min_Out_temp_datetime           2003-04-17.06:25:00
 END_CANONICALIZE_TESTS
 
     for my $line (split "\n", $canonicalize) {
@@ -99,8 +99,15 @@ for my $t (@canonicalize_tests) {
     my $field = $t->{field};
     my $expect = $t->{expect};
 
-    # The time_t values in the table at top are all UT.  Since $ws->get()
-    # invokes timelocal(), make sure it does so in the proper time zone.
-    local $ENV{TZ} = 'UTC';
-    is $ws->get($field), $expect, "[canonicalize] $field";
+    my $got = $ws->get($field);
+
+    # Is this a datetime field?  Since $ws->get() invokes timelocal(),
+    # we need to convert back to localtime().
+    if ($field =~ /datetime/) {
+	my @t = CORE::localtime($got);
+	$got = sprintf("%d-%02d-%02d.%02d:%02d:%02d",
+		       $t[5]+1900, $t[4]+1, $t[3], @t[2,1,0]);
+    }
+
+    is $got, $expect, "[canonicalize] $field";
 }
