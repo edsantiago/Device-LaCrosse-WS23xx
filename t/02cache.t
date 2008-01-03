@@ -10,7 +10,10 @@ use Device::LaCrosse::WS23xx;
 plan tests => 2;
 
 my $ws = Device::LaCrosse::WS23xx->new("/dev/lacrosse", cache_expire => 2)
-  or BAIL_OUT("Cannot talk to /dev/lacrosse");
+  or do {
+      diag "Cannot talk to /dev/lacrosse";
+      exit 1;
+  };
 
 # Get the counter...
 my $name = 'Countdown_time_to_next_datBinary';
