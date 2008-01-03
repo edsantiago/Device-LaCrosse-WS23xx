@@ -143,10 +143,10 @@ sub new {
 }
 
 
-############
-#  DELETE  #  Destructor.  Call C code to close the filehandle.
-############
-sub DELETE {
+#############
+#  DESTROY  #  Destructor.  Call C code to close the filehandle.
+#############
+sub DESTROY {
     my $self = shift;
 
     if (defined $self->{fh}) {
