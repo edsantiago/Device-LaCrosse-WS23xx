@@ -1,8 +1,13 @@
 Revision history for Device-LaCrosse-WS23xx
 
 0.06	???
+	Properly implement destructor.  This lets you undef the $ws
+	object to invoke other Open2300 tools without having to exit,
+	e.g. to invoke a rain-reset at midnight.
+
 	- close(): release the flock
 	- major duh: destructor is named DESTROY(), not DELETE().
+	- test suite: another way to handle time zone differences
 
 0.05	Fri 2007-11-16
 	- test suite: explicitly set time zone
