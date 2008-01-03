@@ -2,6 +2,7 @@ Revision history for Device-LaCrosse-WS23xx
 
 0.06	???
 	- close(): release the flock
+	- major duh: destructor is named DESTROY(), not DELETE().
 
 0.05	Fri 2007-11-16
 	- test suite: explicitly set time zone
