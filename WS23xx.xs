@@ -525,6 +525,7 @@ int
 _ws_close(fh)
 	int	fh
 CODE:
+	flock(fh, LOCK_UN);
 	RETVAL = close(fh);
 
 void
