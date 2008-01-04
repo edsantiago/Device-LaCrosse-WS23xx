@@ -1,5 +1,8 @@
 Revision history for Device-LaCrosse-WS23xx
 
+0.07	???
+	- POD: document default cache values
+
 0.06	Thu 2008-01-03
 	Properly implement destructor.  This lets you undef the $ws
 	object to invoke other Open2300 tools without having to exit,
