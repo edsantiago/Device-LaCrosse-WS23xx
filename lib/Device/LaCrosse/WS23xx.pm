@@ -584,7 +584,7 @@ directly mapped to the array:
 
 Note that each value is a B<nybble>: a value between 0 and 0xF.
 
-This is not really useful for actual weather station monitoring.
+The tied interface is not really useful for actual weather station monitoring.
 It is intended for hackers who want direct access to the device,
 either for learning purposes or because Device::LaCrosse::WS23xx
 is missing some important mappings.
