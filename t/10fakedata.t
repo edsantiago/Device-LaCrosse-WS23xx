@@ -41,6 +41,7 @@ BEGIN {
     # tests use nonstandard field names, so we're actually
     # testing the canonicalize() function.
     my $canonicalize = <<'END_CANONICALIZE_TESTS';
+Outdoor_Temp                    7.4
 LCD_Contrast                    5
 Max_Dewpoint                    8.44
 Min_Outdoor_Temp_datetime       2003-04-17.06:25:00
