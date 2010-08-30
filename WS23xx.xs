@@ -353,8 +353,7 @@ void _ws_reset(int fh)
 
 	//	usleep(50000 * i);   //we sleep longer and longer for each retry
     }
-    fprintf(stderr, "\nCould not reset\n");
-    exit(EXIT_FAILURE);
+    croak("Could not reset WS device");
 }
 
 
