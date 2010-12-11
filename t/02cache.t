@@ -3,7 +3,7 @@
 #
 use strict;
 use warnings;
-use Test::More;
+use Test::More skip_all => "December 2010 : dead hardware";
 
 use Device::LaCrosse::WS23xx;
 
