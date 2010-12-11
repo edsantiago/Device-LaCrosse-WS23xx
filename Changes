@@ -1,7 +1,8 @@
 Revision history for Device-LaCrosse-WS23xx
 
-0.07	???
+0.07	Sat 2010-12-11
 	- POD: document default cache values
+        - improve error handling on bad timestamps (eg after device reset)
 
 0.06	Thu 2008-01-03
 	Properly implement destructor.  This lets you undef the $ws
