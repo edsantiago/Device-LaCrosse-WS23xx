@@ -2,7 +2,7 @@
 #
 #
 use strict;
-use Test::More;
+use Test::More	skip_all => "December 2010: dead hardware";
 
 my $loaded = 0;
 
