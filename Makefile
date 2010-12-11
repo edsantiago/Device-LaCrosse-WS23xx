@@ -1,7 +1,7 @@
 # This Makefile is for the Device::LaCrosse::WS23xx extension to perl.
 #
 # It was generated automatically by MakeMaker version
-# 6.30 (Revision: Revision: 4535 ) from the contents of
+# 6.42 (Revision: 41145) from the contents of
 # Makefile.PL. Don't edit this file, edit Makefile.PL instead.
 #
 #       ANY CHANGES MADE HERE WILL BE LOST!
@@ -24,31 +24,31 @@
 
 # --- MakeMaker const_config section:
 
-# These definitions are from config.sh (via /usr/lib/perl5/5.8.8/i686-linux/Config.pm)
+# These definitions are from config.sh (via /usr/lib/perl/5.10/Config.pm)
 
 # They may have been overridden via Makefile.PL or on the command line
 AR = ar
-CC = i686-pc-linux-gnu-gcc
+CC = cc
 CCCDLFLAGS = -fPIC
-CCDLFLAGS = -rdynamic
+CCDLFLAGS = -Wl,-E
 DLEXT = so
 DLSRC = dl_dlopen.xs
-LD = i686-pc-linux-gnu-gcc
-LDDLFLAGS = -shared -L/usr/local/lib
+EXE_EXT = 
+FULL_AR = /usr/bin/ar
+LD = cc
+LDDLFLAGS = -shared -O2 -g -L/usr/local/lib
 LDFLAGS =  -L/usr/local/lib
-LIBC = /lib/libc-2.6.1.so
+LIBC = /lib/libc-2.7.so
 LIB_EXT = .a
 OBJ_EXT = .o
 OSNAME = linux
-OSVERS = 2.6.22-gentoo-r5
+OSVERS = 2.6.30.5-dsa-amd64
 RANLIB = :
-SITELIBEXP = /usr/lib/perl5/site_perl/5.8.8
-SITEARCHEXP = /usr/lib/perl5/site_perl/5.8.8/i686-linux
+SITELIBEXP = /usr/local/share/perl/5.10.0
+SITEARCHEXP = /usr/local/lib/perl/5.10.0
 SO = so
-EXE_EXT = 
-FULL_AR = /usr/bin/ar
-VENDORARCHEXP = /usr/lib/perl5/vendor_perl/5.8.8/i686-linux
-VENDORLIBEXP = /usr/lib/perl5/vendor_perl/5.8.8
+VENDORARCHEXP = /usr/lib/perl5
+VENDORLIBEXP = /usr/share/perl5
 
 
 # --- MakeMaker constants section:
@@ -57,11 +57,11 @@ DIRFILESEP = /
 DFSEP = $(DIRFILESEP)
 NAME = Device::LaCrosse::WS23xx
 NAME_SYM = Device_LaCrosse_WS23xx
-VERSION = 0.06
+VERSION = 0.07
 VERSION_MACRO = VERSION
-VERSION_SYM = 0_06
+VERSION_SYM = 0_07
 DEFINE_VERSION = -D$(VERSION_MACRO)=\"$(VERSION)\"
-XS_VERSION = 0.06
+XS_VERSION = 0.07
 XS_VERSION_MACRO = XS_VERSION
 XS_DEFINE_VERSION = -D$(XS_VERSION_MACRO)=\"$(XS_VERSION)\"
 INST_ARCHLIB = blib/arch
@@ -70,56 +70,60 @@ INST_BIN = blib/bin
 INST_LIB = blib/lib
 INST_MAN1DIR = blib/man1
 INST_MAN3DIR = blib/man3
-MAN1EXT = 1
+MAN1EXT = 1p
 MAN3EXT = 3pm
 INSTALLDIRS = site
 DESTDIR = 
-PREFIX = $(SITEPREFIX)
-PERLPREFIX = /usr
-SITEPREFIX = /usr
-VENDORPREFIX = /usr
-INSTALLPRIVLIB = /usr/lib/perl5/5.8.8
+PREFIX = /usr
+PERLPREFIX = $(PREFIX)
+SITEPREFIX = $(PREFIX)/local
+VENDORPREFIX = $(PREFIX)
+INSTALLPRIVLIB = $(PERLPREFIX)/share/perl/5.10
 DESTINSTALLPRIVLIB = $(DESTDIR)$(INSTALLPRIVLIB)
-INSTALLSITELIB = /usr/lib/perl5/site_perl/5.8.8
+INSTALLSITELIB = $(SITEPREFIX)/share/perl/5.10.0
 DESTINSTALLSITELIB = $(DESTDIR)$(INSTALLSITELIB)
-INSTALLVENDORLIB = /usr/lib/perl5/vendor_perl/5.8.8
+INSTALLVENDORLIB = $(VENDORPREFIX)/share/perl5
 DESTINSTALLVENDORLIB = $(DESTDIR)$(INSTALLVENDORLIB)
-INSTALLARCHLIB = /usr/lib/perl5/5.8.8/i686-linux
+INSTALLARCHLIB = $(PERLPREFIX)/lib/perl/5.10
 DESTINSTALLARCHLIB = $(DESTDIR)$(INSTALLARCHLIB)
-INSTALLSITEARCH = /usr/lib/perl5/site_perl/5.8.8/i686-linux
+INSTALLSITEARCH = $(SITEPREFIX)/lib/perl/5.10.0
 DESTINSTALLSITEARCH = $(DESTDIR)$(INSTALLSITEARCH)
-INSTALLVENDORARCH = /usr/lib/perl5/vendor_perl/5.8.8/i686-linux
+INSTALLVENDORARCH = $(VENDORPREFIX)/lib/perl5
 DESTINSTALLVENDORARCH = $(DESTDIR)$(INSTALLVENDORARCH)
-INSTALLBIN = /usr/bin
+INSTALLBIN = $(PERLPREFIX)/bin
 DESTINSTALLBIN = $(DESTDIR)$(INSTALLBIN)
-INSTALLSITEBIN = /usr/bin
+INSTALLSITEBIN = $(SITEPREFIX)/bin
 DESTINSTALLSITEBIN = $(DESTDIR)$(INSTALLSITEBIN)
-INSTALLVENDORBIN = /usr/bin
+INSTALLVENDORBIN = $(VENDORPREFIX)/bin
 DESTINSTALLVENDORBIN = $(DESTDIR)$(INSTALLVENDORBIN)
-INSTALLSCRIPT = /usr/bin
+INSTALLSCRIPT = $(PERLPREFIX)/bin
 DESTINSTALLSCRIPT = $(DESTDIR)$(INSTALLSCRIPT)
-INSTALLMAN1DIR = /usr/share/man/man1
+INSTALLSITESCRIPT = $(SITEPREFIX)/bin
+DESTINSTALLSITESCRIPT = $(DESTDIR)$(INSTALLSITESCRIPT)
+INSTALLVENDORSCRIPT = $(VENDORPREFIX)/bin
+DESTINSTALLVENDORSCRIPT = $(DESTDIR)$(INSTALLVENDORSCRIPT)
+INSTALLMAN1DIR = $(PERLPREFIX)/share/man/man1
 DESTINSTALLMAN1DIR = $(DESTDIR)$(INSTALLMAN1DIR)
-INSTALLSITEMAN1DIR = /usr/share/man/man1
+INSTALLSITEMAN1DIR = $(SITEPREFIX)/man/man1
 DESTINSTALLSITEMAN1DIR = $(DESTDIR)$(INSTALLSITEMAN1DIR)
-INSTALLVENDORMAN1DIR = /usr/share/man/man1
+INSTALLVENDORMAN1DIR = $(VENDORPREFIX)/share/man/man1
 DESTINSTALLVENDORMAN1DIR = $(DESTDIR)$(INSTALLVENDORMAN1DIR)
-INSTALLMAN3DIR = /usr/share/man/man3
+INSTALLMAN3DIR = $(PERLPREFIX)/share/man/man3
 DESTINSTALLMAN3DIR = $(DESTDIR)$(INSTALLMAN3DIR)
-INSTALLSITEMAN3DIR = /usr/share/man/man3
+INSTALLSITEMAN3DIR = $(SITEPREFIX)/man/man3
 DESTINSTALLSITEMAN3DIR = $(DESTDIR)$(INSTALLSITEMAN3DIR)
-INSTALLVENDORMAN3DIR = /usr/share/man/man3
+INSTALLVENDORMAN3DIR = $(VENDORPREFIX)/share/man/man3
 DESTINSTALLVENDORMAN3DIR = $(DESTDIR)$(INSTALLVENDORMAN3DIR)
-PERL_LIB = /usr/lib/perl5/5.8.8
-PERL_ARCHLIB = /usr/lib/perl5/5.8.8/i686-linux
+PERL_LIB = /usr/share/perl/5.10
+PERL_ARCHLIB = /usr/lib/perl/5.10
 LIBPERL_A = libperl.a
 FIRST_MAKEFILE = Makefile
 MAKEFILE_OLD = Makefile.old
 MAKE_APERL_FILE = Makefile.aperl
 PERLMAINCC = $(CC)
-PERL_INC = /usr/lib/perl5/5.8.8/i686-linux/CORE
-PERL = /usr/bin/perl5.8.8
-FULLPERL = /usr/bin/perl5.8.8
+PERL_INC = /usr/lib/perl/5.10/CORE
+PERL = /usr/bin/perl
+FULLPERL = /usr/bin/perl
 ABSPERL = $(PERL)
 PERLRUN = $(PERL)
 FULLPERLRUN = $(FULLPERL)
@@ -131,14 +135,15 @@ PERL_CORE = 0
 PERM_RW = 644
 PERM_RWX = 755
 
-MAKEMAKER   = /usr/lib/perl5/5.8.8/ExtUtils/MakeMaker.pm
-MM_VERSION  = 6.30
-MM_REVISION = Revision: 4535 
+MAKEMAKER   = /usr/share/perl/5.10/ExtUtils/MakeMaker.pm
+MM_VERSION  = 6.42
+MM_REVISION = 41145
 
 # FULLEXT = Pathname for extension directory (eg Foo/Bar/Oracle).
 # BASEEXT = Basename part of FULLEXT. May be just equal FULLEXT. (eg Oracle)
 # PARENT_NAME = NAME without BASEEXT and no trailing :: (eg Foo::Bar)
 # DLBASE  = Basename part of dynamic library. May be just equal BASEEXT.
+MAKE = make
 FULLEXT = Device/LaCrosse/WS23xx
 BASEEXT = WS23xx
 PARENT_NAME = Device::LaCrosse
@@ -188,24 +193,24 @@ PM_TO_BLIB = lib/Device/LaCrosse/WS23xx.pm \
 
 
 # --- MakeMaker platform_constants section:
-MM_Unix_VERSION = 1.50
+MM_Unix_VERSION = 6.42
 PERL_MALLOC_DEF = -DPERL_EXTMALLOC_DEF -Dmalloc=Perl_malloc -Dfree=Perl_mfree -Drealloc=Perl_realloc -Dcalloc=Perl_calloc
 
 
 # --- MakeMaker tool_autosplit section:
 # Usage: $(AUTOSPLITFILE) FileToSplit AutoDirToSplitInto
-AUTOSPLITFILE = $(ABSPERLRUN)  -e 'use AutoSplit;  autosplit($$ARGV[0], $$ARGV[1], 0, 1, 1)'
+AUTOSPLITFILE = $(ABSPERLRUN)  -e 'use AutoSplit;  autosplit($$ARGV[0], $$ARGV[1], 0, 1, 1)' --
 
 
 
 # --- MakeMaker tool_xsubpp section:
 
-XSUBPPDIR = /usr/lib/perl5/5.8.8/ExtUtils
+XSUBPPDIR = /usr/share/perl/5.10/ExtUtils
 XSUBPP = $(XSUBPPDIR)$(DFSEP)xsubpp
 XSUBPPRUN = $(PERLRUN) $(XSUBPP)
 XSPROTOARG = 
-XSUBPPDEPS = /usr/lib/perl5/5.8.8/ExtUtils/typemap $(XSUBPP)
-XSUBPPARGS = -typemap /usr/lib/perl5/5.8.8/ExtUtils/typemap
+XSUBPPDEPS = /usr/share/perl/5.10/ExtUtils/typemap $(XSUBPP)
+XSUBPPARGS = -typemap /usr/share/perl/5.10/ExtUtils/typemap
 XSUBPP_EXTRA_ARGS = 
 
 
@@ -228,7 +233,7 @@ ECHO = echo
 ECHO_N = echo -n
 UNINST = 0
 VERBINST = 0
-MOD_INSTALL = $(ABSPERLRUN) -MExtUtils::Install -e 'install({@ARGV}, '\''$(VERBINST)'\'', 0, '\''$(UNINST)'\'');'
+MOD_INSTALL = $(ABSPERLRUN) -MExtUtils::Install -e 'install({@ARGV}, '\''$(VERBINST)'\'', 0, '\''$(UNINST)'\'');' --
 DOC_INSTALL = $(ABSPERLRUN) "-MExtUtils::Command::MM" -e perllocal_install
 UNINSTALL = $(ABSPERLRUN) "-MExtUtils::Command::MM" -e uninstall
 WARN_IF_OLD_PACKLIST = $(ABSPERLRUN) "-MExtUtils::Command::MM" -e warn_if_old_packlist
@@ -239,7 +244,7 @@ FIXIN = $(PERLRUN) "-MExtUtils::MY" -e "MY->fixin(shift)"
 
 
 # --- MakeMaker makemakerdflt section:
-makemakerdflt: all
+makemakerdflt : all
 	$(NOECHO) $(NOOP)
 
 
@@ -259,7 +264,7 @@ RCS_LABEL = rcs -Nv$(VERSION_SYM): -q
 DIST_CP = best
 DIST_DEFAULT = tardist
 DISTNAME = Device-LaCrosse-WS23xx
-DISTVNAME = Device-LaCrosse-WS23xx-0.06
+DISTVNAME = Device-LaCrosse-WS23xx-0.07
 
 
 # --- MakeMaker macro section:
@@ -270,8 +275,8 @@ DISTVNAME = Device-LaCrosse-WS23xx-0.06
 
 # --- MakeMaker cflags section:
 
-CCFLAGS = -fno-strict-aliasing -pipe -Wdeclaration-after-statement -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64
-OPTIMIZE = -O2 -march=athlon-xp -pipe -fomit-frame-pointer
+CCFLAGS = -D_REENTRANT -D_GNU_SOURCE -DDEBIAN -fno-strict-aliasing -pipe -I/usr/local/include -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64
+OPTIMIZE = -O2 -g
 PERLTYPE = 
 MPOLLUTE = 
 
@@ -310,7 +315,7 @@ PASTHRU = LIBPERL_A="$(LIBPERL_A)"\
 # --- MakeMaker c_o section:
 
 .c.i:
-	i686-pc-linux-gnu-gcc -E -c $(PASTHRU_INC) $(INC) \
+	cc -E -c $(PASTHRU_INC) $(INC) \
 	$(CCFLAGS) $(OPTIMIZE) \
 	$(PERLTYPE) $(MPOLLUTE) $(DEFINE_VERSION) \
 	$(XS_DEFINE_VERSION) $(CCCDLFLAGS) "-I$(PERL_INC)" $(PASTHRU_DEFINE) $(DEFINE) $*.c > $*.i
@@ -321,9 +326,6 @@ PASTHRU = LIBPERL_A="$(LIBPERL_A)"\
 .c$(OBJ_EXT):
 	$(CCCMD) $(CCCDLFLAGS) "-I$(PERL_INC)" $(PASTHRU_DEFINE) $(DEFINE) $*.c
 
-.C$(OBJ_EXT):
-	$(CCCMD) $(CCCDLFLAGS) "-I$(PERL_INC)" $(PASTHRU_DEFINE) $(DEFINE) $*.C
-
 .cpp$(OBJ_EXT):
 	$(CCCMD) $(CCCDLFLAGS) "-I$(PERL_INC)" $(PASTHRU_DEFINE) $(DEFINE) $*.cpp
 
@@ -332,6 +334,9 @@ PASTHRU = LIBPERL_A="$(LIBPERL_A)"\
 
 .cc$(OBJ_EXT):
 	$(CCCMD) $(CCCDLFLAGS) "-I$(PERL_INC)" $(PASTHRU_DEFINE) $(DEFINE) $*.cc
+
+.C$(OBJ_EXT):
+	$(CCCMD) $*.C
 
 
 # --- MakeMaker xs_c section:
@@ -492,10 +497,8 @@ POD2MAN = $(POD2MAN_EXE)
 
 manifypods : pure_all  \
 	lib/Device/LaCrosse/WS23xx.pm \
-	lib/Device/LaCrosse/WS23xx/MemoryMap.pm \
-	lib/Device/LaCrosse/WS23xx.pm \
 	lib/Device/LaCrosse/WS23xx/MemoryMap.pm
-	$(NOECHO) $(POD2MAN) --section=3 --perm_rw=$(PERM_RW) \
+	$(NOECHO) $(POD2MAN) --section=$(MAN3EXT) --perm_rw=$(PERM_RW) \
 	  lib/Device/LaCrosse/WS23xx.pm $(INST_MAN3DIR)/Device::LaCrosse::WS23xx.$(MAN3EXT) \
 	  lib/Device/LaCrosse/WS23xx/MemoryMap.pm $(INST_MAN3DIR)/Device::LaCrosse::WS23xx::MemoryMap.$(MAN3EXT) 
 
@@ -508,7 +511,7 @@ all :: lib/Device/LaCrosse/WS23xx/MemoryMap.pm
 	$(NOECHO) $(NOOP)
 
 lib/Device/LaCrosse/WS23xx/MemoryMap.pm :: memory_map_2300.PL 
-	$(PERLRUN) memory_map_2300.PL lib/Device/LaCrosse/WS23xx/MemoryMap.pm
+	$(PERLRUNINST) memory_map_2300.PL lib/Device/LaCrosse/WS23xx/MemoryMap.pm
 
 
 # --- MakeMaker installbin section:
@@ -568,17 +571,20 @@ realclean purge ::  clean realclean_subdirs
 # --- MakeMaker metafile section:
 metafile : create_distdir
 	$(NOECHO) $(ECHO) Generating META.yml
-	$(NOECHO) $(ECHO) '# http://module-build.sourceforge.net/META-spec.html' > META_new.yml
-	$(NOECHO) $(ECHO) '#XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#' >> META_new.yml
-	$(NOECHO) $(ECHO) 'name:         Device-LaCrosse-WS23xx' >> META_new.yml
-	$(NOECHO) $(ECHO) 'version:      0.06' >> META_new.yml
-	$(NOECHO) $(ECHO) 'version_from: lib/Device/LaCrosse/WS23xx.pm' >> META_new.yml
-	$(NOECHO) $(ECHO) 'installdirs:  site' >> META_new.yml
-	$(NOECHO) $(ECHO) 'requires:' >> META_new.yml
+	$(NOECHO) $(ECHO) '--- #YAML:1.0' > META_new.yml
+	$(NOECHO) $(ECHO) 'name:                Device-LaCrosse-WS23xx' >> META_new.yml
+	$(NOECHO) $(ECHO) 'version:             0.07' >> META_new.yml
+	$(NOECHO) $(ECHO) 'abstract:            read data from La Crosse weather station' >> META_new.yml
+	$(NOECHO) $(ECHO) 'license:             ~' >> META_new.yml
+	$(NOECHO) $(ECHO) 'author:              ' >> META_new.yml
+	$(NOECHO) $(ECHO) '    - Eduardo Santiago <esm@cpan.org>' >> META_new.yml
+	$(NOECHO) $(ECHO) 'generated_by:        ExtUtils::MakeMaker version 6.42' >> META_new.yml
+	$(NOECHO) $(ECHO) 'distribution_type:   module' >> META_new.yml
+	$(NOECHO) $(ECHO) 'requires:     ' >> META_new.yml
 	$(NOECHO) $(ECHO) '    Test::More:                    0' >> META_new.yml
-	$(NOECHO) $(ECHO) '' >> META_new.yml
-	$(NOECHO) $(ECHO) 'distribution_type: module' >> META_new.yml
-	$(NOECHO) $(ECHO) 'generated_by: ExtUtils::MakeMaker version 6.30' >> META_new.yml
+	$(NOECHO) $(ECHO) 'meta-spec:' >> META_new.yml
+	$(NOECHO) $(ECHO) '    url:     http://module-build.sourceforge.net/META-spec-v1.3.html' >> META_new.yml
+	$(NOECHO) $(ECHO) '    version: 1.3' >> META_new.yml
 	-$(NOECHO) $(MV) META_new.yml $(DISTVNAME)/META.yml
 
 
@@ -601,7 +607,7 @@ manifest :
 	$(PERLRUN) "-MExtUtils::Manifest=mkmanifest" -e mkmanifest
 
 veryclean : realclean
-	$(RM_F) *~ *.orig */*~ */*.orig
+	$(RM_F) *~ */*~ *.orig */*.orig *.bak */*.bak *.old */*.old 
 
 
 
@@ -609,7 +615,7 @@ veryclean : realclean
 
 dist : $(DIST_DEFAULT) $(FIRST_MAKEFILE)
 	$(NOECHO) $(ABSPERLRUN) -l -e 'print '\''Warning: Makefile possibly out of date with $(VERSION_FROM)'\''' \
-	  -e '    if -e '\''$(VERSION_FROM)'\'' and -M '\''$(VERSION_FROM)'\'' < -M '\''$(FIRST_MAKEFILE)'\'';'
+	  -e '    if -e '\''$(VERSION_FROM)'\'' and -M '\''$(VERSION_FROM)'\'' < -M '\''$(FIRST_MAKEFILE)'\'';' --
 
 tardist : $(DISTVNAME).tar$(SUFFIX)
 	$(NOECHO) $(NOOP)
@@ -672,14 +678,14 @@ ci :
 # --- MakeMaker distmeta section:
 distmeta : create_distdir metafile
 	$(NOECHO) cd $(DISTVNAME) && $(ABSPERLRUN) -MExtUtils::Manifest=maniadd -e 'eval { maniadd({q{META.yml} => q{Module meta-data (added by MakeMaker)}}) } ' \
-	  -e '    or print "Could not add META.yml to MANIFEST: $${'\''@'\''}\n"'
+	  -e '    or print "Could not add META.yml to MANIFEST: $${'\''@'\''}\n"' --
 
 
 
 # --- MakeMaker distsignature section:
 distsignature : create_distdir
 	$(NOECHO) cd $(DISTVNAME) && $(ABSPERLRUN) -MExtUtils::Manifest=maniadd -e 'eval { maniadd({q{SIGNATURE} => q{Public-key signature (added by MakeMaker)}}) } ' \
-	  -e '    or print "Could not add SIGNATURE to MANIFEST: $${'\''@'\''}\n"'
+	  -e '    or print "Could not add SIGNATURE to MANIFEST: $${'\''@'\''}\n"' --
 	$(NOECHO) cd $(DISTVNAME) && $(TOUCH) SIGNATURE
 	cd $(DISTVNAME) && cpansign -s
 
@@ -687,16 +693,16 @@ distsignature : create_distdir
 
 # --- MakeMaker install section:
 
-install :: all pure_install doc_install
+install :: pure_install doc_install
 	$(NOECHO) $(NOOP)
 
-install_perl :: all pure_perl_install doc_perl_install
+install_perl :: pure_perl_install doc_perl_install
 	$(NOECHO) $(NOOP)
 
-install_site :: all pure_site_install doc_site_install
+install_site :: pure_site_install doc_site_install
 	$(NOECHO) $(NOOP)
 
-install_vendor :: all pure_vendor_install doc_vendor_install
+install_vendor :: pure_vendor_install doc_vendor_install
 	$(NOECHO) $(NOOP)
 
 pure_install :: pure_$(INSTALLDIRS)_install
@@ -711,10 +717,8 @@ pure__install : pure_site_install
 doc__install : doc_site_install
 	$(NOECHO) $(ECHO) INSTALLDIRS not defined, defaulting to INSTALLDIRS=site
 
-pure_perl_install ::
-	$(NOECHO) $(MOD_INSTALL) \
-		read $(PERL_ARCHLIB)/auto/$(FULLEXT)/.packlist \
-		write $(DESTINSTALLARCHLIB)/auto/$(FULLEXT)/.packlist \
+pure_perl_install :: all
+	$(NOECHO) umask 022; $(MOD_INSTALL) \
 		$(INST_LIB) $(DESTINSTALLPRIVLIB) \
 		$(INST_ARCHLIB) $(DESTINSTALLARCHLIB) \
 		$(INST_BIN) $(DESTINSTALLBIN) \
@@ -725,80 +729,59 @@ pure_perl_install ::
 		$(SITEARCHEXP)/auto/$(FULLEXT)
 
 
-pure_site_install ::
-	$(NOECHO) $(MOD_INSTALL) \
+pure_site_install :: all
+	$(NOECHO) umask 02; $(MOD_INSTALL) \
 		read $(SITEARCHEXP)/auto/$(FULLEXT)/.packlist \
 		write $(DESTINSTALLSITEARCH)/auto/$(FULLEXT)/.packlist \
 		$(INST_LIB) $(DESTINSTALLSITELIB) \
 		$(INST_ARCHLIB) $(DESTINSTALLSITEARCH) \
 		$(INST_BIN) $(DESTINSTALLSITEBIN) \
-		$(INST_SCRIPT) $(DESTINSTALLSCRIPT) \
+		$(INST_SCRIPT) $(DESTINSTALLSITESCRIPT) \
 		$(INST_MAN1DIR) $(DESTINSTALLSITEMAN1DIR) \
 		$(INST_MAN3DIR) $(DESTINSTALLSITEMAN3DIR)
 	$(NOECHO) $(WARN_IF_OLD_PACKLIST) \
 		$(PERL_ARCHLIB)/auto/$(FULLEXT)
 
-pure_vendor_install ::
-	$(NOECHO) $(MOD_INSTALL) \
-		read $(VENDORARCHEXP)/auto/$(FULLEXT)/.packlist \
-		write $(DESTINSTALLVENDORARCH)/auto/$(FULLEXT)/.packlist \
+pure_vendor_install :: all
+	$(NOECHO) umask 022; $(MOD_INSTALL) \
 		$(INST_LIB) $(DESTINSTALLVENDORLIB) \
 		$(INST_ARCHLIB) $(DESTINSTALLVENDORARCH) \
 		$(INST_BIN) $(DESTINSTALLVENDORBIN) \
-		$(INST_SCRIPT) $(DESTINSTALLSCRIPT) \
+		$(INST_SCRIPT) $(DESTINSTALLVENDORSCRIPT) \
 		$(INST_MAN1DIR) $(DESTINSTALLVENDORMAN1DIR) \
 		$(INST_MAN3DIR) $(DESTINSTALLVENDORMAN3DIR)
 
-doc_perl_install ::
-	$(NOECHO) $(ECHO) Appending installation info to $(DESTINSTALLARCHLIB)/perllocal.pod
-	-$(NOECHO) $(MKPATH) $(DESTINSTALLARCHLIB)
-	-$(NOECHO) $(DOC_INSTALL) \
-		"Module" "$(NAME)" \
-		"installed into" "$(INSTALLPRIVLIB)" \
-		LINKTYPE "$(LINKTYPE)" \
-		VERSION "$(VERSION)" \
-		EXE_FILES "$(EXE_FILES)" \
-		>> $(DESTINSTALLARCHLIB)/perllocal.pod
+doc_perl_install :: all
 
-doc_site_install ::
-	$(NOECHO) $(ECHO) Appending installation info to $(DESTINSTALLARCHLIB)/perllocal.pod
-	-$(NOECHO) $(MKPATH) $(DESTINSTALLARCHLIB)
-	-$(NOECHO) $(DOC_INSTALL) \
+doc_site_install :: all
+	$(NOECHO) $(ECHO) Appending installation info to $(DESTINSTALLSITEARCH)/perllocal.pod
+	-$(NOECHO) umask 02; $(MKPATH) $(DESTINSTALLSITEARCH)
+	-$(NOECHO) umask 02; $(DOC_INSTALL) \
 		"Module" "$(NAME)" \
 		"installed into" "$(INSTALLSITELIB)" \
 		LINKTYPE "$(LINKTYPE)" \
 		VERSION "$(VERSION)" \
 		EXE_FILES "$(EXE_FILES)" \
-		>> $(DESTINSTALLARCHLIB)/perllocal.pod
+		>> $(DESTINSTALLSITEARCH)/perllocal.pod
 
-doc_vendor_install ::
-	$(NOECHO) $(ECHO) Appending installation info to $(DESTINSTALLARCHLIB)/perllocal.pod
-	-$(NOECHO) $(MKPATH) $(DESTINSTALLARCHLIB)
-	-$(NOECHO) $(DOC_INSTALL) \
-		"Module" "$(NAME)" \
-		"installed into" "$(INSTALLVENDORLIB)" \
-		LINKTYPE "$(LINKTYPE)" \
-		VERSION "$(VERSION)" \
-		EXE_FILES "$(EXE_FILES)" \
-		>> $(DESTINSTALLARCHLIB)/perllocal.pod
+doc_vendor_install :: all
 
 
 uninstall :: uninstall_from_$(INSTALLDIRS)dirs
 	$(NOECHO) $(NOOP)
 
 uninstall_from_perldirs ::
-	$(NOECHO) $(UNINSTALL) $(PERL_ARCHLIB)/auto/$(FULLEXT)/.packlist
 
 uninstall_from_sitedirs ::
 	$(NOECHO) $(UNINSTALL) $(SITEARCHEXP)/auto/$(FULLEXT)/.packlist
 
 uninstall_from_vendordirs ::
-	$(NOECHO) $(UNINSTALL) $(VENDORARCHEXP)/auto/$(FULLEXT)/.packlist
+
 
 
 # --- MakeMaker force section:
 # Phony target to force checking subdirectories.
-FORCE:
+FORCE :
 	$(NOECHO) $(NOOP)
 
 
@@ -843,7 +826,6 @@ PERL_HDRS = \
 	$(PERL_INC)/regnodes.h		\
 	$(PERL_INC)/scope.h		\
 	$(PERL_INC)/sv.h		\
-	$(PERL_INC)/thrdvar.h		\
 	$(PERL_INC)/thread.h		\
 	$(PERL_INC)/unixish.h		\
 	$(PERL_INC)/util.h
@@ -876,7 +858,7 @@ $(FIRST_MAKEFILE) : Makefile.PL $(CONFIGDEP)
 
 # --- MakeMaker makeaperl section ---
 MAP_TARGET    = perl
-FULLPERL      = /usr/bin/perl5.8.8
+FULLPERL      = /usr/bin/perl
 
 $(MAP_TARGET) :: static $(MAKE_APERL_FILE)
 	$(MAKE) $(USEMAKEFILE) $(MAKE_APERL_FILE) $@
@@ -899,7 +881,11 @@ TESTDB_SW = -d
 
 testdb :: testdb_$(LINKTYPE)
 
-test :: $(TEST_TYPE)
+test :: $(TEST_TYPE) subdirs-test
+
+subdirs-test ::
+	$(NOECHO) $(NOOP)
+
 
 test_dynamic :: pure_all
 	PERL_DL_NONLAZY=1 $(FULLPERLRUN) "-MExtUtils::Command::MM" "-e" "test_harness($(TEST_VERBOSE), '$(INST_LIB)', '$(INST_ARCHLIB)')" $(TEST_FILES)
@@ -919,15 +905,15 @@ testdb_static :: pure_all $(MAP_TARGET)
 
 # --- MakeMaker ppd section:
 # Creates a PPD (Perl Package Description) for a binary distribution.
-ppd:
-	$(NOECHO) $(ECHO) '<SOFTPKG NAME="$(DISTNAME)" VERSION="0,06,0,0">' > $(DISTNAME).ppd
+ppd :
+	$(NOECHO) $(ECHO) '<SOFTPKG NAME="$(DISTNAME)" VERSION="0,07,0,0">' > $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <TITLE>$(DISTNAME)</TITLE>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <ABSTRACT>read data from La Crosse weather station</ABSTRACT>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <AUTHOR>Eduardo Santiago &lt;esm@cpan.org&gt;</AUTHOR>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <IMPLEMENTATION>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="Test-More" VERSION="0,0,0,0" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <OS NAME="$(OSNAME)" />' >> $(DISTNAME).ppd
-	$(NOECHO) $(ECHO) '        <ARCHITECTURE NAME="i686-linux" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <ARCHITECTURE NAME="x86_64-linux-gnu-thread-multi-5.1" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <CODEBASE HREF="" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    </IMPLEMENTATION>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '</SOFTPKG>' >> $(DISTNAME).ppd
@@ -936,7 +922,7 @@ ppd:
 # --- MakeMaker pm_to_blib section:
 
 pm_to_blib : $(TO_INST_PM)
-	$(NOECHO) $(ABSPERLRUN) -MExtUtils::Install -e 'pm_to_blib({@ARGV}, '\''$(INST_LIB)/auto'\'', '\''$(PM_FILTER)'\'')' \
+	$(NOECHO) $(ABSPERLRUN) -MExtUtils::Install -e 'pm_to_blib({@ARGV}, '\''$(INST_LIB)/auto'\'', '\''$(PM_FILTER)'\'')' -- \
 	  lib/Device/LaCrosse/WS23xx.pm blib/lib/Device/LaCrosse/WS23xx.pm \
 	  lib/Device/LaCrosse/WS23xx/MemoryMap.pm blib/lib/Device/LaCrosse/WS23xx/MemoryMap.pm 
 	$(NOECHO) $(TOUCH) pm_to_blib
