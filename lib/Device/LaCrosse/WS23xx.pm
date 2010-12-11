@@ -246,11 +246,14 @@ sub get {
     my $expr = $get->{expr};
 
     # Special case for datetime: return a unix time_t
-    sub _time_convert($) {
-	#             YY      MM     DD    hh    mm
-	$_[0] =~ m!^(\d{1,2})(\d\d)(\d\d)(\d\d)(\d\d)$!
-	  or die "$ME: Internal error: bad datetime '$_[0]'";
-	return timelocal( 0,$5,$4, $3, $2-1, $1+100);
+    sub _time_convert($$) {
+        #                 YY      MM     DD    hh    mm
+        if ($_[0] =~ m!^(\d{1,2})(\d\d)(\d\d)(\d\d)(\d\d)$!) {
+            return timelocal( 0,$5,$4, $3, $2-1, $1+100);
+        }
+
+        carp "$ME: ->$_[1](): WARNING: bad datetime '$_[0]'";
+        return 0;
     }
 
     # Special case for values with well-defined meanings:
@@ -275,7 +278,7 @@ sub get {
     # Interpret the equation, e.g. $BCD / 10.0
     my $val = eval($expr);
     if ($@) {
-	croak "$ME: eval( $get->{expr} ) died: $@";
+	croak "$ME: ->$field(): eval( $get->{expr} ) died: $@";
     }
 
     # Asked to convert units?
