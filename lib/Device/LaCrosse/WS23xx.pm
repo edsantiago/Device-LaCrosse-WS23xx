@@ -62,7 +62,7 @@ use vars qw(@ISA %EXPORT_TAGS @EXPORT_OK @EXPORT);
 @EXPORT_OK   = ( );
 @EXPORT      = ( );
 
-our $VERSION = '0.07';
+our $VERSION = '0.08';
 
 our $PKG = __PACKAGE__;		# For interpolating into error messages
 
@@ -244,6 +244,18 @@ sub get {
     $BCD = '0' if $BCD eq '';
 
     my $expr = $get->{expr};
+
+    # Bug 41461 <https://rt.cpan.org/Public/Bug/Display.html?id=41461>
+    # Every so often the unit returns "AA" as a data value, leading to:
+    #    Argument "AA10" isn't numeric in division (/) at (eval 8) line 1
+    # ...which isn't very helpful.
+    # Try to detect those, and issue a better warning.  If we see any
+    # non-decimal characters, issue a warning (if desired) and return undef.
+    if ($BCD =~ /[^0-9]/ && $expr !~ /hex/) {
+        warn "$ME: WARNING: device returned invalid '$BCD' for $field\n"
+            if $^W;
+        return;
+    }
 
     # Special case for datetime: return a unix time_t
     sub _time_convert($$) {

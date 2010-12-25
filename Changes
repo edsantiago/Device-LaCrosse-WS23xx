@@ -1,5 +1,8 @@
 Revision history for Device-LaCrosse-WS23xx
 
+0.08    Sar 2010-12-25
+	- bug 41461: handle occasional garbage BCD from device.
+
 0.07	Sat 2010-12-11
 	- POD: document default cache values
         - improve error handling on bad timestamps (eg after device reset)
