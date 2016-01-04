@@ -1,0 +1,13 @@
+Changes
+MANIFEST
+Makefile.PL
+README
+WS23xx.xs
+examples/logger
+lib/Device/LaCrosse/WS23xx.pm
+lib/Device/LaCrosse/WS23xx/MemoryMap.pm
+memory_map_2300.PL
+memory_map_2300.txt
+t/00-load.t
+t/10fakedata.t
+t/20units.t

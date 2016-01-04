@@ -1,0 +1,49 @@
+Device-LaCrosse-WS23xx version [VERSION]
+===================================
+
+[DESCRIPTION]
+
+Device::LaCrosse::WS23xx is intended for Perl hackers who
+want a simple way to talk to their La Crosse weather station.
+It could also be useful for non-Perl-types who want a simple
+way to explore their devices.
+
+Device::LaCrosse::WS23xx is standalone; it does not require Open2300.
+
+INSTALLATION
+
+To install this module, run the following commands:
+
+   perl Makefile.PL
+   make
+   make test
+   make install
+
+SUPPORT AND DOCUMENTATION
+
+After installing, you can find documentation for this module with the
+perldoc command.
+
+    perldoc Device::LaCrosse::WS23xx
+
+You can also look for information at:
+
+    RT, CPAN's request tracker
+        http://rt.cpan.org/NoAuth/Bugs.html?Dist=Device-LaCrosse-WS23xx
+
+    AnnoCPAN, Annotated CPAN documentation
+        http://annocpan.org/dist/Device-LaCrosse-WS23xx
+
+    CPAN Ratings
+        http://cpanratings.perl.org/d/Device-LaCrosse-WS23xx
+
+    Search CPAN
+        http://search.cpan.org/dist/Device-LaCrosse-WS23xx
+
+COPYRIGHT AND LICENSE
+
+Copyright (C) 2007 by Eduardo Santiago
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself, either Perl version 5.8.8 or,
+at your option, any later version of Perl 5 you may have available.
