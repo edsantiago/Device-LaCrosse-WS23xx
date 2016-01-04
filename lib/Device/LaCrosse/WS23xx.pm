@@ -2,7 +2,7 @@
 #
 # Device::LaCrosse::WS23xx - interface to La Crosse WS-23xx weather stations
 #
-# $Id: 212 $
+# $Id: 214 $
 #
 package Device::LaCrosse::WS23xx;
 
@@ -62,7 +62,7 @@ use vars qw(@ISA %EXPORT_TAGS @EXPORT_OK @EXPORT);
 @EXPORT_OK   = ( );
 @EXPORT      = ( );
 
-our $VERSION = '0.09';
+our $VERSION = '0.10';
 
 our $PKG = __PACKAGE__;		# For interpolating into error messages
 

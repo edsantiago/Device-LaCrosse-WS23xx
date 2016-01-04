@@ -21,7 +21,7 @@
 #     TEST_REQUIRES => {  }
 #     VERSION_FROM => q[lib/Device/LaCrosse/WS23xx.pm]
 #     clean => { FILES=>q[Device-LaCrosse-WS23xx-*] }
-#     dist => { SUFFIX=>q[gz], PREOP=>q[fgrep  \?\? Changes && exit 1 || true], COMPRESS=>q[gzip -9f] }
+#     dist => { COMPRESS=>q[gzip -9f], PREOP=>q[fgrep  \?\? Changes && exit 1 || true], SUFFIX=>q[gz] }
 
 # --- MakeMaker post_initialize section:
 
@@ -60,11 +60,11 @@ DIRFILESEP = /
 DFSEP = $(DIRFILESEP)
 NAME = Device::LaCrosse::WS23xx
 NAME_SYM = Device_LaCrosse_WS23xx
-VERSION = 0.09
+VERSION = 0.10
 VERSION_MACRO = VERSION
-VERSION_SYM = 0_09
+VERSION_SYM = 0_10
 DEFINE_VERSION = -D$(VERSION_MACRO)=\"$(VERSION)\"
-XS_VERSION = 0.09
+XS_VERSION = 0.10
 XS_VERSION_MACRO = XS_VERSION
 XS_DEFINE_VERSION = -D$(XS_VERSION_MACRO)=\"$(XS_VERSION)\"
 INST_ARCHLIB = blib/arch
@@ -271,7 +271,7 @@ RCS_LABEL = rcs -Nv$(VERSION_SYM): -q
 DIST_CP = best
 DIST_DEFAULT = tardist
 DISTNAME = Device-LaCrosse-WS23xx
-DISTVNAME = Device-LaCrosse-WS23xx-0.09
+DISTVNAME = Device-LaCrosse-WS23xx-0.10
 
 
 # --- MakeMaker macro section:
@@ -569,8 +569,8 @@ realclean_subdirs :
 # Delete temporary files (via clean) and also delete dist files
 realclean purge ::  clean realclean_subdirs
 	- $(RM_F) \
-	  $(MAKEFILE_OLD) $(OBJECT) \
-	  $(FIRST_MAKEFILE) 
+	  $(MAKEFILE_OLD) $(FIRST_MAKEFILE) \
+	  $(OBJECT) 
 	- $(RM_RF) \
 	  $(DISTVNAME) 
 
@@ -599,7 +599,7 @@ metafile : create_distdir
 	$(NOECHO) $(ECHO) '    - inc' >> META_new.yml
 	$(NOECHO) $(ECHO) 'requires:' >> META_new.yml
 	$(NOECHO) $(ECHO) '  Test::More: '\''0'\''' >> META_new.yml
-	$(NOECHO) $(ECHO) 'version: '\''0.09'\''' >> META_new.yml
+	$(NOECHO) $(ECHO) 'version: '\''0.10'\''' >> META_new.yml
 	-$(NOECHO) $(MV) META_new.yml $(DISTVNAME)/META.yml
 	$(NOECHO) $(ECHO) Generating META.json
 	$(NOECHO) $(ECHO) '{' > META_new.json
@@ -641,7 +641,7 @@ metafile : create_distdir
 	$(NOECHO) $(ECHO) '      }' >> META_new.json
 	$(NOECHO) $(ECHO) '   },' >> META_new.json
 	$(NOECHO) $(ECHO) '   "release_status" : "stable",' >> META_new.json
-	$(NOECHO) $(ECHO) '   "version" : "0.09"' >> META_new.json
+	$(NOECHO) $(ECHO) '   "version" : "0.10"' >> META_new.json
 	$(NOECHO) $(ECHO) '}' >> META_new.json
 	-$(NOECHO) $(MV) META_new.json $(DISTVNAME)/META.json
 

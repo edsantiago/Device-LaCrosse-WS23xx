@@ -1,6 +1,9 @@
 Revision history for Device-LaCrosse-WS23xx
 
-0.08    Sar 2010-12-25
+0.10    Mon 2016-01-04
+        - bug 110898: fix perl 5.20  "Possible precedence issue" gripe
+
+0.08    Sat 2010-12-25
 	- bug 41461: handle occasional garbage BCD from device.
 
 0.07	Sat 2010-12-11
