@@ -154,10 +154,16 @@ sub find_field {
 	}
     }
 
-    # Get the field info.
-    # FIXME: If there's no such field, return undef instead of croaking?
-    return $self->{fields}->{lc $canonical_field}
-      or croak "No such value, '$field'";
+    # If field doesn't exist at this point, our caller is requesting
+    # something we just can't handle. The only solution is for our caller
+    # to change the requested field name in their code. Abort noisily so
+    # they can do so.
+    defined $canonical_field
+        or croak "Could not translate '$field' to a known field name";
+    exists $self->{fields}->{lc $canonical_field}
+        or croak "'$field' is not a valid WS23xx data field";
+
+    return $self->{fields}->{lc $canonical_field};
 }
 
 
